@@ -41,7 +41,7 @@
                         break;
                     case "S":
                     case "s":
-                        //SearchContact(contactDetails);
+                        SearchContact(contactDetails);
                         break;
                     default:
                         Console.WriteLine("Invalid Input");
@@ -75,6 +75,29 @@
                 Console.WriteLine("Email: " + contactDetails[i][2]);
                 Console.WriteLine("Notes: " + contactDetails[i][3]);
                 Console.WriteLine("================================================");
+            }
+        }
+        private static void SearchContact(List<string[]> contactDetails)
+        {
+            Console.WriteLine("Enter the Contact Name: ");
+            string? searchName = Console.ReadLine();
+            for (int i = 0; i < contactDetails.Count; i++)
+            {
+                if (searchName == contactDetails[i][0])
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Contact {searchName} found");
+                    Console.WriteLine();
+                    Console.WriteLine("Phone: " + contactDetails[i][1]);
+                    Console.WriteLine("Email: " + contactDetails[i][2]);
+                    Console.WriteLine("Notes: " + contactDetails[i][3]);
+                    Console.WriteLine();
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("User not found!!");
+                }
             }
         }
     }
