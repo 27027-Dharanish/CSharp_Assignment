@@ -23,6 +23,7 @@ namespace Assignments
                 Console.WriteLine("[V]iew contact");
                 Console.WriteLine("[S]earch contact");
                 Console.WriteLine("[D]elete contact");
+                Console.WriteLine("[U]pdate or edit contact");
                 Console.WriteLine("[E]xit");
                 Console.WriteLine();
                 Console.WriteLine("Enter the Option:");
@@ -44,6 +45,10 @@ namespace Assignments
                     case "S":
                     case "s":
                         SearchContact(contactDetails);
+                        break;
+                    case "u":
+                    case "U":
+                        EditContact(contactDetails);
                         break;
                     default:
                         Console.WriteLine("Invalid Input");
@@ -84,13 +89,13 @@ namespace Assignments
                 Console.WriteLine("================================================");
             }
         }
-        private static void SearchContact(List<string[]> contactDetails)
+        private static void SearchContact(List<string?[]> contactDetails)
         {
             Console.WriteLine("Enter the Contact Name: ");
             string? searchName = Console.ReadLine();
             for (int i = 0; i < contactDetails.Count; i++)
             {
-                if (searchName == contactDetails[i][0])
+                if (string.Equals(searchName, contactDetails[i][0], StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine();
                     Console.WriteLine($"Contact {searchName} found");
@@ -122,6 +127,71 @@ namespace Assignments
             else
             {
                 Console.WriteLine($"{nameDelete} contact removed.");
+            }
+        }
+        private static void EditContact(List<string?[]> contactDetails)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Enter the contact name to edit: ");
+            string? nameEdit = Console.ReadLine();
+            for (int i = 0; i < contactDetails.Count; i++)
+            {
+                if (string.Equals(nameEdit, contactDetails[i][0], StringComparison.OrdinalIgnoreCase))
+                {
+                    int choice;
+                    do
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Contact {nameEdit} found");
+                        Console.WriteLine();
+                        Console.WriteLine("Select the field to edit!!");
+                        Console.WriteLine();
+                        Console.WriteLine("1.Name");
+                        Console.WriteLine("2.Phone Number");
+                        Console.WriteLine("3.Email");
+                        Console.WriteLine("4.Notes");
+                        Console.WriteLine("5.Delete contact");
+                        Console.WriteLine("Press 0 for Exit");
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Enter the number: ");
+                        choice = int.Parse(Console.ReadLine());
+                        switch (choice)
+                        {
+                            case 1:
+                                Console.WriteLine("Enter the new name: ");
+                                string? newName = Console.ReadLine();
+                                contactDetails[i][0] = newName;
+                                break;
+                            case 2:
+                                Console.WriteLine("Enter the new number: ");
+                                string? newNumber = Console.ReadLine();
+                                contactDetails[i][1] = newNumber;
+                                break;
+                            case 3:
+                                Console.WriteLine("Enter the new email: ");
+                                string? newEmail = Console.ReadLine();
+                                contactDetails[i][2] = newEmail;
+                                break;
+                            case 4:
+                                Console.WriteLine("Enter the new Notes: ");
+                                string? newNotes = Console.ReadLine();
+                                contactDetails[i][3] = newNotes;
+                                break;
+                            case 5:
+                                DeleteContact(contactDetails);
+                                break;
+                            default:
+                                Console.WriteLine("Invalid Option");
+                                break;
+                        }
+                    }
+                    while (choice != 0);
+                }
+                else
+                {
+                    Console.WriteLine("User not found!!");
+                }
             }
         }
     }
