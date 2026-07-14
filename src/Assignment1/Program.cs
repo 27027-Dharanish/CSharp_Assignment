@@ -1,4 +1,6 @@
-﻿namespace Assignments
+﻿using System.Runtime.CompilerServices;
+
+namespace Assignments
 {
     /// <summary>
     /// First assignment
@@ -37,7 +39,7 @@
                         break;
                     case "D":
                     case "d":
-                        // DeleteContact();
+                        DeleteContact(contactDetails);
                         break;
                     case "S":
                     case "s":
@@ -67,6 +69,11 @@
         private static void ViewContact(List<string[]> contactDetails)
         {
             Console.WriteLine("The contact are :");
+            if (contactDetails.Count == 0)
+            {
+                Console.WriteLine("No contact are there to display!!");
+                return;
+            }
             for (int i = 0; i < contactDetails.Count; i++)
             {
                 Console.WriteLine();
@@ -98,6 +105,23 @@
                 {
                     Console.WriteLine("User not found!!");
                 }
+            }
+        }
+        private static void DeleteContact(List<string?[]> contactDetails)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Enter the name to delete: ");
+            string? nameDelete = Console.ReadLine();
+            int removedCount = contactDetails.RemoveAll(arr =>
+            arr != null && arr.Length > 0 &&
+            string.Equals(arr[0], nameDelete, StringComparison.OrdinalIgnoreCase));
+            if (removedCount == 0)
+            {
+                Console.WriteLine("No name is found");
+            }
+            else
+            {
+                Console.WriteLine($"{nameDelete} contact removed.");
             }
         }
     }
