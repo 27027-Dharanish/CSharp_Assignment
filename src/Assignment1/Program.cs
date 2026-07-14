@@ -79,13 +79,21 @@ namespace Assignments
                 Console.WriteLine("No contact are there to display!!");
                 return;
             }
+            contactDetails.Sort((a, b) =>
+            {
+                string firstA = a.Length > 0 ? a[0] : string.Empty;
+                string firstB = b.Length > 0 ? b[0] : string.Empty;
+                return StringComparer.OrdinalIgnoreCase.Compare(firstA, firstB);
+            });
             for (int i = 0; i < contactDetails.Count; i++)
             {
+                Console.WriteLine("================================================");
                 Console.WriteLine();
                 Console.WriteLine("Name: " + contactDetails[i][0]);
                 Console.WriteLine("Phone: " + contactDetails[i][1]);
                 Console.WriteLine("Email: " + contactDetails[i][2]);
                 Console.WriteLine("Notes: " + contactDetails[i][3]);
+                Console.WriteLine();
                 Console.WriteLine("================================================");
             }
         }
@@ -98,12 +106,15 @@ namespace Assignments
                 if (string.Equals(searchName, contactDetails[i][0], StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine();
+                    Console.WriteLine("================================================");
+                    Console.WriteLine("");
                     Console.WriteLine($"Contact {searchName} found");
                     Console.WriteLine();
                     Console.WriteLine("Phone: " + contactDetails[i][1]);
                     Console.WriteLine("Email: " + contactDetails[i][2]);
                     Console.WriteLine("Notes: " + contactDetails[i][3]);
                     Console.WriteLine();
+                    Console.WriteLine("================================================");
                     Console.WriteLine();
                 }
                 else
@@ -141,6 +152,7 @@ namespace Assignments
                     int choice;
                     do
                     {
+                        Console.WriteLine("================================================");
                         Console.WriteLine();
                         Console.WriteLine($"Contact {nameEdit} found");
                         Console.WriteLine();
@@ -153,6 +165,7 @@ namespace Assignments
                         Console.WriteLine("5.Delete contact");
                         Console.WriteLine("Press 0 for Exit");
                         Console.WriteLine();
+                        Console.WriteLine("================================================");
                         Console.WriteLine();
                         Console.WriteLine("Enter the number: ");
                         choice = int.Parse(Console.ReadLine());
