@@ -40,7 +40,7 @@ namespace Assignment1.Services
         /// <param name="name">name</param>
         /// <param name="option">optio</param>
         /// <returns>contact</returns>
-        public ContactInfo? SearchContact(string name,string? option)
+        public ContactInfo? SearchContact(string name, string? option)
         {
             ContactInfo? contact;
             if (option != "0")
@@ -97,11 +97,12 @@ namespace Assignment1.Services
         /// <param name="newNumber">number</param>
         /// <param name="newEmail">emial</param>
         /// <param name="newNotes">notes</param>
-        public void UpdateContact(string targetName, string? newNumber, string? newEmail, string? newNotes)
+        /// <param name="contact">note</param>
+        public void UpdateContact(string? targetName, string? newNumber, string? newEmail, string? newNotes, ContactInfo? contact)
         {
-            ContactInfo? contact = this._repo.FindByName(targetName);
             if (contact != null)
             {
+                contact.SetName(targetName);
                 contact.SetNumber(newNumber);
                 contact.SetEmail(newEmail);
                 contact.SetNotes(newNotes);
