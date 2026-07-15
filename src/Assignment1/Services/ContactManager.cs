@@ -69,7 +69,9 @@ namespace Assignment1.Services
         /// <returns>get all comtact</returns>
         public List<ContactInfo> GetAllContacts()
         {
-            return this._repo.GetContact();
+            List<ContactInfo> contacts = this._repo.GetContact();
+            contacts.Sort((x, y) => string.Compare(x.GetName(), y.GetName(), StringComparison.OrdinalIgnoreCase));
+            return contacts;
         }
 
         /// <summary>

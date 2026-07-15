@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assignment1;
 using Assignment1.Models;
 using Assignment1.Persistence;
 using Assignment1.Services;
@@ -15,6 +16,7 @@ namespace Assignment1.Services
     internal class ConsoleActivity
     {
         private ContactManager _contactManager = new ContactManager();
+        private Helper _help = new Helper();
 
         /// <summary>
         /// repo
@@ -22,6 +24,7 @@ namespace Assignment1.Services
         /// <param name="repo">s</param>
         public void GetUserData()
         {
+            Console.Clear();
             Console.WriteLine("New Contact Adding:");
             Console.WriteLine("Enter the name: ");
             string? name = Console.ReadLine();
@@ -31,6 +34,12 @@ namespace Assignment1.Services
             string? email = Console.ReadLine();
             Console.WriteLine("Enter any notes: ");
             string? notes = Console.ReadLine();
+            if(!_help.IsValidNumber(number))
+            {
+                Console.WriteLine("Invalid Number!!");
+                return;
+            }
+
             this._contactManager.AddContact(name, number, email, notes);
         }
 
@@ -64,6 +73,7 @@ namespace Assignment1.Services
                         break;
                     case "S":
                     case "s":
+                        Console.Clear();
                         Console.WriteLine();
                         Console.WriteLine("Select method to search: ");
                         Console.WriteLine("1.By name");
@@ -80,6 +90,7 @@ namespace Assignment1.Services
                         }
                         else
                         {
+                            Console.Clear();
                             Console.WriteLine("Enter the vaid Number!!");
                         }
 
@@ -111,10 +122,12 @@ namespace Assignment1.Services
         {
             if (contactList.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No contacts found.");
                 return;
             }
 
+            Console.Clear();
             Console.WriteLine("\nThe contacts are: ");
             for (int i = 0; i < contactList.Count; i++)
             {
@@ -125,6 +138,9 @@ namespace Assignment1.Services
                 Console.WriteLine("Notes: " + contactList[i].GetNotes());
                 Console.WriteLine("=====================");
             }
+
+            Console.WriteLine("Press any key to continue!!");
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -146,6 +162,7 @@ namespace Assignment1.Services
             ContactInfo? contact = this._contactManager.SearchContact(name, "0");
             if (contact != null)
             {
+                Console.Clear();
                 Console.WriteLine("\n--- Contact Found ---");
                 Console.WriteLine();
                 Console.WriteLine("Name: " + contact.GetName());
@@ -153,6 +170,8 @@ namespace Assignment1.Services
                 Console.WriteLine("Email: " + contact.GetEmail());
                 Console.WriteLine("Notes: " + contact.GetNotes());
                 Console.WriteLine("==========================");
+                Console.WriteLine("Press any key to continue!!");
+                Console.ReadKey();
             }
         }
 
@@ -166,6 +185,7 @@ namespace Assignment1.Services
             ContactInfo? contact = this._contactManager.SearchContact(number, "1");
             if (contact != null)
             {
+                Console.Clear();
                 Console.WriteLine("\n--- Contact Found ---");
                 Console.WriteLine();
                 Console.WriteLine("Name: " + contact.GetName());
@@ -173,6 +193,8 @@ namespace Assignment1.Services
                 Console.WriteLine("Email: " + contact.GetEmail());
                 Console.WriteLine("Notes: " + contact.GetNotes());
                 Console.WriteLine("==========================");
+                Console.WriteLine("Press any key to continue!!");
+                Console.ReadKey();
             }
         }
 
@@ -181,6 +203,7 @@ namespace Assignment1.Services
         /// </summary>
         public void ChooseEditContact()
         {
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine("Select method to search: ");
             Console.WriteLine("1.By name");
@@ -206,6 +229,7 @@ namespace Assignment1.Services
                 return;
             }
 
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Choose the field to Edit: ");
