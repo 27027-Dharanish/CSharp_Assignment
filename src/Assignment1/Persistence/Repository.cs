@@ -50,7 +50,9 @@ namespace Assignment1.Persistence
         /// <returns>name</returns>
         public ContactInfo? FindByName(string name)
         {
-            return this._contacts.Find(c => string.Equals(c.GetName(), name, StringComparison.OrdinalIgnoreCase));
+             return this._contacts.Find(c => c.GetName() != null && c.GetName().Contains(name, StringComparison.OrdinalIgnoreCase));
+
+            // return this._contacts.Find(c => string.Equals(c.GetName(), name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>

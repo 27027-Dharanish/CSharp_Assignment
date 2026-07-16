@@ -80,15 +80,18 @@ namespace Assignment1.Services
         /// <param name="name">name</param>
         public void DeleteContact(string? name)
         {
-            ContactInfo? contact = this._repo.FindByName(name);
-            if (contact != null && this._repo.RemoveContact(contact))
+            if (name != null)
             {
-                Console.WriteLine();
-                Console.WriteLine("Contact deleted successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Contact not found.");
+                ContactInfo? contact = this._repo.FindByName(name);
+                if (contact != null && this._repo.RemoveContact(contact))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Contact deleted successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Contact not found.");
+                }
             }
         }
 

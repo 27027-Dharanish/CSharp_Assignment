@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Assignment1;
 using Assignment1.Models;
 using Assignment1.Persistence;
@@ -28,18 +29,42 @@ namespace Assignment1.Services
             Console.WriteLine("New Contact Adding:");
             Console.WriteLine("Enter the name: ");
             string? name = Console.ReadLine();
+            if (this._help.IsNull(name))
+            {
+                Console.WriteLine("Name cannot be Empty!!");
+                return;
+            }
+
             Console.WriteLine("Enter the number: ");
             string? number = Console.ReadLine();
-            Console.WriteLine("Ente the email: ");
-            string? email = Console.ReadLine();
-            Console.WriteLine("Enter any notes: ");
-            string? notes = Console.ReadLine();
-            if(!_help.IsValidNumber(number))
+            if (this._help.IsNull(number))
+            {
+                Console.WriteLine("Number cannot be Empty!!");
+                return;
+            }
+
+            if (!this._help.IsValidNumber(number))
             {
                 Console.WriteLine("Invalid Number!!");
                 return;
             }
 
+            Console.WriteLine("Ente the email: ");
+            string? email = Console.ReadLine();
+            if (this._help.IsNull(name))
+            {
+                Console.WriteLine("Email cannot be Empty!!");
+                return;
+            }
+
+            if (!this._help.IsValidEmail(email))
+            {
+                Console.WriteLine("Invalid email!!");
+                return;
+            }
+
+            Console.WriteLine("Enter any notes: ");
+            string? notes = Console.ReadLine();
             this._contactManager.AddContact(name, number, email, notes);
         }
 
@@ -104,6 +129,7 @@ namespace Assignment1.Services
                     case "d":
                         Console.WriteLine("Enter the name to delete: ");
                         string? name = Console.ReadLine();
+
                         this.DeleteContactUsingName(name);
                         break;
                     default:
@@ -123,7 +149,7 @@ namespace Assignment1.Services
             if (contactList.Count == 0)
             {
                 Console.Clear();
-                Console.WriteLine("No contacts found.");
+                Console.WriteLine("No contacts found!!");
                 return;
             }
 
@@ -159,19 +185,22 @@ namespace Assignment1.Services
         {
             Console.WriteLine("Enter the name: ");
             string? name = Console.ReadLine();
-            ContactInfo? contact = this._contactManager.SearchContact(name, "0");
-            if (contact != null)
+            if (name != null)
             {
-                Console.Clear();
-                Console.WriteLine("\n--- Contact Found ---");
-                Console.WriteLine();
-                Console.WriteLine("Name: " + contact.GetName());
-                Console.WriteLine("PhoneNumber: " + contact.GetNumber());
-                Console.WriteLine("Email: " + contact.GetEmail());
-                Console.WriteLine("Notes: " + contact.GetNotes());
-                Console.WriteLine("==========================");
-                Console.WriteLine("Press any key to continue!!");
-                Console.ReadKey();
+                ContactInfo? contact = this._contactManager.SearchContact(name, "0");
+                if (contact != null)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\n--- Contact Found ---");
+                    Console.WriteLine();
+                    Console.WriteLine("Name: " + contact.GetName());
+                    Console.WriteLine("PhoneNumber: " + contact.GetNumber());
+                    Console.WriteLine("Email: " + contact.GetEmail());
+                    Console.WriteLine("Notes: " + contact.GetNotes());
+                    Console.WriteLine("==========================");
+                    Console.WriteLine("Press any key to continue!!");
+                    Console.ReadKey();
+                }
             }
         }
 
@@ -182,19 +211,28 @@ namespace Assignment1.Services
         {
             Console.WriteLine("Enter the number: ");
             string? number = Console.ReadLine();
-            ContactInfo? contact = this._contactManager.SearchContact(number, "1");
-            if (contact != null)
+            if (this._help.IsNull(number))
             {
-                Console.Clear();
-                Console.WriteLine("\n--- Contact Found ---");
-                Console.WriteLine();
-                Console.WriteLine("Name: " + contact.GetName());
-                Console.WriteLine("PhoneNumber: " + contact.GetNumber());
-                Console.WriteLine("Email: " + contact.GetEmail());
-                Console.WriteLine("Notes: " + contact.GetNotes());
-                Console.WriteLine("==========================");
-                Console.WriteLine("Press any key to continue!!");
-                Console.ReadKey();
+                Console.WriteLine("Name cannot be Empty!!");
+                return;
+            }
+
+            if (number != null)
+            {
+                ContactInfo? contact = this._contactManager.SearchContact(number, "1");
+                if (contact != null)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\n--- Contact Found ---");
+                    Console.WriteLine();
+                    Console.WriteLine("Name: " + contact.GetName());
+                    Console.WriteLine("PhoneNumber: " + contact.GetNumber());
+                    Console.WriteLine("Email: " + contact.GetEmail());
+                    Console.WriteLine("Notes: " + contact.GetNotes());
+                    Console.WriteLine("==========================");
+                    Console.WriteLine("Press any key to continue!!");
+                    Console.ReadKey();
+                }
             }
         }
 
@@ -210,18 +248,24 @@ namespace Assignment1.Services
             Console.WriteLine("2.By number");
             Console.WriteLine("Enter the option ( 1 or 2 ): ");
             string? choiceSearch = Console.ReadLine();
-            ContactInfo? contact;
+            ContactInfo? contact = null;
             if (choiceSearch == "1")
             {
                 Console.WriteLine("Enter the name to edit: ");
                 string? name = Console.ReadLine();
-                contact = this._contactManager.SearchContact(name, "0");
+                if (name != null)
+                {
+                    contact = this._contactManager.SearchContact(name, "0");
+                }
             }
             else if (choiceSearch == "2")
             {
                 Console.WriteLine("Enter the number to edit: ");
                 string? number = Console.ReadLine();
-                contact = this._contactManager.SearchContact(number, "1");
+                if (number != null)
+                {
+                    contact = this._contactManager.SearchContact(number, "1");
+                }
             }
             else
             {
@@ -238,30 +282,41 @@ namespace Assignment1.Services
             Console.WriteLine("3.Email");
             Console.WriteLine("4.Notes");
             string? contactSearch = Console.ReadLine();
-
             if (contactSearch == "1")
             {
                 Console.WriteLine("Enter the new name: ");
                 string? newName = Console.ReadLine();
-                this._contactManager.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact);
+                if (contact != null)
+                {
+                    this._contactManager.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact);
+                }
             }
             else if (contactSearch == "2")
             {
                 Console.WriteLine("Enter the new number: ");
                 string? newNumber = Console.ReadLine();
-                this._contactManager.UpdateContact(contact.GetName(), newNumber, contact.GetEmail(), contact.GetNotes(), contact);
+                if (contact != null && this._help.IsValidNumber(newNumber))
+                {
+                    this._contactManager.UpdateContact(contact.GetName(), newNumber, contact.GetEmail(), contact.GetNotes(), contact);
+                }
             }
             else if (contactSearch == "3")
             {
                 Console.WriteLine("Enter the new email: ");
                 string? newEmail = Console.ReadLine();
-                this._contactManager.UpdateContact(contact.GetName(), contact.GetNumber(), newEmail, contact.GetNotes(), contact);
+                if (contact != null && this._help.IsValidEmail(newEmail))
+                {
+                    this._contactManager.UpdateContact(contact.GetName(), contact.GetNumber(), newEmail, contact.GetNotes(), contact);
+                }
             }
             else if (contactSearch == "4")
             {
                 Console.WriteLine("Enter the new notes: ");
                 string? newNotes = Console.ReadLine();
-                this._contactManager.UpdateContact(contact.GetName(), contact.GetNumber(), contact.GetNotes(), newNotes, contact);
+                if (contact != null)
+                {
+                    this._contactManager.UpdateContact(contact.GetName(), contact.GetNumber(), contact.GetNotes(), newNotes, contact);
+                }
             }
         }
     }
