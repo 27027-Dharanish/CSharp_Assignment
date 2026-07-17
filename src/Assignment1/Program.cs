@@ -1,23 +1,24 @@
 ﻿using System.Runtime.CompilerServices;
+using Assignment1.Controller;
 using Assignment1.Persistence;
 using Assignment1.Services;
 
 namespace Assignments
 {
     /// <summary>
-    /// First assignment
+    /// Console Based Contact Manager
     /// </summary>
     internal class Program
     {
         /// <summary>
-        /// Program function
+        /// the entry point of the porgram main function
         /// </summary>
-        /// <param name="args">Welcome</param>
-        public static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Welcome to the Contact Manager");
             ConsoleActivity activity = new ConsoleActivity();
-            activity.ShowOption();
+            ContactManager service = new ContactManager();
+            ContactController contactManager = new ContactController(activity, service);
+            contactManager.Start();
         }
     }
 }

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assignment1.Controller;
 using Assignment1.Models;
 using Assignment1.Services;
 
 namespace Assignment1.Persistence
 {
     /// <summary>
-    /// Repo for stroing values
+    /// Repo for stroing values contains the list of ContactInfo
     /// </summary>
     internal class Repository
     {
         private List<ContactInfo> _contacts = new List<ContactInfo>();
 
         /// <summary>
-        /// add new contact
+        /// add new contact to the _contacts
         /// </summary>
         /// <param name="newContact">new contact items</param>
         public void AddNewContact(ContactInfo newContact)
@@ -25,16 +26,17 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// get contact
+        /// Get the contact from _contacts
         /// </summary>
         /// <returns>list</returns>
         public List<ContactInfo> GetContact()
         {
-            return this._contacts;
+            // Used to list to create a new instance in the memory
+            return this._contacts.ToList();
         }
 
         /// <summary>
-        /// guid
+        /// Find the guid mapped contact
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>contact</returns>
@@ -44,7 +46,7 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// findname
+        /// Find the contact in _contacts by name
         /// </summary>
         /// <param name="name">nma</param>
         /// <returns>name</returns>
@@ -54,7 +56,7 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// number
+        /// find the contact using the number
         /// </summary>
         /// <param name="number">num</param>
         /// <returns>contact</returns>
@@ -64,7 +66,7 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// remive
+        /// remove the contact from the _contacts
         /// </summary>
         /// <param name="contact">contact</param>
         /// <returns>co</returns>

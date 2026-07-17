@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assignment1.Controller;
 using Assignment1.Models;
 using Assignment1.Persistence;
 
 namespace Assignment1.Services
 {
     /// <summary>
-    /// Contact manager
+    /// Contact manager act as service
     /// </summary>
     internal class ContactManager
     {
         private Repository _repo = new Repository();
 
         /// <summary>
-        /// addcontact
+        /// add the new contact to the repo
         /// </summary>
         /// <param name="name">name</param>
-        /// <param name="number">nmber</param>
+        /// <param name="number">number</param>
         /// <param name="email">email</param>
         /// <param name="notes">notes</param>
         public void AddContact(string? name, string? number, string? email, string? notes)
@@ -31,25 +32,24 @@ namespace Assignment1.Services
             newContact.SetEmail(email);
             newContact.SetNotes(notes);
             this._repo.AddNewContact(newContact);
-            Console.WriteLine("Contact added successfully.");
         }
 
         /// <summary>
-        /// search
+        /// search the contact form the repo
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="option">optio</param>
-        /// <returns>contact</returns>
-        public ContactInfo? SearchContact(string name, string? option)
+        /// <param name="content">name</param>
+        /// <param name="option">option</param>
+        /// <returns>matched contact</returns>
+        public ContactInfo? SearchContact(string content, string? option)
         {
             ContactInfo? contact;
-            if (option != "0")
+            if (option == "SearchUsingName")
             {
-                contact = this._repo.FindByNumber(name);
+                contact = this._repo.FindByName(content);
             }
             else
             {
-                contact = this._repo.FindByName(name);
+                contact = this._repo.FindByNumber(content);
             }
 
             if (contact != null)
@@ -58,15 +58,15 @@ namespace Assignment1.Services
             }
             else
             {
-                Console.WriteLine("Contact not found.");
+                contact = null;
                 return null;
             }
         }
 
         /// <summary>
-        /// getcontact
+        /// get all the contact form the repo
         /// </summary>
-        /// <returns>get all comtact</returns>
+        /// <returns>get all contact</returns>
         public List<ContactInfo> GetAllContacts()
         {
             List<ContactInfo> contacts = this._repo.GetContact();
@@ -75,35 +75,38 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// delete
+        /// delete the contact using name
         /// </summary>
-        /// <param name="name">name</param>
-        public void DeleteContact(string? name)
+        /// <param name="name">name use for delete</param>
+        /// <returns>bool value</returns>
+        public bool DeleteContact(string? name)
         {
             if (name != null)
             {
                 ContactInfo? contact = this._repo.FindByName(name);
                 if (contact != null && this._repo.RemoveContact(contact))
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Contact deleted successfully.");
+                    return true;
                 }
                 else
                 {
-                    Console.WriteLine("Contact not found.");
+                    return false;
                 }
             }
+
+            return false;
         }
 
         /// <summary>
-        /// Update
+        /// Update the contact using get and set
         /// </summary>
         /// <param name="targetName">newname</param>
         /// <param name="newNumber">number</param>
         /// <param name="newEmail">emial</param>
         /// <param name="newNotes">notes</param>
         /// <param name="contact">note</param>
-        public void UpdateContact(string? targetName, string? newNumber, string? newEmail, string? newNotes, ContactInfo? contact)
+        /// <returns>return if contact updated or not</returns>
+        public bool UpdateContact(string? targetName, string? newNumber, string? newEmail, string? newNotes, ContactInfo? contact)
         {
             if (contact != null)
             {
@@ -111,11 +114,11 @@ namespace Assignment1.Services
                 contact.SetNumber(newNumber);
                 contact.SetEmail(newEmail);
                 contact.SetNotes(newNotes);
-                Console.WriteLine("Contact updated successfully!!");
+                return true;
             }
             else
             {
-                Console.WriteLine("Contact not found!!");
+                return false;
             }
         }
     }

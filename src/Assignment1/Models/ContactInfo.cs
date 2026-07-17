@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment1.Models
 {
     /// <summary>
-    /// Contact Info
+    /// The Model of storing the contact information of the user
     /// </summary>
     internal class ContactInfo
     {
@@ -18,7 +18,7 @@ namespace Assignment1.Models
             private string? _notes;
 
             /// <summary>
-            /// set id
+            /// set the guid for each contact
             /// </summary>
             public void SetId()
             {
@@ -26,7 +26,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// get id
+            /// return the guid
             /// </summary>
             /// <returns>id</returns>
             public Guid? GetId()
@@ -35,7 +35,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// name
+            /// return the name
             /// </summary>
             /// <returns>return name</returns>
             public string? GetName()

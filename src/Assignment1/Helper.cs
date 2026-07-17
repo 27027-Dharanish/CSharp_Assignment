@@ -9,16 +9,16 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Assignment1
 {
     /// <summary>
-    /// Helper
+    /// Helper class for validation
     /// </summary>
     internal class Helper
     {
         /// <summary>
-        /// validnumber
+        /// method to check whether a number is valid
         /// </summary>
-        /// <param name="number">phone</param>
-        /// <returns>true</returns>
-        public bool IsValidNumber(string? number)
+        /// <param name="number">phone number from user</param>
+        /// <returns>true or false</returns>
+        public static bool IsValidNumber(string? number)
         {
             if (number == null)
             {
@@ -35,11 +35,11 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// emial
+        /// validate the email
         /// </summary>
-        /// <param name="email">ema</param>
-        /// <returns>bool</returns>
-        public bool IsValidEmail(string? email)
+        /// <param name="email">user email</param>
+        /// <returns>true or false</returns>
+        public static bool IsValidEmail(string? email)
         {
             if (email == null)
             {
@@ -51,11 +51,11 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// isnull
+        /// check whether the string is null or not
         /// </summary>
-        /// <param name="content">content</param>
-        /// <returns>true</returns>
-        public bool IsNull(string? content)
+        /// <param name="content">content from the user</param>
+        /// <returns>true or false</returns>
+        public static bool IsNull(string? content)
         {
             if (content == string.Empty)
             {
