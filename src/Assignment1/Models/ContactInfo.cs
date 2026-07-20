@@ -18,7 +18,7 @@ namespace Assignment1.Models
             private string? _notes;
 
             /// <summary>
-            /// set the guid for each contact
+            /// Set the guid for each contact
             /// </summary>
             public void SetId()
             {
@@ -26,25 +26,25 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// return the guid
+            /// Return the guid
             /// </summary>
-            /// <returns>id</returns>
+            /// <returns>Id</returns>
             public Guid? GetId()
             {
                 return this._id;
             }
 
             /// <summary>
-            /// return the name
+            /// Return the name
             /// </summary>
-            /// <returns>return name</returns>
+            /// <returns>Return name</returns>
             public string? GetName()
             {
                 return this._name;
             }
 
             /// <summary>
-            /// setname
+            /// Set the name of the contact in contactinfo
             /// </summary>
             /// <param name="value">name</param>
             public void SetName(string? value)
@@ -53,52 +53,52 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// setphone
+            /// Setphone of the user in contactinfo
             /// </summary>
-            /// <param name="value">number</param>
+            /// <param name="value">Number</param>
             public void SetNumber(string? value)
             {
                 this._number = value;
             }
 
             /// <summary>
-            /// getnumber
+            /// Get the contact number
             /// </summary>
-            /// <returns>number</returns>
+            /// <returns>Number</returns>
             public string? GetNumber()
             {
                 return this._number;
             }
 
             /// <summary>
-            /// setemail
+            /// Set the email of the contact in contact info
             /// </summary>
-            /// <param name="value">email</param>
+            /// <param name="value">Email</param>
             public void SetEmail(string? value)
             {
                 this._email = value;
             }
 
             /// <summary>
-            /// email
+            /// Return the email address
             /// </summary>
-            /// <returns>getemail</returns>
+            /// <returns>Return the Email</returns>
             public string? GetEmail()
             {
                 return this._email;
             }
 
             /// <summary>
-            /// setNotes
+            /// Set the notes for the contact
             /// </summary>
-            /// <param name="value">notes</param>
+            /// <param name="value">Notes</param>
             public void SetNotes(string? value)
             {
                 this._notes = value;
             }
 
             /// <summary>
-            /// getnotes
+            /// Get the notes of the particular contact
             /// </summary>
             /// <returns>notes</returns>
             public string? GetNotes()

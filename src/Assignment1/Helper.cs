@@ -22,20 +22,15 @@ namespace Assignment1
         {
             if (number == null)
             {
-                return false;
-            }
-            else if (int.TryParse(number, out int result) && number.Length == 10)
-            {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            string pattern = @"^[0-9]{10}$";
+            return Regex.IsMatch(number, pattern);
         }
 
         /// <summary>
-        /// validate the email
+        /// Method to validate the email
         /// </summary>
         /// <param name="email">user email</param>
         /// <returns>true or false</returns>
@@ -51,13 +46,13 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// check whether the string is null or not
+        /// Check whether the string is null or not
         /// </summary>
         /// <param name="content">content from the user</param>
         /// <returns>true or false</returns>
         public static bool IsNull(string? content)
         {
-            if (content == string.Empty)
+            if (content == null)
             {
                 return true;
             }

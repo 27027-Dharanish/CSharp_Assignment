@@ -23,7 +23,8 @@ namespace Assignment1.Services
         /// <param name="number">number</param>
         /// <param name="email">email</param>
         /// <param name="notes">notes</param>
-        public void AddContact(string? name, string? number, string? email, string? notes)
+        /// <returns>return whether contact added successfully or not</returns>
+        public bool CreateNewContact(string? name, string? number, string? email, string? notes)
         {
             ContactInfo newContact = new ContactInfo();
             newContact.SetId();
@@ -31,7 +32,12 @@ namespace Assignment1.Services
             newContact.SetNumber(number);
             newContact.SetEmail(email);
             newContact.SetNotes(notes);
-            this._repo.AddNewContact(newContact);
+            if (this._repo.AddNewContact(newContact))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -42,7 +48,7 @@ namespace Assignment1.Services
         /// <returns>matched contact</returns>
         public ContactInfo? SearchContact(string content, string? option)
         {
-            ContactInfo? contact;
+            ContactInfo? contact = null;
             if (option == "SearchUsingName")
             {
                 contact = this._repo.FindByName(content);
@@ -52,15 +58,7 @@ namespace Assignment1.Services
                 contact = this._repo.FindByNumber(content);
             }
 
-            if (contact != null)
-            {
-                return contact;
-            }
-            else
-            {
-                contact = null;
-                return null;
-            }
+            return contact;
         }
 
         /// <summary>

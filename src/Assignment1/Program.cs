@@ -18,7 +18,7 @@ namespace Assignments
             ConsoleActivity activity = new ConsoleActivity();
             ContactManager service = new ContactManager();
             ContactController contactManager = new ContactController(activity, service);
-            contactManager.Start();
+            contactManager.StartContactManager();
         }
     }
 }

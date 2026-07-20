@@ -10,25 +10,32 @@ using Assignment1.Services;
 namespace Assignment1.Persistence
 {
     /// <summary>
-    /// Repo for stroing values contains the list of ContactInfo
+    /// Repository for storing the list of ContactInfo
     /// </summary>
     internal class Repository
     {
         private List<ContactInfo> _contacts = new List<ContactInfo>();
 
         /// <summary>
-        /// add new contact to the _contacts
+        /// Add new contact to the _contacts
         /// </summary>
         /// <param name="newContact">new contact items</param>
-        public void AddNewContact(ContactInfo newContact)
+        /// <returns>Return whether contact added or not</returns>
+        public bool AddNewContact(ContactInfo newContact)
         {
-            this._contacts.Add(newContact);
+            if (newContact != null)
+            {
+                this._contacts.Add(newContact);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
-        /// Get the contact from _contacts
+        /// Return the list of contact available
         /// </summary>
-        /// <returns>list</returns>
+        /// <returns>List of contact</returns>
         public List<ContactInfo> GetContact()
         {
             // Used to list to create a new instance in the memory
@@ -39,37 +46,37 @@ namespace Assignment1.Persistence
         /// Find the guid mapped contact
         /// </summary>
         /// <param name="id">id</param>
-        /// <returns>contact</returns>
+        /// <returns>The guid matched contact</returns>
         public ContactInfo? FindById(Guid id)
         {
-            return this._contacts.Find(c => c.GetId() == id);
+            return this._contacts.Find(contact => contact.GetId() == id);
         }
 
         /// <summary>
-        /// Find the contact in _contacts by name
+        /// Find the contact in _contacts using name
         /// </summary>
-        /// <param name="name">nma</param>
-        /// <returns>name</returns>
+        /// <param name="name">name to be searched</param>
+        /// <returns>Contactinfo of the given name</returns>
         public ContactInfo? FindByName(string name)
         {
-            return this._contacts.Find(c => c != null && string.Equals(c.GetName(), name, StringComparison.OrdinalIgnoreCase));
+            return this._contacts.Find(contact => contact != null && string.Equals(contact.GetName(), name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// find the contact using the number
+        /// Find the contact using the number
         /// </summary>
         /// <param name="number">num</param>
-        /// <returns>contact</returns>
+        /// <returns>return the contactinfo using the number</returns>
         public ContactInfo? FindByNumber(string? number)
         {
-            return this._contacts.Find(c => string.Equals(c.GetNumber(), number, StringComparison.OrdinalIgnoreCase));
+            return this._contacts.Find(contact => string.Equals(contact.GetNumber(), number, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// remove the contact from the _contacts
+        /// Remove the contact from the _contacts
         /// </summary>
-        /// <param name="contact">contact</param>
-        /// <returns>co</returns>
+        /// <param name="contact">Contact</param>
+        /// <returns>return whether the contact removed or not</returns>
         public bool RemoveContact(ContactInfo contact)
         {
             return this._contacts.Remove(contact);

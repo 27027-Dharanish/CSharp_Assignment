@@ -17,8 +17,6 @@ namespace Assignment1.Services
     /// </summary>
     internal class ConsoleActivity
     {
-        private ContactManager _contactManager = new ContactManager();
-
         /// <summary>
         /// get the user data by console
         /// </summary>
@@ -58,7 +56,7 @@ namespace Assignment1.Services
         /// print the data to the console
         /// </summary>
         /// <param name="data">the data that user want to show in console</param>
-        public void PrintInConsole(string? data)
+        public void PrintInConsole(string data)
         {
             Console.WriteLine(data);
         }

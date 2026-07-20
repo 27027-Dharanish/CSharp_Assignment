@@ -9,7 +9,7 @@ using Assignment1.Services;
 namespace Assignment1.Controller
 {
     /// <summary>
-    /// Class for contact controller - it act as bridge between view and service
+    /// contact controller - it act as bridge between view and service
     /// </summary>
     internal class ContactController
     {
@@ -29,9 +29,51 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
+        /// list of fields available in the contact repository
+        /// </summary>
+        public enum ContactFieldConstant
+        {
+            /// <summary>
+            /// name of the contact
+            /// </summary>
+            Name = 1,
+
+            /// <summary>
+            /// Phone Number of the conatct
+            /// </summary>
+            Number = 2,
+
+            /// <summary>
+            /// Email id
+            /// </summary>
+            Email = 3,
+
+            /// <summary>
+            /// notes for the conatact
+            /// </summary>
+            Notes = 4,
+        }
+
+        /// <summary>
+        /// list of constant for searching
+        /// </summary>
+        public enum SearchType
+        {
+            /// <summary>
+            /// search for the constant using name
+            /// </summary>
+            ByName = 1,
+
+            /// <summary>
+            /// search for the contact using number
+            /// </summary>
+            ByNumber = 2,
+        }
+
+        /// <summary>
         /// this method start the contact manager
         /// </summary>
-        public void Start()
+        public void StartContactManager()
         {
             this.ShowContactOption();
         }
@@ -66,7 +108,7 @@ namespace Assignment1.Controller
                         break;
                     case "S":
                     case "s":
-                        this.HandleSearchContactFromSwitch();
+                        this.SearhContactHandler();
                         break;
                     case "u":
                     case "U":
@@ -94,11 +136,11 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Get the data from user and pass to the service
+        /// Get the contact data from user
         /// </summary>
         public void GetUserData()
         {
-            Console.Clear();
+            this._consoleActivity.ClearConsole();
             this._consoleActivity.PrintInConsole("New Contact Adding:");
             string? name = this._consoleActivity.GetInputFromUser("name");
             if (Helper.IsNull(name))
@@ -139,9 +181,27 @@ namespace Assignment1.Controller
             }
 
             string? notes = this._consoleActivity.GetInputFromUser("Notes");
-            this._service.AddContact(name, number, email, notes);
-            this._consoleActivity.PrintInConsole("Contact added successfully!!");
+            this.SendContactInformation(name, number, email, notes);
             this._consoleActivity.WaitInConsole();
+        }
+
+        /// <summary>
+        /// responsible for sending contact information from the controller to the service
+        /// </summary>
+        /// <param name="name">name </param>
+        /// <param name="number">phone number</param>
+        /// <param name="email">email id</param>
+        /// <param name="notes">notes about the contact</param>
+        public void SendContactInformation(string? name, string? number, string? email, string? notes)
+        {
+            if (this._service.CreateNewContact(name, number, email, notes))
+            {
+                this._consoleActivity.PrintInConsole("Contact added successfully!!");
+            }
+            else
+            {
+                this._consoleActivity.PrintInConsole("Conatact not added!!");
+            }
         }
 
         /// <summary>
@@ -160,14 +220,14 @@ namespace Assignment1.Controller
 
             this._consoleActivity.ClearConsole();
             this._consoleActivity.PrintInConsole("\nThe contacts are: ");
-            for (int i = 0; i < contactList.Count; i++)
+            foreach (ContactInfo contact in contactList)
             {
                 this._consoleActivity.PrintInConsole("=====================");
                 this._consoleActivity.PrintEmptyLine();
-                this._consoleActivity.PrintInConsole("Name: " + contactList[i].GetName());
-                this._consoleActivity.PrintInConsole("PhoneNumber: " + contactList[i].GetNumber());
-                this._consoleActivity.PrintInConsole("Email: " + contactList[i].GetEmail());
-                this._consoleActivity.PrintInConsole("Notes: " + contactList[i].GetNotes());
+                this._consoleActivity.PrintInConsole("Name: " + contact.GetName());
+                this._consoleActivity.PrintInConsole("PhoneNumber: " + contact.GetNumber());
+                this._consoleActivity.PrintInConsole("Email: " + contact.GetEmail());
+                this._consoleActivity.PrintInConsole("Notes: " + contact.GetNotes());
                 this._consoleActivity.PrintEmptyLine();
                 this._consoleActivity.PrintInConsole("=====================");
             }
@@ -178,43 +238,41 @@ namespace Assignment1.Controller
         /// <summary>
         /// Handle the search contact request from the switch
         /// </summary>
-        public void HandleSearchContactFromSwitch()
+        public void SearhContactHandler()
         {
-            this._consoleActivity.ClearConsole();
-            this._consoleActivity.PrintInConsole("Select method to search: ");
-            this._consoleActivity.PrintInConsole("1.By name");
-            this._consoleActivity.PrintInConsole("2.By number");
-            this._consoleActivity.PrintInConsole("Enter the option ( 1 or 2 ): ");
-            string? choiceSearch = this._consoleActivity.GetInputFromUser(" ");
-            if (choiceSearch == "1")
+            string? choiceSearch = this.ChooseNameOrNumber();
+            if (int.TryParse(choiceSearch, out var choiceNumber))
             {
-                this.SearchContactByField("SearchUsingName");
-            }
-            else if (choiceSearch == "2")
-            {
-                this.SearchContactByField("SearchUsingNumber");
-            }
-            else
-            {
-                Console.Clear();
-                this._consoleActivity.PrintInConsole("Enter a vaid Number!!");
-                this._consoleActivity.WaitInConsole();
+                if (choiceNumber == (int)SearchType.ByName)
+                {
+                    this.SearchContactByField("SearchUsingName");
+                }
+                else if (choiceNumber == (int)SearchType.ByNumber)
+                {
+                    this.SearchContactByField("SearchUsingNumber");
+                }
+                else
+                {
+                    Console.Clear();
+                    this._consoleActivity.PrintInConsole("Enter a vaid Number!!");
+                    this._consoleActivity.WaitInConsole();
+                }
             }
         }
 
         /// <summary>
         /// Search the contact using name and number
         /// </summary>
-        /// <param name="searchUsing">Says what field to use for saerch</param>
-        public void SearchContactByField(string? searchUsing)
+        /// <param name="searchOption">Says what field to use for saerch</param>
+        public void SearchContactByField(string? searchOption)
         {
             ContactInfo? contact = null;
-            if (searchUsing == "SearchUsingName")
+            if (searchOption == "SearchUsingName")
             {
                 string? name = this._consoleActivity.GetInputFromUser("name");
                 if (name != null)
                 {
-                    contact = this._service.SearchContact(name, searchUsing);
+                    contact = this._service.SearchContact(name, searchOption);
                 }
             }
             else
@@ -222,7 +280,7 @@ namespace Assignment1.Controller
                 string? number = this._consoleActivity.GetInputFromUser("Phone Number");
                 if (number != null)
                 {
-                    contact = this._service.SearchContact(number, searchUsing);
+                    contact = this._service.SearchContact(number, searchOption);
                 }
             }
 
@@ -247,7 +305,7 @@ namespace Assignment1.Controller
         {
             this._consoleActivity.PrintInConsole("Deletion of contact using Name!!");
             string? name = this._consoleActivity.GetInputFromUser("name to Delete");
-            if (this._service.DeleteContact(name))
+            if (this._service.DeleteContact(name) && name == string.Empty)
             {
                 this._consoleActivity.PrintInConsole("Contact deleted successfully!!");
                 this._consoleActivity.WaitInConsole();
@@ -264,41 +322,101 @@ namespace Assignment1.Controller
         /// </summary>
         public void ChooseEditContact()
         {
-            this._consoleActivity.PrintInConsole("Select method to search: ");
-            this._consoleActivity.PrintInConsole("1.By name");
-            this._consoleActivity.PrintInConsole("2.By number");
-            string? choiceSearch = this._consoleActivity.GetInputFromUser("Option ( 1 or 2 )");
+            string? choiceSearch = this.ChooseNameOrNumber();
             ContactInfo? contact = null;
-            if (choiceSearch == "1")
+            if (int.TryParse(choiceSearch, out int choiceSearchNumber))
             {
-                string? name = this._consoleActivity.GetInputFromUser("name to edit");
-                if (name != null)
+                if (choiceSearchNumber == (int)SearchType.ByName)
                 {
-                    contact = this._service.SearchContact(name, "SearchUsingName");
+                    string? name = this._consoleActivity.GetInputFromUser("name to edit");
+                    if (name != null)
+                    {
+                        contact = this._service.SearchContact(name, "SearchUsingName");
+                    }
                 }
-            }
-            else if (choiceSearch == "2")
-            {
-                string? number = this._consoleActivity.GetInputFromUser("number to edit");
-                if (number != null)
+                else if (choiceSearchNumber == (int)SearchType.ByNumber)
                 {
-                    contact = this._service.SearchContact(number, "SearchUsingNumber");
+                    string? number = this._consoleActivity.GetInputFromUser("number to edit");
+                    if (number != null)
+                    {
+                        contact = this._service.SearchContact(number, "SearchUsingNumber");
+                    }
                 }
-            }
-            else
-            {
-                this._consoleActivity.PrintInConsole("Enter a valid number!!");
-                this._consoleActivity.WaitInConsole();
-                return;
+                else
+                {
+                    this._consoleActivity.PrintInConsole("Enter a valid number!!");
+                    this._consoleActivity.WaitInConsole();
+                    return;
+                }
             }
 
             if (contact == null)
             {
-                this._consoleActivity.PrintInConsole("Invalid details given!!");
+                this._consoleActivity.PrintInConsole("Invalid details given !!");
                 this._consoleActivity.WaitInConsole();
                 return;
             }
 
+            string? contactSearch = this.GetFieldNameToEdit();
+            if (int.TryParse(contactSearch, out int contactSearchNumber))
+            {
+                if (contactSearchNumber == (int)ContactFieldConstant.Name)
+                {
+                    string? newName = this._consoleActivity.GetInputFromUser("new name");
+                    if (contact != null && this._service.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact))
+                    {
+                        this.ContactUpdateSuccess();
+                    }
+                    else
+                    {
+                        this.ContactUpdateFailed("Name");
+                    }
+                }
+                else if (contactSearchNumber == (int)ContactFieldConstant.Number)
+                {
+                    string? newNumber = this._consoleActivity.GetInputFromUser("new number");
+                    if (contact != null && Helper.IsValidNumber(newNumber) && this._service.UpdateContact(contact.GetName(), newNumber, contact.GetEmail(), contact.GetNotes(), contact))
+                    {
+                        this.ContactUpdateSuccess();
+                    }
+                    else
+                    {
+                        this.ContactUpdateFailed("Number");
+                    }
+                }
+                else if (contactSearchNumber == (int)ContactFieldConstant.Email)
+                {
+                    string? newEmail = this._consoleActivity.GetInputFromUser("new email");
+                    if (contact != null && Helper.IsValidEmail(newEmail) && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), newEmail, contact.GetNotes(), contact))
+                    {
+                        this.ContactUpdateSuccess();
+                    }
+                    else
+                    {
+                        this.ContactUpdateFailed("Email");
+                    }
+                }
+                else if (contactSearchNumber == (int)ContactFieldConstant.Notes)
+                {
+                    string? newNotes = this._consoleActivity.GetInputFromUser("new notes");
+                    if (contact != null && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), contact.GetEmail(), newNotes, contact))
+                    {
+                        this.ContactUpdateSuccess();
+                    }
+                }
+                else
+                {
+                    this.ContactUpdateFailed("Notes");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the option from user to edit using name or number
+        /// </summary>
+        /// <returns>returns the optoin selected by the user</returns>
+        public string? GetFieldNameToEdit()
+        {
             this._consoleActivity.ClearConsole();
             this._consoleActivity.PrintEmptyLine();
             this._consoleActivity.PrintEmptyLine();
@@ -307,62 +425,40 @@ namespace Assignment1.Controller
             this._consoleActivity.PrintInConsole("2.PhoneNumber");
             this._consoleActivity.PrintInConsole("3.Email");
             this._consoleActivity.PrintInConsole("4.Notes");
-            string? contactSearch = this._consoleActivity.GetInputFromUser("Option");
-            if (contactSearch == "1")
-            {
-                string? newName = this._consoleActivity.GetInputFromUser("new name");
-                if (contact != null && this._service.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact))
-                {
-                    this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-                else
-                {
-                    this._consoleActivity.PrintInConsole("Invalid name!!");
-                }
-            }
-            else if (contactSearch == "2")
-            {
-                string? newNumber = this._consoleActivity.GetInputFromUser("new number");
-                if (contact != null && Helper.IsValidNumber(newNumber) && this._service.UpdateContact(contact.GetName(), newNumber, contact.GetEmail(), contact.GetNotes(), contact))
-                {
-                    this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-                else
-                {
-                    this._consoleActivity.PrintInConsole("Invalid Number!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-            }
-            else if (contactSearch == "3")
-            {
-                string? newEmail = this._consoleActivity.GetInputFromUser("new email");
-                if (contact != null && Helper.IsValidEmail(newEmail) && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), newEmail, contact.GetNotes(), contact))
-                {
-                    this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-                else
-                {
-                    this._consoleActivity.PrintInConsole("Invalid Email!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-            }
-            else if (contactSearch == "4")
-            {
-                string? newNotes = this._consoleActivity.GetInputFromUser("new notes");
-                if (contact != null && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), contact.GetNotes(), newNotes, contact))
-                {
-                    this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
-                    this._consoleActivity.WaitInConsole();
-                }
-            }
-            else
-            {
-                this._consoleActivity.PrintInConsole("Invalid Option !!");
-                this._consoleActivity.WaitInConsole();
-            }
+            string? contactSearchOption = this._consoleActivity.GetInputFromUser("Option");
+            return contactSearchOption;
+        }
+
+        /// <summary>
+        /// choose name or number
+        /// </summary>
+        /// <returns>return the whether name=1 or number=2</returns>
+        public string? ChooseNameOrNumber()
+        {
+            this._consoleActivity.PrintInConsole("Select method to search: ");
+            this._consoleActivity.PrintInConsole("1.By name");
+            this._consoleActivity.PrintInConsole("2.By number");
+            string? choiceSearch = this._consoleActivity.GetInputFromUser("Option ( 1 or 2 )");
+            return choiceSearch;
+        }
+
+        /// <summary>
+        /// contact update status success
+        /// </summary>
+        public void ContactUpdateSuccess()
+        {
+            this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
+            this._consoleActivity.WaitInConsole();
+        }
+
+        /// <summary>
+        /// contact update status failed
+        /// </summary>
+        /// <param name="field">the field that get failed to update</param>
+        public void ContactUpdateFailed(string? field)
+        {
+            this._consoleActivity.PrintInConsole($"Invalid {field}!!");
+            this._consoleActivity.WaitInConsole();
         }
     }
 }
