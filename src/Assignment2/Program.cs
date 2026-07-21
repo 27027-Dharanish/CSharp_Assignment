@@ -1,4 +1,5 @@
 ﻿using Assignment2.Controller;
+using Assignment2.View;
 
 namespace Assignments
 {
@@ -12,9 +13,12 @@ namespace Assignments
         /// </summary>
         public static void Main()
         {
-            Console.WriteLine("Hello, World!");
-            ShapeController shape = new ShapeController();
-            shape.StartShapeContorller();
+            ConsoleActivity console = new ConsoleActivity();
+
+            // ShapeController shape = new ShapeController(console);
+            // shape.StartShapeContorller();
+            // EmployeeController employee = new EmployeeController(console);
+            // employee.StartEmployeeContorller();
         }
     }
 }

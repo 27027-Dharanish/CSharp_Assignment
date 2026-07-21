@@ -55,5 +55,14 @@ namespace Assignment2.View
         {
             Console.Clear();
         }
+
+        /// <summary>
+        /// Print invalid field input
+        /// </summary>
+        /// <param name="field">Name of the field</param>
+        public void PrintInvalidField(string? field)
+        {
+            Console.WriteLine("Enter the valid " + field);
+        }
     }
 }

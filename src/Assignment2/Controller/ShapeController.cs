@@ -15,7 +15,17 @@ namespace Assignment2.Controller
     /// </summary>
     internal class ShapeController
     {
-        private ConsoleActivity _console = new ();
+        private ConsoleActivity _console;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeController"/> class.
+        /// Constructor for shape controller
+        /// </summary>
+        /// <param name="console">console activity parameter</param>
+        public ShapeController(ConsoleActivity console)
+        {
+            this._console = console;
+        }
 
         /// <summary>
         /// To store the shape constant.
@@ -70,6 +80,7 @@ namespace Assignment2.Controller
             else
             {
                 this._console.PrintInvalid();
+                this._console.WaitInConsole();
                 this.ShowShapeOption();
             }
         }
@@ -98,11 +109,15 @@ namespace Assignment2.Controller
                 else
                 {
                     this._console.PrintInvalid();
+                    this._console.WaitInConsole();
+                    this.ShowShapeOption();
                 }
             }
             else
             {
                 this._console.PrintInvalid();
+                this._console.WaitInConsole();
+                this.ShowShapeOption();
             }
         }
 
@@ -127,6 +142,8 @@ namespace Assignment2.Controller
             else
             {
                 this._console.PrintInvalid();
+                this._console.WaitInConsole();
+                this.ShowShapeOption();
             }
         }
     }
