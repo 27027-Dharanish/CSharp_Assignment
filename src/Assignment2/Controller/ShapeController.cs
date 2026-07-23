@@ -11,7 +11,7 @@ using Assignment2.View;
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Overall Controller of the Oops project
+    /// Manages Shape Hierarchy, connect view and shape service.
     /// </summary>
     internal class ShapeController
     {
@@ -19,32 +19,31 @@ namespace Assignment2.Controller
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeController"/> class.
-        /// Constructor for shape controller
         /// </summary>
-        /// <param name="console">console activity parameter</param>
+        /// <param name="console">Console activity parameter</param>
         public ShapeController(ConsoleActivity console)
         {
             this._console = console;
         }
 
         /// <summary>
-        /// To store the shape constant.
+        /// Specifies the the shape available.
         /// </summary>
         public enum Shapes
         {
             /// <summary>
-            /// rectangle holds tha value 1.
+            /// Represents the rectangle.
             /// </summary>
             Rectangle = 1,
 
             /// <summary>
-            /// circle holds the value 2.
+            /// Represents the circle.
             /// </summary>
             Circle = 2,
         }
 
         /// <summary>
-        /// Start the shape controller
+        /// Start the shape controller.
         /// </summary>
         public void StartShapeContorller()
         {
@@ -52,7 +51,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the shapes
+        /// Show the option available in the shapes.
         /// </summary>
         public void ShowShapeOption()
         {
@@ -86,7 +85,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the rectangle
+        /// Show the option available in the rectangle.
         /// </summary>
         public void ShowRectangleOption()
         {
@@ -96,22 +95,13 @@ namespace Assignment2.Controller
             RectangleShape rectangle = new (color);
             string? lengthIp = this._console.GetInputFromConsole("Length");
             string? widthIp = this._console.GetInputFromConsole("Width");
-            if (int.TryParse(lengthIp, out int lengthNumber))
+            if (int.TryParse(lengthIp, out int lengthNumber) && double.TryParse(widthIp, out double widthNumber))
             {
-                if (double.TryParse(widthIp, out double widthNumber))
-                {
-                    rectangle.CalculateArea(lengthNumber, widthNumber);
-                    var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
-                    this._console.PrintInConsole($"The rectangle of {rectangleColor} color and area is {rectangleArea}");
-                    this._console.WaitInConsole();
-                    this.ShowShapeOption();
-                }
-                else
-                {
-                    this._console.PrintInvalid();
-                    this._console.WaitInConsole();
-                    this.ShowShapeOption();
-                }
+                rectangle.CalculateArea(lengthNumber, widthNumber);
+                var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
+                this._console.PrintInConsole($"The rectangle of {rectangleColor} color and area is {rectangleArea}");
+                this._console.WaitInConsole();
+                this.ShowShapeOption();
             }
             else
             {
@@ -122,7 +112,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in circle
+        /// Show the option available in circle.
         /// </summary>
         public void ShowCircleOption()
         {

@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 namespace Assignment2.Model.BankingModels
 {
     /// <summary>
-    /// Bank account model contain properties and method
+    /// Serves as the base abstract class for defining core bank account attributes and behavioral blueprints.
     /// </summary>
     internal abstract class BankAccount
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BankAccount"/> class.
-        /// Bank account constructor
         /// </summary>
-        /// <param name="accountNumber">account number of the account</param>
-        /// <param name="name">account holder name</param>
+        /// <param name="accountNumber">Account number of the account</param>
+        /// <param name="name">Account holder name</param>
         public BankAccount(string? accountNumber, string? name)
         {
             this.AccountNumber = accountNumber;
@@ -24,40 +23,40 @@ namespace Assignment2.Model.BankingModels
         }
 
         /// <summary>
-        /// Gets the account number
+        /// Gets the account number.
         /// </summary>
         /// <value>
-        /// the account number of the user
+        /// The account number of the user.
         /// </value>
         public string? AccountNumber { get; init; }
 
         /// <summary>
-        /// Gets or sets the account number
+        /// Gets or sets the account holder name.
         /// </summary>
         /// <value>
-        /// the account number of the user
+        /// The account holder name.
         /// </value>
         public string? AccountHolderName { get; set; }
 
         /// <summary>
-        /// Gets or sets the balance
+        /// Gets or sets the balance of the account.
         /// </summary>
         /// <value>
-        /// Balance of the account
+        /// Balance of the accountu.
         /// </value>
         public decimal Balance { get; set; }
 
         /// <summary>
-        /// Deposit the amount to the balance
+        /// Deposit the amount.
         /// </summary>
-        /// <param name="amount">amount from the user</param>
+        /// <param name="amount">Amount from the user</param>
         public abstract void Deposit(decimal amount);
 
         /// <summary>
-        /// withdraw the amount from the balance
+        /// Withdraw the amount.
         /// </summary>
-        /// <param name="amount">amount from the user</param>
-        /// <returns>return whether the amount withdrawed or not</returns>
+        /// <param name="amount">Amount from the user</param>
+        /// <returns>Return whether the amount withdrawed or not</returns>
         public abstract bool Withdraw(decimal amount);
     }
 }

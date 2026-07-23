@@ -8,7 +8,7 @@ using Assignment2.Model;
 namespace Assignment2.Service.Employees
 {
     /// <summary>
-    /// Service for Manager employee
+    /// Represents a Manager employee role with specific bonus calculation logic.
     /// </summary>
     internal class Manager : Employee
     {
@@ -24,7 +24,7 @@ namespace Assignment2.Service.Employees
         }
 
         /// <summary>
-        /// Calculate the bonus of manager
+        /// Calculate the bonus for the manager
         /// </summary>
         public override void CalculateBonus()
         {

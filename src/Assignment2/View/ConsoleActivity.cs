@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Assignment2.View
 {
     /// <summary>
-    /// Perform console activity for shapes.
+    /// Handle User input and output via console.
     /// </summary>
     internal class ConsoleActivity
     {
         /// <summary>
         /// Print the data in the console.
         /// </summary>
-        /// <param name="data">the content to be printed in console</param>
+        /// <param name="data">The content to be printed in console</param>
         public void PrintInConsole(string? data)
         {
             Console.WriteLine(data);
@@ -24,8 +24,8 @@ namespace Assignment2.View
         /// <summary>
         /// Get the input from the console.
         /// </summary>
-        /// <param name="content">content to get form the console</param>
-        /// <returns>return the data got from the console</returns>
+        /// <param name="content">Content to get form the console</param>
+        /// <returns>Return the data got from the console</returns>
         public string? GetInputFromConsole(string? content)
         {
             Console.WriteLine("Enter the " + content + " : ");
@@ -33,7 +33,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Print the invalid message in console
+        /// Print the invalid message in console.
         /// </summary>
         public void PrintInvalid()
         {
@@ -41,7 +41,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Wait in console until user click any key
+        /// Wait in console until user click any key.
         /// </summary>
         public void WaitInConsole()
         {
@@ -50,7 +50,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Clear the console
+        /// Clear the console.
         /// </summary>
         public void ClearConsole()
         {
@@ -58,7 +58,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Print invalid field input
+        /// Print invalid message for a particular field input.
         /// </summary>
         /// <param name="field">Name of the field</param>
         public void PrintInvalidField(string? field)
@@ -67,7 +67,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Print empty line in console
+        /// Print empty line in console.
         /// </summary>
         public void PrintEmptyLine()
         {
@@ -75,7 +75,7 @@ namespace Assignment2.View
         }
 
         /// <summary>
-        /// Print Equal breaker to make console more readable
+        /// Print breaker to make console more readable.
         /// </summary>
         public void PrintBreaker()
         {

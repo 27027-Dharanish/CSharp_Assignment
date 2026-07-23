@@ -17,7 +17,7 @@ namespace Assignment2.Service.Shapes
         /// <summary>
         /// Initializes a new instance of the <see cref="Circle"/> class.
         /// </summary>
-        /// <param name="color">color of the circle</param>
+        /// <param name="color">Color of the circle</param>
         public Circle(string? color)
             : base(color)
         {
@@ -32,7 +32,7 @@ namespace Assignment2.Service.Shapes
         public double Area { get; private set; }
 
         /// <summary>
-        /// Calculate the area of the circle
+        /// Calculate the area of the circle.
         /// </summary>
         /// <param name="radius">Length of the circle</param>
         /// <param name="breadth">Breadth of the circle</param>
@@ -42,7 +42,7 @@ namespace Assignment2.Service.Shapes
         }
 
         /// <summary>
-        /// Return the color and area of the circle
+        /// Return the color and area of the circle.
         /// </summary>
         /// <returns>Color and area of circle as tuple</returns>
         public override (string?, double) PrintDetails()

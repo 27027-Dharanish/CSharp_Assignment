@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment2.Model.BankingModels
 {
     /// <summary>
-    /// Holds all the account in the BankAccount
+    /// Holds all the account in the BankAccount.
     /// </summary>
     internal class AccountRepository
     {
@@ -16,8 +16,8 @@ namespace Assignment2.Model.BankingModels
         /// <summary>
         /// Add new checking account to the repository.
         /// </summary>
-        /// <param name="account">new checking account</param>
-        /// <returns>return if account created or not</returns>
+        /// <param name="account">New checking account</param>
+        /// <returns>Return if account created or not</returns>
         public bool AddNewAccount(BankAccount account)
         {
             if (account == null)
@@ -32,18 +32,18 @@ namespace Assignment2.Model.BankingModels
         /// <summary>
         /// Get the bank account details.
         /// </summary>
-        /// <param name="accountNumber">account number to search</param>
-        /// <returns>return the account details</returns>
+        /// <param name="accountNumber">Account number to search</param>
+        /// <returns>Return the account details</returns>
         public BankAccount? GetBankAccount(string? accountNumber)
         {
             return this._bankAccounts.Find(account => account != null && string.Equals(account.AccountNumber, accountNumber, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// Get the balance of the account
+        /// Get the balance of the account.
         /// </summary>
-        /// <param name="accountNumber">account number</param>
-        /// <returns>return true and balance if account number matched</returns>
+        /// <param name="accountNumber">Account number</param>
+        /// <returns>Return true and balance if account number matched</returns>
         public (bool, decimal) GetBalance(string? accountNumber)
         {
             BankAccount? matchedAccount = this.GetBankAccount(accountNumber);

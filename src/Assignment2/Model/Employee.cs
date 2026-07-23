@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Assignment2.Model
 {
     /// <summary>
-    /// Employee properties and method
+    /// Represents a Employee model that provides basic operations.
     /// </summary>
     internal abstract class Employee
     {
         /// <summary>
-        /// Gets or sets the name of the object.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
         /// A string representing the employee name
@@ -20,7 +20,7 @@ namespace Assignment2.Model
         public string? Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the salary of the object.
+        /// Gets or sets the salary.
         /// </summary>
         /// <value>
         /// A string representing the employee salary
@@ -28,22 +28,22 @@ namespace Assignment2.Model
         public decimal Salary { get; set; }
 
         /// <summary>
-        /// Gets or sets the bonus salary of the object.
+        /// Gets or sets the bonus salary.
         /// </summary>
         /// <value>
-        /// A string representing the employee salary bonus
+        /// A string representing the employee salary.
         /// </value>
         public decimal Bonus { get; set; }
 
         /// <summary>
-        /// Bonus calculator of the employee
+        /// Bonus calculator for the employee.
         /// </summary>
         public abstract void CalculateBonus();
 
         /// <summary>
-        /// Print the details of the employee
+        /// Print the details of the employee.
         /// </summary>
-        /// <returns>return the employee details</returns>
+        /// <returns>Return the employee details</returns>
         public virtual (string?, decimal, decimal) PrintDetails()
         {
             return (this.Name, this.Salary, this.Bonus);

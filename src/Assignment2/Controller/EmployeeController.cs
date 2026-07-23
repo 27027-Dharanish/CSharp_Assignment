@@ -12,15 +12,14 @@ using static Assignment2.Controller.ShapeController;
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Controller for the employee operation
+    /// Manages Employee Hierarchy, connect view and Employee service.
     /// </summary>
     internal class EmployeeController
     {
-        private ConsoleActivity _console;
+        private readonly ConsoleActivity _console;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmployeeController"/> class.
-        /// Constructor for shape controller
         /// </summary>
         /// <param name="console">console activity parameter</param>
         public EmployeeController(ConsoleActivity console)
@@ -29,28 +28,28 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// To store the shape constant.
+        /// Specifies the Employee role.
         /// </summary>
         public enum EmployeeName
         {
             /// <summary>
-            /// Manager holds tha value 1.
+            /// Represents a manager.
             /// </summary>
             Manager = 1,
 
             /// <summary>
-            /// Developer holds the value 2.
+            /// Represents a technical developer.
             /// </summary>
             Developer = 2,
 
             /// <summary>
-            /// Exit from the Employee
+            /// Exit from the Employee controller.
             /// </summary>
             Exit = 3,
         }
 
         /// <summary>
-        /// Start the Employee controller
+        /// Starts the execution flow for the Employee Hierarchy.
         /// </summary>
         public void StartEmployeeContorller()
         {
@@ -58,7 +57,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the Employee
+        /// Show the option available in the Employee Hierarchy.
         /// </summary>
         public void ShowEmployeeOption()
         {
@@ -66,8 +65,8 @@ namespace Assignment2.Controller
             this._console.PrintInConsole("Create new Employee Profile:");
             this._console.PrintInConsole("1.Manager");
             this._console.PrintInConsole("2.Developer");
-            this._console.PrintInConsole("Click Any other number to exit!!");
-            string? userChoice = this._console.GetInputFromConsole("option (1 or 2)");
+            this._console.PrintInConsole("3.Exit");
+            string? userChoice = this._console.GetInputFromConsole("option");
             if (int.TryParse(userChoice, out int userChoiceNumber))
             {
                 if (userChoiceNumber == (int)EmployeeName.Manager)
@@ -84,19 +83,19 @@ namespace Assignment2.Controller
                 }
                 else
                 {
-                    return;
+                    this._console.PrintInvalid();
+                    this._console.WaitInConsole();
+                    this.ShowEmployeeOption();
                 }
             }
-            else
-            {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
-                this.ShowEmployeeOption();
-            }
+
+            this._console.PrintInvalid();
+            this._console.WaitInConsole();
+            this.ShowEmployeeOption();
         }
 
         /// <summary>
-        /// Show the option available in the Manager
+        /// Show the option available in the Manager.
         /// </summary>
         public void ShowManagerOption()
         {
@@ -136,7 +135,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the Developer
+        /// Show the option available in the Developer.
         /// </summary>
         public void ShowDeveloperOption()
         {
@@ -176,7 +175,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Print the employee details
+        /// Print the employee details.
         /// </summary>
         /// <param name="name">Name of the employee</param>
         /// <param name="salary">Salary of the employee</param>

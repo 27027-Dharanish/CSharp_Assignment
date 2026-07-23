@@ -8,7 +8,7 @@ using Assignment2.Model.BankingModels;
 namespace Assignment2.Service.Banking
 {
     /// <summary>
-    /// service for access repo and contact the controller
+    /// Provides core business logic for managing bank accounts, processing transactions, and interacting with the account repository.
     /// </summary>
     internal class BankingService
     {
@@ -18,7 +18,6 @@ namespace Assignment2.Service.Banking
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankingService"/> class.
-        /// Banking service account number initializer
         /// </summary>
         public BankingService()
         {
@@ -26,11 +25,11 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Add new saving account
+        /// Add new saving account.
         /// </summary>
-        /// <param name="initialAmount">intial amount to be setted</param>
+        /// <param name="initialAmount">Intial amount</param>
         /// <param name="accountHolderName">Account holer name</param>
-        /// <returns>status of account creation</returns>
+        /// <returns>Status of account creation</returns>
         public (string?, string?) AddSavingsAccount(int initialAmount, string? accountHolderName)
         {
             string? newAccountNumber = _accountNumberInitializer.ToString();
@@ -51,11 +50,11 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Add new checking account
+        /// Add new checking account.
         /// </summary>
-        /// <param name="initialAmount">intial amount to be setted</param>
-        /// <param name="accountHolderName">account holder name</param>
-        /// <returns>status of account creation</returns>
+        /// <param name="initialAmount">Intial amount</param>
+        /// <param name="accountHolderName">Account holder name</param>
+        /// <returns>Status of account creation</returns>
         public (string?, string?) AddCheckingAccount(int initialAmount, string? accountHolderName)
         {
             string? newAccountNumber = _accountNumberInitializer.ToString();
@@ -72,10 +71,10 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Check whether the account exist or not
+        /// Check whether the account exist or not.
         /// </summary>
-        /// <param name="accountNumber">account number from the user</param>
-        /// <returns>return if account exist or not</returns>
+        /// <param name="accountNumber">Account number from the user</param>
+        /// <returns>Return if account exist or not</returns>
         public bool IsAccountExist(string? accountNumber)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
@@ -94,10 +93,10 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Get the bank account details and return
+        /// Get the bank account details and return it.
         /// </summary>
-        /// <param name="accountNumber">the account number from user</param>
-        /// <returns>the bank account details if exist</returns>
+        /// <param name="accountNumber">The account number from user</param>
+        /// <returns>The bank account details if exist</returns>
         public BankAccount? GetBankAccount(string? accountNumber)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
@@ -111,9 +110,9 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Get the balance of the account
+        /// Get the balance of the account.
         /// </summary>
-        /// <param name="accountNumber">account number</param>
+        /// <param name="accountNumber">Account number</param>
         /// <returns>Account balance</returns>
         public decimal GetAccountBalance(string? accountNumber)
         {
@@ -128,10 +127,10 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Deposit amount into account balance
+        /// Deposit amount into account balance.
         /// </summary>
-        /// <param name="accountNumber">account number</param>
-        /// <param name="amount">amount to be deposited</param>
+        /// <param name="accountNumber">Account number</param>
+        /// <param name="amount">Amount to be deposited</param>
         public void DepositAccountBalance(string? accountNumber, decimal amount)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
@@ -145,11 +144,11 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// withdraw amount into account balance
+        /// Withdraw amount from account.
         /// </summary>
-        /// <param name="accountNumber">account number</param>
-        /// <param name="amount">amount to be deposited</param>
-        /// <returns>return if amount withdrawed or not</returns>
+        /// <param name="accountNumber">Account number</param>
+        /// <param name="amount">Amount to be withdraw</param>
+        /// <returns>Return if amount withdrawed or not</returns>
         public bool WithdrawAccountBalance(string? accountNumber, decimal amount)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
@@ -163,7 +162,7 @@ namespace Assignment2.Service.Banking
         }
 
         /// <summary>
-        /// Increment the account number after creation of new account
+        /// Increment the account number after creation of new account.
         /// </summary>
         private void IncrementAccountNumber()
         {

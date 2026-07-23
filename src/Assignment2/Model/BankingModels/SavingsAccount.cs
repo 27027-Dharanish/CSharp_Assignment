@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment2.Model.BankingModels
 {
     /// <summary>
-    /// SavingsAccount derived from the bank account.
+    /// Represents a Saving account model that provides standard deposit and withdrawal operations.
     /// </summary>
     internal class SavingsAccount : BankAccount
     {
@@ -22,18 +22,18 @@ namespace Assignment2.Model.BankingModels
         }
 
         /// <summary>
-        /// Deposit amount into the account
+        /// Deposit amount into saving account
         /// </summary>
-        /// <param name="amount">amount to be deposited</param>
+        /// <param name="amount">Amount to be deposited</param>
         public override void Deposit(decimal amount)
         {
             this.Balance += amount;
         }
 
         /// <summary>
-        /// Withdraw amount from account.
+        /// Withdraw amount from saving account.
         /// </summary>
-        /// <param name="amount">amount to be withdraw</param>
+        /// <param name="amount">Amount to be withdraw</param>
         /// <returns>Withdraw whether amount debited or not</returns>
         public override bool Withdraw(decimal amount)
         {

@@ -11,14 +11,14 @@ using Assignment2.View;
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Controller for employee, shape and banking application selection
+    /// Manages view and service for employee, shape and banking application selection
     /// </summary>
     internal class OopsAssignmentController
     {
         private ConsoleActivity _console = new ConsoleActivity();
 
         /// <summary>
-        /// List of assignment and constant for it
+        /// List of assignment(Task) and constant for it
         /// </summary>
         public enum AssignmentConstant
         {
@@ -52,7 +52,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the assignment available
+        /// Show the available assignment in the console
         /// </summary>
         public void ShowAssignmentAvailable()
         {
@@ -83,7 +83,7 @@ namespace Assignment2.Controller
                         this.BankAssignment();
                         break;
                     case (int)AssignmentConstant.Exit:
-                        // this case is just to escape from default case
+                        // this case is just to escape from default case when user select Exit option
                         break;
                     default:
                         this._console.PrintInvalid();
@@ -95,7 +95,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the Shape Hierarchy
+        /// Start the Shape Hierarchy controller
         /// </summary>
         public void ShapeAssignment()
         {
@@ -105,7 +105,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the Employee Hierarchy
+        /// Start the Employee Hierarchy controller
         /// </summary>
         public void EmployeeAssignment()
         {
@@ -115,7 +115,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the banking system
+        /// Start the banking system controller
         /// </summary>
         public void BankAssignment()
         {
