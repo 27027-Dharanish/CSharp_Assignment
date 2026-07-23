@@ -13,15 +13,15 @@ using Assignment1.Services;
 namespace Assignment1.Services
 {
     /// <summary>
-    /// the class interact with the console for printing and getting user data
+    /// Interact with the console for printing and getting user data.
     /// </summary>
     internal class ConsoleActivity
     {
         /// <summary>
-        /// get the user data by console
+        /// Get the user data by console.
         /// </summary>
-        /// <param name="contentToGet">content to get from the user</param>
-        /// <returns>return the content from the user</returns>
+        /// <param name="contentToGet">Content to get from the user</param>
+        /// <returns>Return the content from the user</returns>
         public string? GetInputFromUser(string? contentToGet)
         {
             Console.WriteLine("Enter the " + contentToGet + ": ");
@@ -35,9 +35,9 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// print the contact in console
+        /// Print the contact in console.
         /// </summary>
-        /// <param name="contact">the contact data from the controller</param>
+        /// <param name="contact">The contact data from the controller</param>
         public void PrintContactInConsole(ContactInfo contact)
         {
             if (contact != null)
@@ -53,16 +53,16 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// print the data to the console
+        /// Print the data to the console.
         /// </summary>
-        /// <param name="data">the data that user want to show in console</param>
+        /// <param name="data">The data that user want to show in console</param>
         public void PrintInConsole(string data)
         {
             Console.WriteLine(data);
         }
 
         /// <summary>
-        /// print empty line in console
+        /// Print empty line in console.
         /// </summary>
         public void PrintEmptyLine()
         {
@@ -70,7 +70,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// clear the console
+        /// Clear the console.
         /// </summary>
         public void ClearConsole()
         {
@@ -78,7 +78,7 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// wait in console until we click any key
+        /// Wait in console until we click any key.
         /// </summary>
         public void WaitInConsole()
         {

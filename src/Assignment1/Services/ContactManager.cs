@@ -10,20 +10,36 @@ using Assignment1.Persistence;
 namespace Assignment1.Services
 {
     /// <summary>
-    /// Contact manager act as service
+    /// Coordinate the business logic for the contact manager.
     /// </summary>
     internal class ContactManager
     {
         private Repository _repo = new Repository();
 
         /// <summary>
-        /// add the new contact to the repo
+        /// Specifies the search using constant.
         /// </summary>
-        /// <param name="name">name</param>
-        /// <param name="number">number</param>
-        /// <param name="email">email</param>
-        /// <param name="notes">notes</param>
-        /// <returns>return whether contact added successfully or not</returns>
+        public enum SearchUsingConstant
+        {
+            /// <summary>
+            /// Represent name of the contact.
+            /// </summary>
+            SearchUsingName = 1,
+
+            /// <summary>
+            /// Represent phone number of the conatct.
+            /// </summary>
+            SearchUsingNumber = 2,
+        }
+
+        /// <summary>
+        /// Add the new contact.
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="number">Number</param>
+        /// <param name="email">Email</param>
+        /// <param name="notes">Notes</param>
+        /// <returns>Return whether contact added successfully or not</returns>
         public bool CreateNewContact(string? name, string? number, string? email, string? notes)
         {
             ContactInfo newContact = new ContactInfo();
@@ -41,15 +57,15 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// search the contact form the repo
+        /// Search the contact.
         /// </summary>
         /// <param name="content">name</param>
         /// <param name="option">option</param>
-        /// <returns>matched contact</returns>
-        public ContactInfo? SearchContact(string content, string? option)
+        /// <returns>Matched contact</returns>
+        public ContactInfo? SearchContact(string content, int option)
         {
             ContactInfo? contact = null;
-            if (option == "SearchUsingName")
+            if (option == (int)SearchUsingConstant.SearchUsingName)
             {
                 contact = this._repo.FindByName(content);
             }
@@ -62,9 +78,9 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// get all the contact form the repo
+        /// Get all the contact.
         /// </summary>
-        /// <returns>get all contact</returns>
+        /// <returns>Return all contact</returns>
         public List<ContactInfo> GetAllContacts()
         {
             List<ContactInfo> contacts = this._repo.GetContact();
@@ -73,10 +89,10 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// delete the contact using name
+        /// Delete the contact using name.
         /// </summary>
-        /// <param name="name">name use for delete</param>
-        /// <returns>bool value</returns>
+        /// <param name="name">Name use for delete</param>
+        /// <returns>Return if contact deleted or not</returns>
         public bool DeleteContact(string? name)
         {
             if (name != null)
@@ -96,14 +112,14 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Update the contact using get and set
+        /// Update the contact using get and set.
         /// </summary>
-        /// <param name="targetName">newname</param>
-        /// <param name="newNumber">number</param>
-        /// <param name="newEmail">emial</param>
-        /// <param name="newNotes">notes</param>
-        /// <param name="contact">note</param>
-        /// <returns>return if contact updated or not</returns>
+        /// <param name="targetName">new name</param>
+        /// <param name="newNumber">new number</param>
+        /// <param name="newEmail">new email</param>
+        /// <param name="newNotes">new notes</param>
+        /// <param name="contact">contact to be updated</param>
+        /// <returns>Return if contact updated or not</returns>
         public bool UpdateContact(string? targetName, string? newNumber, string? newEmail, string? newNotes, ContactInfo? contact)
         {
             if (contact != null)

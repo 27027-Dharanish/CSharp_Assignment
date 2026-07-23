@@ -9,7 +9,7 @@ using Assignment1.Services;
 namespace Assignment1.Controller
 {
     /// <summary>
-    /// contact controller - it act as bridge between view and service
+    /// Act as bridge between view and service.
     /// </summary>
     internal class ContactController
     {
@@ -18,10 +18,9 @@ namespace Assignment1.Controller
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactController"/> class.
-        /// constructor for contact controller
         /// </summary>
-        /// <param name="consoleActivity">consoleactivitys</param>
-        /// <param name="service">services</param>
+        /// <param name="consoleActivity">Consoleactivitys</param>
+        /// <param name="service">Services for contact manager</param>
         public ContactController(ConsoleActivity consoleActivity, ContactManager service)
         {
             this._consoleActivity = consoleActivity;
@@ -29,49 +28,65 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// list of fields available in the contact repository
+        /// Specifies the search using constant.
+        /// </summary>
+        public enum SearchUsingConstant
+        {
+            /// <summary>
+            /// Represent name of the contact.
+            /// </summary>
+            SearchUsingName = 1,
+
+            /// <summary>
+            /// Represent phone number of the conatct.
+            /// </summary>
+            SearchUsingNumber = 2,
+        }
+
+        /// <summary>
+        /// List of fields available in the contact repository.
         /// </summary>
         public enum ContactFieldConstant
         {
             /// <summary>
-            /// name of the contact
+            /// Represent name of the contact.
             /// </summary>
             Name = 1,
 
             /// <summary>
-            /// Phone Number of the conatct
+            /// Represent number of the conatct.
             /// </summary>
             Number = 2,
 
             /// <summary>
-            /// Email id
+            /// Represent Email id.
             /// </summary>
             Email = 3,
 
             /// <summary>
-            /// notes for the conatact
+            /// Represent notes for the conatact.
             /// </summary>
             Notes = 4,
         }
 
         /// <summary>
-        /// list of constant for searching
+        /// List of constant for searching.
         /// </summary>
         public enum SearchType
         {
             /// <summary>
-            /// search for the constant using name
+            /// Search for the constant using name.
             /// </summary>
             ByName = 1,
 
             /// <summary>
-            /// search for the contact using number
+            /// Search for the contact using number.
             /// </summary>
             ByNumber = 2,
         }
 
         /// <summary>
-        /// this method start the contact manager
+        /// Starts the execution flow for the contact manager.
         /// </summary>
         public void StartContactManager()
         {
@@ -79,7 +94,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// show option available in contact manager
+        /// Show option available in contact manager.
         /// </summary>
         public void ShowContactOption()
         {
@@ -136,7 +151,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Get the contact data from user
+        /// Get the contact data from user.
         /// </summary>
         public void GetUserData()
         {
@@ -186,12 +201,12 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// responsible for sending contact information from the controller to the service
+        /// Responsible for sending contact information from the controller to the service.
         /// </summary>
-        /// <param name="name">name </param>
-        /// <param name="number">phone number</param>
-        /// <param name="email">email id</param>
-        /// <param name="notes">notes about the contact</param>
+        /// <param name="name">Name</param>
+        /// <param name="number">Phone number</param>
+        /// <param name="email">Email id</param>
+        /// <param name="notes">Notes about the contact</param>
         public void SendContactInformation(string? name, string? number, string? email, string? notes)
         {
             if (this._service.CreateNewContact(name, number, email, notes))
@@ -205,9 +220,9 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// print the contact given to it
+        /// Print the contact given to it.
         /// </summary>
-        /// <param name="contactList">list of contact availabe</param>
+        /// <param name="contactList">List of contact availabe</param>
         public void PrintContact(List<ContactInfo> contactList)
         {
             if (contactList.Count == 0)
@@ -236,7 +251,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Handle the search contact request from the switch
+        /// Handle the search contact request.
         /// </summary>
         public void SearhContactHandler()
         {
@@ -261,7 +276,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Search the contact using name and number
+        /// Search the contact using name and number.
         /// </summary>
         /// <param name="searchOption">Says what field to use for saerch</param>
         public void SearchContactByField(string? searchOption)
@@ -272,7 +287,7 @@ namespace Assignment1.Controller
                 string? name = this._consoleActivity.GetInputFromUser("name");
                 if (name != null)
                 {
-                    contact = this._service.SearchContact(name, searchOption);
+                    contact = this._service.SearchContact(name, (int)SearchUsingConstant.SearchUsingName);
                 }
             }
             else
@@ -280,7 +295,7 @@ namespace Assignment1.Controller
                 string? number = this._consoleActivity.GetInputFromUser("Phone Number");
                 if (number != null)
                 {
-                    contact = this._service.SearchContact(number, searchOption);
+                    contact = this._service.SearchContact(number, (int)SearchUsingConstant.SearchUsingNumber);
                 }
             }
 
@@ -298,7 +313,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Delete the contact using name
+        /// Delete the contact using name.
         /// </summary>
         /// <param name="name">Name that used to delete</param>
         public void DeleteContactUsingName()
@@ -318,7 +333,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Edit the contact using name or number
+        /// Edit the contact using name and number.
         /// </summary>
         public void ChooseEditContact()
         {
@@ -331,7 +346,7 @@ namespace Assignment1.Controller
                     string? name = this._consoleActivity.GetInputFromUser("name to edit");
                     if (name != null)
                     {
-                        contact = this._service.SearchContact(name, "SearchUsingName");
+                        contact = this._service.SearchContact(name, (int)SearchUsingConstant.SearchUsingName);
                     }
                 }
                 else if (choiceSearchNumber == (int)SearchType.ByNumber)
@@ -339,7 +354,7 @@ namespace Assignment1.Controller
                     string? number = this._consoleActivity.GetInputFromUser("number to edit");
                     if (number != null)
                     {
-                        contact = this._service.SearchContact(number, "SearchUsingNumber");
+                        contact = this._service.SearchContact(number, (int)SearchUsingConstant.SearchUsingNumber);
                     }
                 }
                 else
@@ -412,9 +427,9 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Get the option from user to edit using name or number
+        /// Get the option from user to edit using name and number.
         /// </summary>
-        /// <returns>returns the optoin selected by the user</returns>
+        /// <returns>Returns the option selected by the user</returns>
         public string? GetFieldNameToEdit()
         {
             this._consoleActivity.ClearConsole();
@@ -430,9 +445,9 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// choose name or number
+        /// Show option available for searching (name and number).
         /// </summary>
-        /// <returns>return the whether name=1 or number=2</returns>
+        /// <returns>Return 1 or 2 as string</returns>
         public string? ChooseNameOrNumber()
         {
             this._consoleActivity.PrintInConsole("Select method to search: ");
@@ -443,7 +458,7 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// contact update status success
+        /// Show contact update status success.
         /// </summary>
         public void ContactUpdateSuccess()
         {
@@ -452,9 +467,9 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// contact update status failed
+        /// Show contact update status failed.
         /// </summary>
-        /// <param name="field">the field that get failed to update</param>
+        /// <param name="field">The field that get failed to update</param>
         public void ContactUpdateFailed(string? field)
         {
             this._consoleActivity.PrintInConsole($"Invalid {field}!!");

@@ -10,14 +10,14 @@ using Assignment1.Services;
 namespace Assignment1.Persistence
 {
     /// <summary>
-    /// Repository for storing the list of ContactInfo
+    /// Provides a centralized data repository for storing, retrieving contact info entities
     /// </summary>
     internal class Repository
     {
         private List<ContactInfo> _contacts = new List<ContactInfo>();
 
         /// <summary>
-        /// Add new contact to the _contacts
+        /// Add new contact.
         /// </summary>
         /// <param name="newContact">new contact items</param>
         /// <returns>Return whether contact added or not</returns>
@@ -33,17 +33,27 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// Return the list of contact available
+        /// Return the list of contact available.
         /// </summary>
         /// <returns>List of contact</returns>
         public List<ContactInfo> GetContact()
         {
-            // Used to list to create a new instance in the memory
-            return this._contacts.ToList();
+            List<ContactInfo> contactList = new List<ContactInfo>();
+            foreach (var contact in this._contacts)
+            {
+                ContactInfo copy = new ContactInfo();
+                copy.SetName(contact.GetName());
+                copy.SetNumber(contact.GetNumber());
+                copy.SetEmail(contact.GetEmail());
+                copy.SetNotes(contact.GetNotes());
+                contactList.Add(copy);
+            }
+
+            return contactList;
         }
 
         /// <summary>
-        /// Find the guid mapped contact
+        /// Find the guid mapped contact.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>The guid matched contact</returns>
@@ -53,9 +63,9 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// Find the contact in _contacts using name
+        /// Find the contact using name.
         /// </summary>
-        /// <param name="name">name to be searched</param>
+        /// <param name="name">Name to be searched</param>
         /// <returns>Contactinfo of the given name</returns>
         public ContactInfo? FindByName(string name)
         {
@@ -63,20 +73,20 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
-        /// Find the contact using the number
+        /// Find the contact using the number.
         /// </summary>
-        /// <param name="number">num</param>
-        /// <returns>return the contactinfo using the number</returns>
+        /// <param name="number">Number used for searching</param>
+        /// <returns>Return the contactinfo</returns>
         public ContactInfo? FindByNumber(string? number)
         {
             return this._contacts.Find(contact => string.Equals(contact.GetNumber(), number, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// Remove the contact from the _contacts
+        /// Remove the contact.
         /// </summary>
         /// <param name="contact">Contact</param>
-        /// <returns>return whether the contact removed or not</returns>
+        /// <returns>Return whether the contact removed or not</returns>
         public bool RemoveContact(ContactInfo contact)
         {
             return this._contacts.Remove(contact);

@@ -9,20 +9,20 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Assignment1
 {
     /// <summary>
-    /// Helper class for validation
+    /// Helper class for validation.
     /// </summary>
     internal class Helper
     {
         /// <summary>
-        /// method to check whether a number is valid
+        /// Validate number.
         /// </summary>
-        /// <param name="number">phone number from user</param>
-        /// <returns>true or false</returns>
+        /// <param name="number">Phone number from user</param>
+        /// <returns>Return true if valid number</returns>
         public static bool IsValidNumber(string? number)
         {
             if (number == null)
             {
-                return true;
+                return false;
             }
 
             string pattern = @"^[0-9]{10}$";
@@ -30,10 +30,10 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// Method to validate the email
+        /// Validate the email.
         /// </summary>
         /// <param name="email">user email</param>
-        /// <returns>true or false</returns>
+        /// <returns>Return true if valid email</returns>
         public static bool IsValidEmail(string? email)
         {
             if (email == null)
@@ -46,10 +46,10 @@ namespace Assignment1
         }
 
         /// <summary>
-        /// Check whether the string is null or not
+        /// Check whether the string is null or not.
         /// </summary>
-        /// <param name="content">content from the user</param>
-        /// <returns>true or false</returns>
+        /// <param name="content">Content from the user</param>
+        /// <returns>Return null or not</returns>
         public static bool IsNull(string? content)
         {
             if (content == null)

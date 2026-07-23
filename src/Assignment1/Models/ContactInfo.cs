@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment1.Models
 {
     /// <summary>
-    /// The Model of storing the contact information of the user
+    /// The Model of storing the contact information of the user.
     /// </summary>
     internal class ContactInfo
     {
@@ -18,7 +18,7 @@ namespace Assignment1.Models
             private string? _notes;
 
             /// <summary>
-            /// Set the guid for each contact
+            /// Set the guid for each contact.
             /// </summary>
             public void SetId()
             {
@@ -26,7 +26,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Return the guid
+            /// Return the guid.
             /// </summary>
             /// <returns>Id</returns>
             public Guid? GetId()
@@ -35,7 +35,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Return the name
+            /// Return the name.
             /// </summary>
             /// <returns>Return name</returns>
             public string? GetName()
@@ -44,7 +44,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Set the name of the contact in contactinfo
+            /// Set the name of the contact in contactinfo.
             /// </summary>
             /// <param name="value">name</param>
             public void SetName(string? value)
@@ -53,7 +53,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Setphone of the user in contactinfo
+            /// Setphone of the user in contactinfo.
             /// </summary>
             /// <param name="value">Number</param>
             public void SetNumber(string? value)
@@ -62,7 +62,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Get the contact number
+            /// Get the contact number.
             /// </summary>
             /// <returns>Number</returns>
             public string? GetNumber()
@@ -71,7 +71,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Set the email of the contact in contact info
+            /// Set the email of the contact in contact info.
             /// </summary>
             /// <param name="value">Email</param>
             public void SetEmail(string? value)
@@ -80,7 +80,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Return the email address
+            /// Return the email address.
             /// </summary>
             /// <returns>Return the Email</returns>
             public string? GetEmail()
@@ -89,7 +89,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Set the notes for the contact
+            /// Set the notes for the contact.
             /// </summary>
             /// <param name="value">Notes</param>
             public void SetNotes(string? value)
@@ -98,7 +98,7 @@ namespace Assignment1.Models
             }
 
             /// <summary>
-            /// Get the notes of the particular contact
+            /// Get the notes of the particular contact.
             /// </summary>
             /// <returns>notes</returns>
             public string? GetNotes()

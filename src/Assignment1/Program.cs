@@ -6,12 +6,12 @@ using Assignment1.Services;
 namespace Assignments
 {
     /// <summary>
-    /// Console Based Contact Manager
+    /// Console Based Contact Manager.
     /// </summary>
     internal class Program
     {
         /// <summary>
-        /// the entry point of the porgram main function
+        /// Main entry point of the program and start the controller.
         /// </summary>
         public static void Main()
         {
