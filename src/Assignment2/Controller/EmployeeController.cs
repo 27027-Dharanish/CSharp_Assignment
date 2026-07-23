@@ -42,6 +42,11 @@ namespace Assignment2.Controller
             /// Developer holds the value 2.
             /// </summary>
             Developer = 2,
+
+            /// <summary>
+            /// Exit from the Employee
+            /// </summary>
+            Exit = 3,
         }
 
         /// <summary>
@@ -65,13 +70,17 @@ namespace Assignment2.Controller
             string? userChoice = this._console.GetInputFromConsole("option (1 or 2)");
             if (int.TryParse(userChoice, out int userChoiceNumber))
             {
-                if (userChoiceNumber == (int)Shapes.Rectangle)
+                if (userChoiceNumber == (int)EmployeeName.Manager)
                 {
                     this.ShowManagerOption();
                 }
-                else if (userChoiceNumber == (int)Shapes.Circle)
+                else if (userChoiceNumber == (int)EmployeeName.Developer)
                 {
                     this.ShowDeveloperOption();
+                }
+                else if (userChoiceNumber == (int)EmployeeName.Exit)
+                {
+                    return;
                 }
                 else
                 {

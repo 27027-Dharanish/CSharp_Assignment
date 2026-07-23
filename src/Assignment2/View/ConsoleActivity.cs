@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,6 +64,22 @@ namespace Assignment2.View
         public void PrintInvalidField(string? field)
         {
             Console.WriteLine("Enter the valid " + field);
+        }
+
+        /// <summary>
+        /// Print empty line in console
+        /// </summary>
+        public void PrintEmptyLine()
+        {
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Print Equal breaker to make console more readable
+        /// </summary>
+        public void PrintBreaker()
+        {
+            Console.WriteLine("===============================");
         }
     }
 }
