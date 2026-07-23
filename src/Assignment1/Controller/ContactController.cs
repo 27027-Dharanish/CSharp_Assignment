@@ -432,15 +432,7 @@ namespace Assignment1.Controller
         /// <returns>Returns the option selected by the user</returns>
         public string? GetFieldNameToEdit()
         {
-            this._consoleActivity.ClearConsole();
-            this._consoleActivity.PrintEmptyLine();
-            this._consoleActivity.PrintEmptyLine();
-            this._consoleActivity.PrintInConsole("Choose the field to Edit: ");
-            this._consoleActivity.PrintInConsole("1.Name");
-            this._consoleActivity.PrintInConsole("2.PhoneNumber");
-            this._consoleActivity.PrintInConsole("3.Email");
-            this._consoleActivity.PrintInConsole("4.Notes");
-            string? contactSearchOption = this._consoleActivity.GetInputFromUser("Option");
+            string? contactSearchOption = this._consoleActivity.GetInputFromUserChooseField();
             return contactSearchOption;
         }
 
@@ -450,10 +442,7 @@ namespace Assignment1.Controller
         /// <returns>Return 1 or 2 as string</returns>
         public string? ChooseNameOrNumber()
         {
-            this._consoleActivity.PrintInConsole("Select method to search: ");
-            this._consoleActivity.PrintInConsole("1.By name");
-            this._consoleActivity.PrintInConsole("2.By number");
-            string? choiceSearch = this._consoleActivity.GetInputFromUser("Option ( 1 or 2 )");
+            string? choiceSearch = this._consoleActivity.GetInputFromUserChooseNameOrNumber();
             return choiceSearch;
         }
 

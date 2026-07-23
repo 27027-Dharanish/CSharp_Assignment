@@ -85,5 +85,36 @@ namespace Assignment1.Services
             Console.WriteLine("Press any key to continue!!");
             Console.ReadKey();
         }
+
+        /// <summary>
+        /// Get Input from the user choose field
+        /// </summary>
+        /// <returns>Return the field choosed</returns>
+        public string? GetInputFromUserChooseField()
+        {
+            this.ClearConsole();
+            this.PrintEmptyLine();
+            this.PrintEmptyLine();
+            this.PrintInConsole("Choose the field to Edit: ");
+            this.PrintInConsole("1.Name");
+            this.PrintInConsole("2.PhoneNumber");
+            this.PrintInConsole("3.Email");
+            this.PrintInConsole("4.Notes");
+            string? contactSearchOption = this.GetInputFromUser("Option");
+            return contactSearchOption;
+        }
+
+        /// <summary>
+        /// Get input from console choose name or number option
+        /// </summary>
+        /// <returns>Return choosed field</returns>
+        public string? GetInputFromUserChooseNameOrNumber()
+        {
+            this.PrintInConsole("Select method to search: ");
+            this.PrintInConsole("1.By name");
+            this.PrintInConsole("2.By number");
+            string? choiceSearch = this.GetInputFromUser("Option ( 1 or 2 )");
+            return choiceSearch;
+        }
     }
 }
