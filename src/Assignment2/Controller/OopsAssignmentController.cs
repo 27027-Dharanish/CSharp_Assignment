@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Controller;
 using Assignment2.Model;
 using Assignment2.Service.Banking;
 using Assignment2.View;
@@ -11,40 +6,30 @@ using Assignment2.View;
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Manages view and service for employee, shape and banking application selection
+    /// Manages view and service for employee, shape and banking application selection.
     /// </summary>
-    internal class OopsAssignmentController
+    public class OopsAssignmentController
     {
-        private ConsoleActivity _console = new ConsoleActivity();
+        private ConsoleActivity _console;
+        private ShapeController _shape;
+        private EmployeeController _employee;
+        private BankingService _bankService;
+        private BankController _bankController;
 
         /// <summary>
-        /// List of assignment(Task) and constant for it
+        /// Initializes a new instance of the <see cref="OopsAssignmentController"/> class.
         /// </summary>
-        public enum AssignmentConstant
+        public OopsAssignmentController()
         {
-            /// <summary>
-            /// Assignment Shape Hierarchy
-            /// </summary>
-            Shape = 1,
-
-            /// <summary>
-            /// Assignment Employee Hierarchy
-            /// </summary>
-            Employee = 2,
-
-            /// <summary>
-            /// Assignment Bank system
-            /// </summary>
-            Bank = 3,
-
-            /// <summary>
-            /// Exit from assignment
-            /// </summary>
-            Exit = 4,
+            this._console = new ConsoleActivity();
+            this._shape = new ShapeController(this._console);
+            this._employee = new EmployeeController(this._console);
+            this._bankService = new BankingService();
+            this._bankController = new BankController(this._console, this._bankService);
         }
 
         /// <summary>
-        /// Start the assignment function
+        /// Start the assignment function.
         /// </summary>
         public void StartAssignmentFunction()
         {
@@ -52,9 +37,9 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the available assignment in the console
+        /// Show the available assignment in the console.
         /// </summary>
-        public void ShowAssignmentAvailable()
+        private void ShowAssignmentAvailable()
         {
             int userChoiceNumber;
             do
@@ -73,17 +58,17 @@ namespace Assignment2.Controller
                 userChoiceNumber = userChoice;
                 switch (userChoice)
                 {
-                    case (int)AssignmentConstant.Shape:
+                    case (int)Enums.AssignmentConstant.Shape:
                         this.ShapeAssignment();
                         break;
-                    case (int)AssignmentConstant.Employee:
+                    case (int)Enums.AssignmentConstant.Employee:
                         this.EmployeeAssignment();
                         break;
-                    case (int)AssignmentConstant.Bank:
+                    case (int)Enums.AssignmentConstant.Bank:
                         this.BankAssignment();
                         break;
-                    case (int)AssignmentConstant.Exit:
-                        // this case is just to escape from default case when user select Exit option
+                    case (int)Enums.AssignmentConstant.Exit:
+                        // this case is just to escape from default case when user select Exit option.
                         break;
                     default:
                         this._console.PrintInvalid();
@@ -91,37 +76,33 @@ namespace Assignment2.Controller
                         break;
                 }
             }
-            while (userChoiceNumber != (int)AssignmentConstant.Exit);
+            while (userChoiceNumber != (int)Enums.AssignmentConstant.Exit);
         }
 
         /// <summary>
-        /// Start the Shape Hierarchy controller
+        /// Start the Shape Hierarchy controller.
         /// </summary>
-        public void ShapeAssignment()
+        private void ShapeAssignment()
         {
-            ShapeController shape = new ShapeController(this._console);
-            shape.StartShapeContorller();
+            this._shape.StartShapeContorller();
             this.ShowAssignmentAvailable();
         }
 
         /// <summary>
         /// Start the Employee Hierarchy controller
         /// </summary>
-        public void EmployeeAssignment()
+        private void EmployeeAssignment()
         {
-            EmployeeController employee = new EmployeeController(this._console);
-            employee.StartEmployeeContorller();
+            this._employee.StartEmployeeContorller();
             this.ShowAssignmentAvailable();
         }
 
         /// <summary>
         /// Start the banking system controller
         /// </summary>
-        public void BankAssignment()
+        private void BankAssignment()
         {
-            BankingService service = new BankingService();
-            BankController controller = new BankController(this._console, service);
-            controller.StartBankController();
+            this._bankController.StartBankController();
             this.ShowAssignmentAvailable();
         }
     }

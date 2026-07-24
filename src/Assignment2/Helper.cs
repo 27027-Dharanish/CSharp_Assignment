@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model.BankingModels;
+﻿using Assignment2.Model.BankingModels;
 
 namespace Assignment2
 {
     /// <summary>
-    /// Helper class for Banking application.
+    /// Helper class for application.
     /// </summary>
-    internal static class BankingHelper
+    public static class Helper
     {
         /// <summary>
         /// Check whether the string is empty or not.
@@ -40,6 +35,21 @@ namespace Assignment2
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Check whether the string is digit or not.
+        /// </summary>
+        /// <param name="input">The input string to be checked</param>
+        /// <returns>Return whether the input is gigit or not</returns>
+        public static bool IsNotDigit(string? input)
+        {
+            if (input == null)
+            {
+                return false;
+            }
+
+            return !input.All(char.IsDigit);
         }
     }
 }

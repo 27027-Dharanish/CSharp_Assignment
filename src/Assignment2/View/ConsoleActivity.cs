@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.View
+﻿namespace Assignment2.View
 {
     /// <summary>
     /// Handle User input and output via console.
     /// </summary>
-    internal class ConsoleActivity
+    public class ConsoleActivity
     {
         /// <summary>
         /// Print the data in the console.
@@ -79,7 +72,7 @@ namespace Assignment2.View
         /// </summary>
         public void PrintBreaker()
         {
-            Console.WriteLine("===============================");
+            Console.WriteLine(new string('=', 15));
         }
     }
 }

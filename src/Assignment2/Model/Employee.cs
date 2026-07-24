@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model
+﻿namespace Assignment2.Model
 {
     /// <summary>
     /// Represents a Employee model that provides basic operations.
     /// </summary>
-    internal abstract class Employee
+    public abstract class Employee
     {
         /// <summary>
         /// Gets or sets the name.

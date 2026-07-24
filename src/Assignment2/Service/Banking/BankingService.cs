@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model.BankingModels;
+﻿using Assignment2.Model.BankingModels;
 
 namespace Assignment2.Service.Banking
 {
     /// <summary>
     /// Provides core business logic for managing bank accounts, processing transactions, and interacting with the account repository.
     /// </summary>
-    internal class BankingService
+    public class BankingService
     {
         private static int _accountNumberInitializer;
         private string? _accountNumberEmpty = "NAN";
@@ -35,9 +30,9 @@ namespace Assignment2.Service.Banking
             string? newAccountNumber = _accountNumberInitializer.ToString();
             SavingsAccount newAccount = new SavingsAccount(newAccountNumber, accountHolderName);
             bool isAccountCreated = this._accounts.AddNewAccount(newAccount);
-            if (initialAmount <= 10000)
+            if (initialAmount <= SavingsAccount.MinimumBalance)
             {
-                return ("The balance must be greater than 10000 !! Account not created", this._accountNumberEmpty);
+                return ($"The balance must be greater than {SavingsAccount.MinimumBalance} !! Account not created", this._accountNumberEmpty);
             }
             else if (isAccountCreated)
             {

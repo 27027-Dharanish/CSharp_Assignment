@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 
 namespace Assignment2.Service.Shapes
 {
     /// <summary>
     /// Coordinate the business logic for the circle.
     /// </summary>
-    internal class Circle : Shape
+    public class Circle : Shape
     {
         private const double PIE = 3.14159265359;
 

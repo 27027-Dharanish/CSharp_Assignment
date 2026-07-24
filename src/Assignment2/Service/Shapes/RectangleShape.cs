@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 
 namespace Assignment2.Service.Shapes
 {
     /// <summary>
     /// Coordinates the business logic for rectangle shapes.
     /// </summary>
-    internal class RectangleShape : Shape
+    public class RectangleShape : Shape
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RectangleShape"/> class.

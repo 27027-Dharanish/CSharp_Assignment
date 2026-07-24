@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model.BankingModels
+﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
     /// Represents a Saving account model that provides standard deposit and withdrawal operations.
     /// </summary>
-    internal class SavingsAccount : BankAccount
+    public class SavingsAccount : BankAccount
     {
+        /// <summary>
+        /// Minimum balance for the saving account.
+        /// </summary>
+        public static readonly int MinimumBalance = 10000;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SavingsAccount"/> class.
         /// </summary>
@@ -19,15 +18,6 @@ namespace Assignment2.Model.BankingModels
         public SavingsAccount(string? accountNumber, string? accountHolderName)
             : base(accountNumber, accountHolderName)
         {
-        }
-
-        /// <summary>
-        /// Deposit amount into saving account
-        /// </summary>
-        /// <param name="amount">Amount to be deposited</param>
-        public override void Deposit(decimal amount)
-        {
-            this.Balance += amount;
         }
 
         /// <summary>

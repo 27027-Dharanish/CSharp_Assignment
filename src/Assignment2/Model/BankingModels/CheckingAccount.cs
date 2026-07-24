@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model.BankingModels
+﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
     /// Represents a checking account model that provides standard deposit and withdrawal operations.
     /// </summary>
-    internal class CheckingAccount : BankAccount
+    public class CheckingAccount : BankAccount
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckingAccount"/> class.
@@ -19,15 +13,6 @@ namespace Assignment2.Model.BankingModels
         public CheckingAccount(string? accountNumber, string? accountHolderName)
             : base(accountNumber, accountHolderName)
         {
-        }
-
-        /// <summary>
-        /// Deposit the amount in checking account.
-        /// </summary>
-        /// <param name="amount">Amount to be deposited</param>
-        public override void Deposit(decimal amount)
-        {
-            this.Balance += amount;
         }
 
         /// <summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assignment2.Model;
 using Assignment2.Model.BankingModels;
 using Assignment2.Service.Banking;
 using Assignment2.View;
@@ -10,12 +6,12 @@ using Assignment2.View;
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Controll and coordinate action in banking system from view to service.
+    /// Control and coordinate action in banking system from view to service.
     /// </summary>
-    internal class BankController
+    public class BankController
     {
-        private ConsoleActivity _console;
-        private BankingService _bankingService;
+        private readonly ConsoleActivity _console;
+        private readonly BankingService _bankingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankController"/> class.
@@ -29,74 +25,6 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Specifies the operation available in Bank Operation.
-        /// </summary>
-        public enum BankOperation
-        {
-            /// <summary>
-            /// Represent creating new account.
-            /// </summary>
-            CreateNewAccount = 1,
-
-            /// <summary>
-            /// Represent Loggin in to existing account.
-            /// </summary>
-            LogIn = 2,
-
-            /// <summary>
-            /// Represent exit from the bank operation.
-            /// </summary>
-            Exit = 3,
-        }
-
-        /// <summary>
-        /// Specifies the Constant for creating new account.
-        /// </summary>
-        public enum AccountType
-        {
-            /// <summary>
-            /// Represent Saving account.
-            /// </summary>
-            SavingAccount = 1,
-
-            /// <summary>
-            /// Represent Log in to existing account.
-            /// </summary>
-            CheckingAccount = 2,
-
-            /// <summary>
-            /// Represent Exit from the bank operation.
-            /// </summary>
-            Exit = 3,
-        }
-
-        /// <summary>
-        /// Specifies the Constant for banking operation after log in.
-        /// </summary>
-        public enum BankLogInOption
-        {
-            /// <summary>
-            /// Represent check balance.
-            /// </summary>
-            CheckBalance = 1,
-
-            /// <summary>
-            /// Represent Withdraw amount from account.
-            /// </summary>
-            Withdraw = 2,
-
-            /// <summary>
-            /// Represent Deposit amount from account.
-            /// </summary>
-            Deposit = 3,
-
-            /// <summary>
-            /// Represent Exit from log in page.
-            /// </summary>
-            Exit = 4,
-        }
-
-        /// <summary>
         /// Starts the execution flow for the Banking system.
         /// </summary>
         public void StartBankController()
@@ -105,9 +33,9 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Shows the operation available in bank operation.
+        /// Shows the operation available in banking system.
         /// </summary>
-        public void ShowBankOption()
+        private void ShowBankOption()
         {
             int userChoiceNumber;
             do
@@ -124,13 +52,13 @@ namespace Assignment2.Controller
                 int.TryParse(userChoice, out userChoiceNumber);
                 switch (userChoiceNumber)
                 {
-                    case (int)BankOperation.CreateNewAccount:
+                    case (int)Enums.BankOperation.CreateNewAccount:
                         this.CreateNewAccountOption();
                         break;
-                    case (int)BankOperation.LogIn:
+                    case (int)Enums.BankOperation.LogIn:
                         this.LogInAccount();
                         break;
-                    case (int)BankOperation.Exit:
+                    case (int)Enums.BankOperation.Exit:
                         return;
                     default:
                         this._console.PrintInvalid();
@@ -138,13 +66,13 @@ namespace Assignment2.Controller
                         break;
                 }
             }
-            while (userChoiceNumber != (int)BankOperation.Exit);
+            while (userChoiceNumber != (int)Enums.BankOperation.Exit);
         }
 
         /// <summary>
         /// Shows Option available in creating new account.
         /// </summary>
-        public void CreateNewAccountOption()
+        private void CreateNewAccountOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Account Creation!!");
@@ -156,15 +84,15 @@ namespace Assignment2.Controller
             this._console.PrintEmptyLine();
             string? accountType = this._console.GetInputFromConsole("Account type");
             int.TryParse(accountType, out int userChoiceNumber);
-            if (userChoiceNumber == (int)AccountType.SavingAccount)
+            if (userChoiceNumber == (int)Enums.AccountType.SavingAccount)
             {
                 this.CreateNewSavingAccount();
             }
-            else if (userChoiceNumber == (int)AccountType.CheckingAccount)
+            else if (userChoiceNumber == (int)Enums.AccountType.CheckingAccount)
             {
                 this.CreateNewCheckingAccount();
             }
-            else if (userChoiceNumber == (int)BankOperation.Exit)
+            else if (userChoiceNumber == (int)Enums.BankOperation.Exit)
             {
                 return;
             }
@@ -178,7 +106,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Create new saving account.
         /// </summary>
-        public void CreateNewSavingAccount()
+        private void CreateNewSavingAccount()
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -187,10 +115,10 @@ namespace Assignment2.Controller
             this._console.PrintBreaker();
             this._console.PrintEmptyLine();
             this._console.PrintInConsole("User must add some initial amount in creating a new account");
-            this._console.PrintInConsole("Saving account : Minimum balance is Rs.10,000 ");
+            this._console.PrintInConsole($"Saving account : Minimum balance is Rs.{SavingsAccount.MinimumBalance} ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!BankingHelper.IsNotEmpty(accountHolderName))
+            if (!Helper.IsNotEmpty(accountHolderName))
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
@@ -213,7 +141,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Create new checking account.
         /// </summary>
-        public void CreateNewCheckingAccount()
+        private void CreateNewCheckingAccount()
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -225,7 +153,7 @@ namespace Assignment2.Controller
             this._console.PrintInConsole("Checking account : Minimum balance is Rs 0.0 ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!BankingHelper.IsNotEmpty(accountHolderName))
+            if (!Helper.IsNotEmpty(accountHolderName))
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
@@ -250,7 +178,7 @@ namespace Assignment2.Controller
         /// </summary>
         /// <param name="accountStatus">Account status</param>
         /// <param name="accountNumber">New account number for user</param>
-        public void PrintNewAccountDetails(string? accountStatus, string? accountNumber)
+        private void PrintNewAccountDetails(string? accountStatus, string? accountNumber)
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -263,7 +191,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Log in to existing account.
         /// </summary>
-        public void LogInAccount()
+        private void LogInAccount()
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -291,7 +219,7 @@ namespace Assignment2.Controller
         /// Option to be showed when user log in successfully.
         /// </summary>
         /// <param name="accountNumber">Account number from user</param>
-        public void ShowLogInUserOption(string? accountNumber)
+        private void ShowLogInUserOption(string? accountNumber)
         {
             BankAccount? bankAccount = this._bankingService.GetBankAccount(accountNumber);
             if (bankAccount == null)
@@ -317,16 +245,16 @@ namespace Assignment2.Controller
                 int.TryParse(userInput, out userChoice);
                 switch (userChoice)
                 {
-                    case (int)BankLogInOption.CheckBalance:
+                    case (int)Enums.BankLogInOption.CheckBalance:
                         this.CheckBalanceOption(accountNumber);
                         break;
-                    case (int)BankLogInOption.Withdraw:
+                    case (int)Enums.BankLogInOption.Withdraw:
                         this.WithdrawAmountOption(accountNumber);
                         break;
-                    case (int)BankLogInOption.Deposit:
+                    case (int)Enums.BankLogInOption.Deposit:
                         this.DepositAmountOption(accountNumber);
                         break;
-                    case (int)BankLogInOption.Exit:
+                    case (int)Enums.BankLogInOption.Exit:
                         // this case is just to escape from printing default
                         break;
                     default:
@@ -335,14 +263,14 @@ namespace Assignment2.Controller
                         break;
                 }
             }
-            while (userChoice != (int)BankLogInOption.Exit);
+            while (userChoice != (int)Enums.BankLogInOption.Exit);
         }
 
         /// <summary>
         /// Print the balance of the account.
         /// </summary>
         /// <param name="accountNumber">Account number given by user</param>
-        public void CheckBalanceOption(string? accountNumber)
+        private void CheckBalanceOption(string? accountNumber)
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -354,7 +282,7 @@ namespace Assignment2.Controller
         /// Handle deposit option.
         /// </summary>
         /// <param name="accountNumber">Account number to be deposited</param>
-        public void DepositAmountOption(string? accountNumber)
+        private void DepositAmountOption(string? accountNumber)
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
@@ -377,7 +305,7 @@ namespace Assignment2.Controller
         /// Handle withdraw option.
         /// </summary>
         /// <param name="accountNumber">Account number to be deposited</param>
-        public void WithdrawAmountOption(string? accountNumber)
+        private void WithdrawAmountOption(string? accountNumber)
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();

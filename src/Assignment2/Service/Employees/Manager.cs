@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 
 namespace Assignment2.Service.Employees
 {
     /// <summary>
     /// Represents a Manager employee role with specific bonus calculation logic.
     /// </summary>
-    internal class Manager : Employee
+    public class Manager : Employee
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Manager"/> class.

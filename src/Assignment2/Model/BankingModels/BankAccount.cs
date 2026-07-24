@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model.BankingModels
+﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
     /// Serves as the base abstract class for defining core bank account attributes and behavioral blueprints.
     /// </summary>
-    internal abstract class BankAccount
+    public abstract class BankAccount
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BankAccount"/> class.
@@ -50,7 +44,10 @@ namespace Assignment2.Model.BankingModels
         /// Deposit the amount.
         /// </summary>
         /// <param name="amount">Amount from the user</param>
-        public abstract void Deposit(decimal amount);
+        public void Deposit(decimal amount)
+        {
+            this.Balance += amount;
+        }
 
         /// <summary>
         /// Withdraw the amount.

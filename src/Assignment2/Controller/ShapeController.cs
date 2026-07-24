@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 using Assignment2.Service.Shapes;
 using Assignment2.View;
 
@@ -13,7 +7,7 @@ namespace Assignment2.Controller
     /// <summary>
     /// Manages Shape Hierarchy, connect view and shape service.
     /// </summary>
-    internal class ShapeController
+    public class ShapeController
     {
         private ConsoleActivity _console;
 
@@ -27,22 +21,6 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Specifies the the shape available.
-        /// </summary>
-        public enum Shapes
-        {
-            /// <summary>
-            /// Represents the rectangle.
-            /// </summary>
-            Rectangle = 1,
-
-            /// <summary>
-            /// Represents the circle.
-            /// </summary>
-            Circle = 2,
-        }
-
-        /// <summary>
         /// Start the shape controller.
         /// </summary>
         public void StartShapeContorller()
@@ -53,7 +31,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in the shapes.
         /// </summary>
-        public void ShowShapeOption()
+        private void ShowShapeOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Create new :");
@@ -63,11 +41,11 @@ namespace Assignment2.Controller
             string? userChoice = this._console.GetInputFromConsole("option (1 or 2)");
             if (int.TryParse(userChoice, out int userChoiceNumber))
             {
-                if (userChoiceNumber == (int)Shapes.Rectangle)
+                if (userChoiceNumber == (int)Enums.Shapes.Rectangle)
                 {
                     this.ShowRectangleOption();
                 }
-                else if (userChoiceNumber == (int)Shapes.Circle)
+                else if (userChoiceNumber == (int)Enums.Shapes.Circle)
                 {
                     this.ShowCircleOption();
                 }
@@ -87,15 +65,22 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in the rectangle.
         /// </summary>
-        public void ShowRectangleOption()
+        private void ShowRectangleOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Rectangle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the rectangle");
+            if (!Helper.IsNotDigit(color))
+            {
+                this._console.PrintInvalid();
+                this._console.WaitInConsole();
+                return;
+            }
+
             RectangleShape rectangle = new (color);
-            string? lengthIp = this._console.GetInputFromConsole("Length");
-            string? widthIp = this._console.GetInputFromConsole("Width");
-            if (int.TryParse(lengthIp, out int lengthNumber) && double.TryParse(widthIp, out double widthNumber))
+            string? lengthInput = this._console.GetInputFromConsole("Length");
+            string? widthInput = this._console.GetInputFromConsole("Width");
+            if (double.TryParse(lengthInput, out double lengthNumber) && double.TryParse(widthInput, out double widthNumber))
             {
                 rectangle.CalculateArea(lengthNumber, widthNumber);
                 var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
@@ -114,14 +99,20 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in circle.
         /// </summary>
-        public void ShowCircleOption()
+        private void ShowCircleOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Circle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the circle");
+            if (!Helper.IsNotDigit(color))
+            {
+                this._console.PrintInvalid();
+                this._console.WaitInConsole();
+                return;
+            }
             Circle circle = new (color);
             string? radiusIp = this._console.GetInputFromConsole("Radius");
-            if (int.TryParse(radiusIp, out int radiusNumber))
+            if (double.TryParse(radiusIp, out double radiusNumber))
             {
                 circle.CalculateArea(radiusNumber);
                 var (circleColor, circleArea) = circle.PrintDetails();

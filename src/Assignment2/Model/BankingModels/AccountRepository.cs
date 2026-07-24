@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model.BankingModels
+﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
     /// Holds all the account in the BankAccount.
     /// </summary>
-    internal class AccountRepository
+    public class AccountRepository
     {
         private readonly List<BankAccount> _bankAccounts = new ();
 

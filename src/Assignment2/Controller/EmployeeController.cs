@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assignment2.Model;
 using Assignment2.Service.Employees;
-using Assignment2.Service.Shapes;
 using Assignment2.View;
-using static Assignment2.Controller.ShapeController;
 
 namespace Assignment2.Controller
 {
     /// <summary>
     /// Manages Employee Hierarchy, connect view and Employee service.
     /// </summary>
-    internal class EmployeeController
+    public class EmployeeController
     {
         private readonly ConsoleActivity _console;
 
@@ -28,27 +21,6 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Specifies the Employee role.
-        /// </summary>
-        public enum EmployeeName
-        {
-            /// <summary>
-            /// Represents a manager.
-            /// </summary>
-            Manager = 1,
-
-            /// <summary>
-            /// Represents a technical developer.
-            /// </summary>
-            Developer = 2,
-
-            /// <summary>
-            /// Exit from the Employee controller.
-            /// </summary>
-            Exit = 3,
-        }
-
-        /// <summary>
         /// Starts the execution flow for the Employee Hierarchy.
         /// </summary>
         public void StartEmployeeContorller()
@@ -59,7 +31,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in the Employee Hierarchy.
         /// </summary>
-        public void ShowEmployeeOption()
+        private void ShowEmployeeOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Create new Employee Profile:");
@@ -69,15 +41,15 @@ namespace Assignment2.Controller
             string? userChoice = this._console.GetInputFromConsole("option");
             if (int.TryParse(userChoice, out int userChoiceNumber))
             {
-                if (userChoiceNumber == (int)EmployeeName.Manager)
+                if (userChoiceNumber == (int)Enums.EmployeeName.Manager)
                 {
                     this.ShowManagerOption();
                 }
-                else if (userChoiceNumber == (int)EmployeeName.Developer)
+                else if (userChoiceNumber == (int)Enums.EmployeeName.Developer)
                 {
                     this.ShowDeveloperOption();
                 }
-                else if (userChoiceNumber == (int)EmployeeName.Exit)
+                else if (userChoiceNumber == (int)Enums.EmployeeName.Exit)
                 {
                     return;
                 }
@@ -97,12 +69,12 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in the Manager.
         /// </summary>
-        public void ShowManagerOption()
+        private void ShowManagerOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Manager Operations:");
             string? name = this._console.GetInputFromConsole("name of the manager");
-            if (name == string.Empty)
+            if ((name == string.Empty || name == null) && Helper.IsNotDigit(name))
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
@@ -110,7 +82,7 @@ namespace Assignment2.Controller
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (salary == string.Empty)
+            if (salary == string.Empty || salary == null)
             {
                 this._console.PrintInvalidField("salary");
                 this._console.WaitInConsole();
@@ -137,12 +109,12 @@ namespace Assignment2.Controller
         /// <summary>
         /// Show the option available in the Developer.
         /// </summary>
-        public void ShowDeveloperOption()
+        private void ShowDeveloperOption()
         {
             this._console.ClearConsole();
             this._console.PrintInConsole("Developer Operations:");
             string? name = this._console.GetInputFromConsole("name of the developer");
-            if (name == string.Empty)
+            if ((name == string.Empty || name == null) && Helper.IsNotDigit(name))
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
@@ -150,7 +122,7 @@ namespace Assignment2.Controller
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (salary == string.Empty)
+            if (salary == string.Empty || salary == null)
             {
                 this._console.PrintInvalidField("salary");
                 this._console.WaitInConsole();
@@ -181,7 +153,7 @@ namespace Assignment2.Controller
         /// <param name="salary">Salary of the employee</param>
         /// <param name="bonus">Bonus of the employee</param>
         /// <param name="employeePosition">Employee position</param>e
-        public void PrintEmployeeInformation(string? name, decimal salary, decimal bonus, string? employeePosition)
+        private void PrintEmployeeInformation(string? name, decimal salary, decimal bonus, string? employeePosition)
         {
             this._console.PrintInConsole($"Name of the {employeePosition} : {name}");
             this._console.PrintInConsole($"Salary of the {employeePosition} : {salary}");

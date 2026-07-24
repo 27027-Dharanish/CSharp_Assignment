@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment2.Model
+﻿namespace Assignment2.Model
 {
     /// <summary>
     /// Represents a shape model that provides basic operations.
     /// </summary>
-    internal abstract class Shape
+    public abstract class Shape
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape"/> class.
