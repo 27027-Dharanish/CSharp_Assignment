@@ -14,7 +14,7 @@ namespace Assignment2
         /// <returns>Return whether the string is empty or not</returns>
         public static bool IsNotEmpty(string? content)
         {
-            if (content == string.Empty)
+            if (string.IsNullOrWhiteSpace(content))
             {
                 return false;
             }

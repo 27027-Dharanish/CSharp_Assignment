@@ -122,6 +122,7 @@ namespace Assignment2.Controller
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
+                return;
             }
 
             string? amountString = this._console.GetInputFromConsole("initial amount to be added in account");
@@ -157,6 +158,7 @@ namespace Assignment2.Controller
             {
                 this._console.PrintInvalidField("name");
                 this._console.WaitInConsole();
+                return;
             }
 
             string? amountString = this._console.GetInputFromConsole("initial amount");

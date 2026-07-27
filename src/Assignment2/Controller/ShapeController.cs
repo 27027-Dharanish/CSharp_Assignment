@@ -70,7 +70,7 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Rectangle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the rectangle");
-            if (!Helper.IsNotDigit(color))
+            if (!Helper.IsNotDigit(color) || string.IsNullOrWhiteSpace(color))
             {
                 this._console.PrintInvalid();
                 this._console.WaitInConsole();
@@ -104,12 +104,13 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Circle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the circle");
-            if (!Helper.IsNotDigit(color))
+            if (!Helper.IsNotDigit(color) || string.IsNullOrWhiteSpace(color))
             {
                 this._console.PrintInvalid();
                 this._console.WaitInConsole();
                 return;
             }
+
             Circle circle = new (color);
             string? radiusIp = this._console.GetInputFromConsole("Radius");
             if (double.TryParse(radiusIp, out double radiusNumber))
