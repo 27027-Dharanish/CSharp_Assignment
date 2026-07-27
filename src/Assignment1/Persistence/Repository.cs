@@ -83,6 +83,38 @@ namespace Assignment1.Persistence
         }
 
         /// <summary>
+        /// Check if the name already present in contact list.
+        /// </summary>
+        /// <param name="name">Name to be searched</param>
+        /// <returns>Return true if name exist</returns>
+        public bool CheckIfNameExist(string? name)
+        {
+            ContactInfo? contact = this._contacts.Find(contact => string.Equals(name, contact.GetName(), StringComparison.OrdinalIgnoreCase));
+            if (contact != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if the number already present in contact list.
+        /// </summary>
+        /// <param name="number">Number to be searched</param>
+        /// <returns>Return true if number exist</returns>
+        public bool CheckIfNumberExist(string? number)
+        {
+            ContactInfo? contact = this._contacts.Find(contact => string.Equals(number, contact.GetNumber(), StringComparison.OrdinalIgnoreCase));
+            if (contact != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Remove the contact.
         /// </summary>
         /// <param name="contact">Contact</param>
@@ -90,6 +122,15 @@ namespace Assignment1.Persistence
         public bool RemoveContact(ContactInfo contact)
         {
             return this._contacts.Remove(contact);
+        }
+
+        /// <summary>
+        /// Get the count of contact.
+        /// </summary>
+        /// <returns>Count of contact</returns>
+        public int GetContactCount()
+        {
+            return this._contacts.Count;
         }
     }
 }

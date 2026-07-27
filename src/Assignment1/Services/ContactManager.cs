@@ -135,5 +135,39 @@ namespace Assignment1.Services
                 return false;
             }
         }
+
+        /// <summary>
+        /// Check whether the contact is empty or not.
+        /// </summary>
+        /// <returns>Return true if contact is empty or false</returns>
+        public bool IsContactEmpty()
+        {
+            if (this._repo.GetContactCount() == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if the name already present in contact list.
+        /// </summary>
+        /// <param name="name">name to be searched</param>
+        /// <returns>Return true if name exist</returns>
+        public bool IsNamePresent(string? name)
+        {
+            return this._repo.CheckIfNameExist(name);
+        }
+
+        /// <summary>
+        /// Check if the number already present in contact list.
+        /// </summary>
+        /// <param name="number">Number to be searched</param>
+        /// <returns>Return true if number exist</returns>
+        public bool IsNumberPresent(string? number)
+        {
+            return this._repo.CheckIfNumberExist(number);
+        }
     }
 }

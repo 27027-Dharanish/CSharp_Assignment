@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Assignment1.Models;
 using Assignment1.Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment1.Controller
 {
@@ -127,7 +130,7 @@ namespace Assignment1.Controller
                         break;
                     case "u":
                     case "U":
-                        this.ChooseEditContact();
+                        this.EditContactByNameOrNumber();
                         break;
 
                     case "D":
@@ -158,9 +161,15 @@ namespace Assignment1.Controller
             this._consoleActivity.ClearConsole();
             this._consoleActivity.PrintInConsole("New Contact Adding:");
             string? name = this._consoleActivity.GetInputFromUser("name");
-            if (Helper.IsNull(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 this._consoleActivity.PrintInConsole("Name cannot be Empty!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+            else if (this._service.IsNamePresent(name))
+            {
+                this._consoleActivity.PrintInConsole("Name already present in contact!!");
                 this._consoleActivity.WaitInConsole();
                 return;
             }
@@ -172,10 +181,15 @@ namespace Assignment1.Controller
                 this._consoleActivity.WaitInConsole();
                 return;
             }
-
-            if (!Helper.IsValidNumber(number))
+            else if (!Helper.IsValidNumber(number))
             {
                 this._consoleActivity.PrintInConsole("Invalid Number!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+            else if (this._service.IsNumberPresent(number))
+            {
+                this._consoleActivity.PrintInConsole("Number already present in contact!!");
                 this._consoleActivity.WaitInConsole();
                 return;
             }
@@ -255,6 +269,13 @@ namespace Assignment1.Controller
         /// </summary>
         public void SearhContactHandler()
         {
+            if (this._service.IsContactEmpty())
+            {
+                this._consoleActivity.PrintInConsole("!!No Contact found!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+
             string? choiceSearch = this.ChooseNameOrNumber();
             if (int.TryParse(choiceSearch, out var choiceNumber))
             {
@@ -281,6 +302,13 @@ namespace Assignment1.Controller
         /// <param name="searchOption">Says what field to use for saerch</param>
         public void SearchContactByField(string? searchOption)
         {
+            if (this._service.IsContactEmpty())
+            {
+                this._consoleActivity.PrintInConsole("!!No Contact found!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+
             ContactInfo? contact = null;
             if (searchOption == "SearchUsingName")
             {
@@ -318,9 +346,16 @@ namespace Assignment1.Controller
         /// <param name="name">Name that used to delete</param>
         public void DeleteContactUsingName()
         {
+            if (this._service.IsContactEmpty())
+            {
+                this._consoleActivity.PrintInConsole("!!No Contact found!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+
             this._consoleActivity.PrintInConsole("Deletion of contact using Name!!");
             string? name = this._consoleActivity.GetInputFromUser("name to Delete");
-            if (this._service.DeleteContact(name) && name == string.Empty)
+            if (this._service.DeleteContact(name) && !string.IsNullOrWhiteSpace(name))
             {
                 this._consoleActivity.PrintInConsole("Contact deleted successfully!!");
                 this._consoleActivity.WaitInConsole();
@@ -335,8 +370,15 @@ namespace Assignment1.Controller
         /// <summary>
         /// Edit the contact using name and number.
         /// </summary>
-        public void ChooseEditContact()
+        public void EditContactByNameOrNumber()
         {
+            if (this._service.IsContactEmpty())
+            {
+                this._consoleActivity.PrintInConsole("!!No Contact found!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+
             string? choiceSearch = this.ChooseNameOrNumber();
             ContactInfo? contact = null;
             if (int.TryParse(choiceSearch, out int choiceSearchNumber))
@@ -372,15 +414,25 @@ namespace Assignment1.Controller
                 return;
             }
 
+            this._consoleActivity.ClearConsole();
+            this._consoleActivity.PrintInConsole("Contact Details to be edited:");
+            this._consoleActivity.PrintContactInConsole(contact);
             string? contactSearch = this.GetFieldNameToEdit();
             if (int.TryParse(contactSearch, out int contactSearchNumber))
             {
                 if (contactSearchNumber == (int)ContactFieldConstant.Name)
                 {
                     string? newName = this._consoleActivity.GetInputFromUser("new name");
-                    if (contact != null && this._service.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact))
+                    if (this._service.IsNamePresent(newName))
                     {
-                        this.ContactUpdateSuccess();
+                        this._consoleActivity.PrintInConsole("Name already present in contact!!");
+                        this._consoleActivity.WaitInConsole();
+                        return;
+                    }
+
+                    if (contact != null && this._service.UpdateContact(newName, contact.GetNumber(), contact.GetEmail(), contact.GetNotes(), contact) && !string.IsNullOrWhiteSpace(newName))
+                    {
+                        this.ContactUpdateSuccess(contact);
                     }
                     else
                     {
@@ -390,9 +442,16 @@ namespace Assignment1.Controller
                 else if (contactSearchNumber == (int)ContactFieldConstant.Number)
                 {
                     string? newNumber = this._consoleActivity.GetInputFromUser("new number");
+                    if (this._service.IsNumberPresent(newNumber))
+                    {
+                        this._consoleActivity.PrintInConsole("Number already present in contact!!");
+                        this._consoleActivity.WaitInConsole();
+                        return;
+                    }
+
                     if (contact != null && Helper.IsValidNumber(newNumber) && this._service.UpdateContact(contact.GetName(), newNumber, contact.GetEmail(), contact.GetNotes(), contact))
                     {
-                        this.ContactUpdateSuccess();
+                        this.ContactUpdateSuccess(contact);
                     }
                     else
                     {
@@ -404,7 +463,7 @@ namespace Assignment1.Controller
                     string? newEmail = this._consoleActivity.GetInputFromUser("new email");
                     if (contact != null && Helper.IsValidEmail(newEmail) && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), newEmail, contact.GetNotes(), contact))
                     {
-                        this.ContactUpdateSuccess();
+                        this.ContactUpdateSuccess(contact);
                     }
                     else
                     {
@@ -416,13 +475,21 @@ namespace Assignment1.Controller
                     string? newNotes = this._consoleActivity.GetInputFromUser("new notes");
                     if (contact != null && this._service.UpdateContact(contact.GetName(), contact.GetNumber(), contact.GetEmail(), newNotes, contact))
                     {
-                        this.ContactUpdateSuccess();
+                        this.ContactUpdateSuccess(contact);
+                    }
+                    else
+                    {
+                        this.ContactUpdateFailed("Notes");
                     }
                 }
                 else
                 {
-                    this.ContactUpdateFailed("Notes");
+                    this._consoleActivity.PrintInConsole("Invalid input!!");
                 }
+            }
+            else
+            {
+                this._consoleActivity.PrintInConsole("Invalid input!!");
             }
         }
 
@@ -447,12 +514,14 @@ namespace Assignment1.Controller
         }
 
         /// <summary>
-        /// Show contact update status success.
+        /// Show the contact after the contact.
         /// </summary>
-        public void ContactUpdateSuccess()
+        /// <param name="contact">Updated contact info</param>
+        public void ContactUpdateSuccess(ContactInfo contact)
         {
+            this._consoleActivity.ClearConsole();
             this._consoleActivity.PrintInConsole("Contact Updated Successfully!!");
-            this._consoleActivity.WaitInConsole();
+            this._consoleActivity.PrintContactInConsole(contact);
         }
 
         /// <summary>

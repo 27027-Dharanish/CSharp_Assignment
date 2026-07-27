@@ -92,7 +92,6 @@ namespace Assignment1.Services
         /// <returns>Return the field choosed</returns>
         public string? GetInputFromUserChooseField()
         {
-            this.ClearConsole();
             this.PrintEmptyLine();
             this.PrintEmptyLine();
             this.PrintInConsole("Choose the field to Edit: ");
