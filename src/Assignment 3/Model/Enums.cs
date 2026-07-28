@@ -36,5 +36,41 @@ namespace Assignment_3.Model
             /// </summary>
             Quantity = 4,
         }
+
+        /// <summary>
+        /// Specifies the option available in the inventory management system.
+        /// </summary>
+        public enum InventoryOption
+        {
+            /// <summary>
+            /// Represents adding new product.
+            /// </summary>
+            AddNewProduct = 1,
+
+            /// <summary>
+            /// Represents viewing all product.
+            /// </summary>
+            ViewAllProduct = 2,
+
+            /// <summary>
+            /// Represents editing inventory.
+            /// </summary>
+            EditInventory = 3,
+
+            /// <summary>
+            /// Represents searching product.
+            /// </summary>
+            SearchProduct = 4,
+
+            /// <summary>
+            /// Represents searching product.
+            /// </summary>
+            DeleteProduct = 5,
+
+            /// <summary>
+            /// Represents exit from the inventory management system.
+            /// </summary>
+            Exit = 6,
+        }
     }
 }

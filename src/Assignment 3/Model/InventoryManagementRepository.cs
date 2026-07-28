@@ -24,11 +24,10 @@ namespace Assignment_3.Model
         /// <returns>Return true if new product added or false if failed</returns>
         public bool AddNewProduct(string? id, string? name, decimal price, int quantity)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException("id");
-            }
-
+            // if (id == null)
+            // {
+            //    throw new ArgumentNullException("id");
+            // }
             Product newProduct = this.CreateNewProduct(id, name, price, quantity);
             int previousInventoryCount = this._inventoryList.Count;
             this._inventoryList.Add(newProduct);
@@ -150,7 +149,12 @@ namespace Assignment_3.Model
             return this.SearchProductByName(id);
         }
 
-        private bool CheckIfNameExist(string? name)
+        /// <summary>
+        /// Check if product name exist or not.
+        /// </summary>
+        /// <param name="name">Name of the product</param>
+        /// <returns>Return true if product name exist else false</returns>
+        public bool CheckIfNameExist(string? name)
         {
             Product? checkIfProductExist = this.SearchProductByName(name);
             if (checkIfProductExist == null)
@@ -161,7 +165,12 @@ namespace Assignment_3.Model
             return true;
         }
 
-        private bool CheckIfIdExist(string? id)
+        /// <summary>
+        /// Check if product id exist or not.
+        /// </summary>
+        /// <param name="id">Id of the product</param>
+        /// <returns>Return true of product id exist else false</returns>
+        public bool CheckIfIdExist(string? id)
         {
             Product? checkIfProductExist = this.SearchProductByProductId(id);
             if (checkIfProductExist == null)

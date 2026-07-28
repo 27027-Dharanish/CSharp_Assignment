@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assignment_3
+{
+    /// <summary>
+    /// Provides utility and supporting methods to assist with inventory management operations.
+    /// </summary>
+    internal class InventoryHelper
+    {
+        /// <summary>
+        /// Check whether the content is null or contain whitespace.
+        /// </summary>
+        /// <param name="content">Content need to be checked</param>
+        /// <returns>Return true if whitespace or null, else false</returns>
+        public static bool IsEmpty(string? content)
+        {
+            return string.IsNullOrWhiteSpace(content);
+        }
+    }
+}
