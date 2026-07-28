@@ -49,13 +49,13 @@ namespace Assignment_3.Controller
                         this.HandleViewAllProduct();
                         break;
                     case (int)Enums.InventoryOption.EditInventory:
-                        this.HandleEditproduct();
+                        this.HandleEditProduct();
                         break;
                     case (int)Enums.InventoryOption.SearchProduct:
                         this.HandleSearchProduct();
                         break;
                     case (int)Enums.InventoryOption.DeleteProduct:
-                        // this/
+                        this.HandleDeleteProduct();
                         break;
                     case (int)Enums.InventoryOption.Exit:
                         // This prevent default case from executing.
@@ -75,9 +75,17 @@ namespace Assignment_3.Controller
             ConsoleActivity.PrintInConsole("!!Add New Product in Inventory!!");
             ConsoleActivity.PrintEmptyLine();
             string? productID = ConsoleActivity.GetInputFromConsole("Product Id");
-            this.ProductIDValidator(productID);
+            if (!this.ProductIDValidator(productID))
+            {
+                this.ShowInventoryManagementOption();
+            }
+
             string? productName = ConsoleActivity.GetInputFromConsole("Product name");
-            this.ProductNameValidator(productName);
+            if (!this.ProductNameValidator(productName))
+            {
+                this.ShowInventoryManagementOption();
+            }
+
             string? productPrice = ConsoleActivity.GetInputFromConsole("Product price");
             if (!decimal.TryParse(productPrice, out decimal price))
             {
@@ -126,26 +134,132 @@ namespace Assignment_3.Controller
             ConsoleActivity.WaitInConsole();
         }
 
-        private void HandleEditproduct()
+        private void HandleEditProduct()
         {
             ConsoleActivity.ClearConsole();
             if (this.IsInventoryEmpty())
             {
                 return;
             }
+
+            ConsoleActivity.ShowSearchProductMenu("Edit");
+            string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
+            int.TryParse(userChoiceInput, out int userChoice);
+            switch (userChoice)
+            {
+                case (int)Enums.SearchUsingField.SearchUsingID:
+                    this.EditUsingProductID();
+                    break;
+                case (int)Enums.SearchUsingField.SearchUsingProductName:
+                    this.EditUsingProductName();
+                    break;
+                default:
+                    ConsoleActivity.PrintInvalidField("option");
+                    this.ShowInventoryManagementOption();
+                    break;
+            }
         }
 
-        private void HandleSearchProduct()
+        private void EditUsingProductID()
         {
-            if (this._service.InventoryCount() == 0)
+            ConsoleActivity.ClearConsole();
+            string? id = ConsoleActivity.GetInputFromConsole("product id");
+            Product? product = this._service.SearchProductUsingID(id);
+            if (product == null)
             {
-                ConsoleActivity.PrintInConsole("No Product to perform search!!");
+                ConsoleActivity.PrintInConsole("Product not found!!");
+                ConsoleActivity.WaitInConsole();
+            }
+            else
+            {
+                this.GetInputAndEditContact(product);
+            }
+        }
+
+        private void EditUsingProductName()
+        {
+            ConsoleActivity.ClearConsole();
+            string? name = ConsoleActivity.GetInputFromConsole("product Name");
+            Product? product = this._service.SearchProductUsingName(name);
+            if (product == null)
+            {
+                ConsoleActivity.PrintInConsole("Product not found!!");
+                ConsoleActivity.WaitInConsole();
+            }
+            else
+            {
+                this.GetInputAndEditContact(product);
+            }
+        }
+
+        private void GetInputAndEditContact(Product product)
+        {
+            ConsoleActivity.ShowMenuToEdit();
+            string? id = product.ProductId;
+            string? name = product.Name;
+            decimal price = product.Price;
+            int quantity = product.Quantity;
+            string? fieldToEdit = ConsoleActivity.GetInputFromConsole("field to edit");
+            int.TryParse(fieldToEdit, out int fieldNumber);
+            if (fieldNumber == (int)Enums.ProductFieldToBeEdited.Name)
+            {
+                string? newProductName = ConsoleActivity.GetInputFromConsole("new product name");
+                if (!this.ProductNameValidator(newProductName))
+                {
+                    return;
+                }
+
+                name = newProductName;
+            }
+            else if (fieldNumber == (int)Enums.ProductFieldToBeEdited.Price)
+            {
+                string? newProductPrice = ConsoleActivity.GetInputFromConsole("new product price");
+                decimal.TryParse(newProductPrice, out decimal newPrice);
+                if (!this.ProductPriceValidator(newPrice))
+                {
+                    return;
+                }
+
+                price = newPrice;
+            }
+            else if (fieldNumber == (int)Enums.ProductFieldToBeEdited.Quantity)
+            {
+                string? newQuantity = ConsoleActivity.GetInputFromConsole("new product quantity");
+                int.TryParse(newQuantity, out int productQuantity);
+                if (!this.ProductQuantityValidator(productQuantity))
+                {
+                    return;
+                }
+
+                quantity = productQuantity;
+            }
+            else
+            {
+                ConsoleActivity.PrintInConsole("Invalid Input!!");
                 ConsoleActivity.WaitInConsole();
                 return;
             }
 
+            Product? updatedProduct = this._service.EditProductById(id, name, price, quantity);
+            if (updatedProduct != null)
+            {
+                ConsoleActivity.ClearConsole();
+                ConsoleActivity.PrintInConsole("Product Updated successfully!!");
+                ConsoleActivity.PrintEmptyLine();
+                ConsoleActivity.PrintProductInConsole(updatedProduct);
+                ConsoleActivity.WaitInConsole();
+            }
+        }
+
+        private void HandleSearchProduct()
+        {
             ConsoleActivity.ClearConsole();
-            ConsoleActivity.ShowSearchProductMenu();
+            if (this.IsInventoryEmpty())
+            {
+                return;
+            }
+
+            ConsoleActivity.ShowSearchProductMenu("Search");
             string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
             int.TryParse(userChoiceInput, out int userChoice);
             switch (userChoice)
@@ -191,7 +305,6 @@ namespace Assignment_3.Controller
             {
                 ConsoleActivity.PrintInConsole("Product not found!!");
                 ConsoleActivity.WaitInConsole();
-                ConsoleActivity.WaitInConsole();
             }
             else
             {
@@ -202,71 +315,167 @@ namespace Assignment_3.Controller
             }
         }
 
-        private void ProductNameValidator(string? productName)
+        private void HandleDeleteProduct()
+        {
+            ConsoleActivity.ClearConsole();
+            if (this.IsInventoryEmpty())
+            {
+                return;
+            }
+
+            ConsoleActivity.ShowSearchProductMenu("Delete");
+            string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
+            int.TryParse(userChoiceInput, out int userChoice);
+            switch (userChoice)
+            {
+                case (int)Enums.SearchUsingField.SearchUsingID:
+                    this.DeleteUsingProductID();
+                    break;
+                case (int)Enums.SearchUsingField.SearchUsingProductName:
+                    this.DeleteUsingProductName();
+                    break;
+                default:
+                    ConsoleActivity.PrintInvalidField("option");
+                    this.ShowInventoryManagementOption();
+                    break;
+            }
+        }
+
+        private void DeleteUsingProductID()
+        {
+            ConsoleActivity.ClearConsole();
+            string? id = ConsoleActivity.GetInputFromConsole("product ID");
+            Product? product = this._service.SearchProductUsingID(id);
+            if (product == null)
+            {
+                ConsoleActivity.PrintInConsole("Product not found!!");
+                ConsoleActivity.WaitInConsole();
+            }
+            else
+            {
+                if (this._service.DeleteProductById(product.ProductId))
+                {
+                    ConsoleActivity.PrintInConsole("Contact deleted succesfully");
+                    ConsoleActivity.WaitInConsole();
+                }
+                else
+                {
+                    ConsoleActivity.PrintInConsole("Contact deletion failed");
+                    ConsoleActivity.WaitInConsole();
+                }
+            }
+        }
+
+        private void DeleteUsingProductName()
+        {
+            ConsoleActivity.ClearConsole();
+            string? name = ConsoleActivity.GetInputFromConsole("product Name");
+            Product? product = this._service.SearchProductUsingName(name);
+            if (product == null)
+            {
+                ConsoleActivity.PrintInConsole("Product not found!!");
+                ConsoleActivity.WaitInConsole();
+            }
+            else
+            {
+                if (this._service.DeleteProductByName(product.Name))
+                {
+                    ConsoleActivity.PrintInConsole("Contact deleted succesfully");
+                    ConsoleActivity.WaitInConsole();
+                }
+                else
+                {
+                    ConsoleActivity.PrintInConsole("Contact deletion failed");
+                    ConsoleActivity.WaitInConsole();
+                }
+            }
+        }
+
+        private bool ProductNameValidator(string? productName)
         {
             if (InventoryHelper.IsEmpty(productName))
             {
                 ConsoleActivity.PrintInvalidField("product Name");
-                this.ShowInventoryManagementOption();
+                return false;
             }
-            else if (this._service.IsIdAlreadyExist(productName))
+            else if (!InventoryHelper.IsOnlyChar(productName))
+            {
+                ConsoleActivity.PrintInConsole("Product name must be character!!");
+                ConsoleActivity.WaitInConsole();
+                return false;
+            }
+            else if (this._service.IsNameAlreadyExist(productName))
             {
                 ConsoleActivity.PrintDuplicateFoundInConsole(productName);
-                this.ShowInventoryManagementOption();
+                return false;
             }
+
+            return true;
         }
 
-        private void ProductIDValidator(string? productID)
+        private bool ProductIDValidator(string? productID)
         {
             if (InventoryHelper.IsEmpty(productID))
             {
                 ConsoleActivity.PrintInvalidField("product ID");
-                this.ShowInventoryManagementOption();
+                return false;
+            }
+            else if (!InventoryHelper.IsOnlyDigit(productID))
+            {
+                ConsoleActivity.PrintInConsole("Product ID must be Digit!!");
+                ConsoleActivity.WaitInConsole();
+                return false;
             }
             else if (this._service.IsIdAlreadyExist(productID))
             {
                 ConsoleActivity.PrintDuplicateFoundInConsole(productID);
-                this.ShowInventoryManagementOption();
+                return false;
             }
+
+            return true;
         }
 
-        private void ProductPriceValidator(decimal price)
+        private bool ProductPriceValidator(decimal price)
         {
             if (price >= decimal.MaxValue)
             {
                 ConsoleActivity.PrintInConsole("Price value exeeded the range...");
                 ConsoleActivity.WaitInConsole();
-                this.ShowInventoryManagementOption();
+                return false;
             }
             else if (price < 0)
             {
                 ConsoleActivity.PrintInConsole("Price cannot be negative...");
                 ConsoleActivity.WaitInConsole();
-                this.ShowInventoryManagementOption();
+                return false;
             }
+
+            return true;
         }
 
-        private void ProductQuantityValidator(int quantity)
+        private bool ProductQuantityValidator(int quantity)
         {
             if (quantity >= int.MaxValue)
             {
                 ConsoleActivity.PrintInConsole("Quantity value exeeded the range...");
                 ConsoleActivity.WaitInConsole();
-                this.ShowInventoryManagementOption();
+                return false;
             }
             else if (quantity < 0)
             {
                 ConsoleActivity.PrintInConsole("Quantity cannot be negative...");
                 ConsoleActivity.WaitInConsole();
-                this.ShowInventoryManagementOption();
+                return false;
             }
+
+            return true;
         }
 
         private bool IsInventoryEmpty()
         {
             if (this._service.InventoryCount() == 0)
             {
-                ConsoleActivity.PrintInConsole("No Product to perform search!!");
+                ConsoleActivity.PrintInConsole("No Product found!!");
                 ConsoleActivity.WaitInConsole();
                 return true;
             }

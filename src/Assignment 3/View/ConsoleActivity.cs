@@ -112,15 +112,30 @@ namespace Assignment_3.View
         /// <summary>
         /// Show the menu option available in searching of a product.
         /// </summary>
-        public static void ShowSearchProductMenu()
+        /// <param name="field">Field that uses search option</param>
+        public static void ShowSearchProductMenu(string? field)
         {
             Console.Clear();
-            Console.WriteLine("Search Product from Inventory!!");
+            Console.WriteLine($"{field} Product from Inventory!!");
             Console.WriteLine();
-            Console.WriteLine("Search Using:");
+            Console.WriteLine($"{field} Using:");
             Console.WriteLine();
             Console.WriteLine("1.Product Id");
             Console.WriteLine("2.Product Name");
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Show the menu option available in edit option.
+        /// </summary>
+        public static void ShowMenuToEdit()
+        {
+            Console.Clear();
+            Console.WriteLine("Choose the field to edit!");
+            Console.WriteLine();
+            Console.WriteLine("1.Name");
+            Console.WriteLine("2.Price");
+            Console.WriteLine("3.Quantity");
             Console.WriteLine();
         }
     }

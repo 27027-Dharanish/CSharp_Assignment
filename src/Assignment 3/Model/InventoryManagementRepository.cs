@@ -63,7 +63,7 @@ namespace Assignment_3.Model
         /// <returns>Return the product matched with the name</returns>
         public Product? SearchProductByName(string? productName, bool returnDuplicateProduct = true)
         {
-            Product? matchedProduct = this._inventoryList.Find(product => string.Equals(productName == product.Name, StringComparison.OrdinalIgnoreCase));
+            Product? matchedProduct = this._inventoryList.Find(product => string.Equals(productName, product.Name, StringComparison.OrdinalIgnoreCase));
             if (matchedProduct == null)
             {
                 return null;
@@ -102,28 +102,6 @@ namespace Assignment_3.Model
         /// <summary>
         /// Edit the product using name.
         /// </summary>
-        /// <param name="name">Name of the product</param>
-        /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Return the updated product</returns>
-        public Product? EditProductFromInventoryByName(string? name, decimal price, int quantity)
-        {
-            Product? productToBeEdit = this.SearchProductByName(name, false);
-            if (productToBeEdit == null)
-            {
-                return null;
-            }
-
-            productToBeEdit.Name = name;
-            productToBeEdit.Price = price;
-            productToBeEdit.Quantity = quantity;
-
-            return this.SearchProductByName(name);
-        }
-
-        /// <summary>
-        /// Edit the product using Id.
-        /// </summary>
         /// <param name="id">Id of the product</param>
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
@@ -137,16 +115,11 @@ namespace Assignment_3.Model
                 return null;
             }
 
-            if (this.CheckIfNameExist(name))
-            {
-                return null;
-            }
-
             productToBeEdit.Name = name;
             productToBeEdit.Price = price;
             productToBeEdit.Quantity = quantity;
 
-            return this.SearchProductByName(id);
+            return this.SearchProductByName(name);
         }
 
         /// <summary>
@@ -178,6 +151,40 @@ namespace Assignment_3.Model
                 return false;
             }
 
+            return true;
+        }
+
+        /// <summary>
+        /// Delete the product using ID.
+        /// </summary>
+        /// <param name="id">Id of the product</param>
+        /// <returns>Return true if product got deleted</returns>
+        public bool DeleteProductById(string? id)
+        {
+            Product? productToBeEdit = this.SearchProductByProductId(id, false);
+            if (productToBeEdit == null)
+            {
+                return false;
+            }
+
+            this._inventoryList.Remove(productToBeEdit);
+            return true;
+        }
+
+        /// <summary>
+        /// Delete the product using name.
+        /// </summary>
+        /// <param name="name">Id of the product</param>
+        /// <returns>Return true if product got deleted</returns>
+        public bool DeleteProductByName(string? name)
+        {
+            Product? productToBeEdit = this.SearchProductByName(name, false);
+            if (productToBeEdit == null)
+            {
+                return false;
+            }
+
+            this._inventoryList.Remove(productToBeEdit);
             return true;
         }
 

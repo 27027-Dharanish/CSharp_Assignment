@@ -20,5 +20,35 @@ namespace Assignment_3
         {
             return string.IsNullOrWhiteSpace(content);
         }
+
+        /// <summary>
+        /// Check whether the content is digit or not.
+        /// </summary>
+        /// <param name="content">Content to be checked</param>
+        /// <returns>Return true if content contain all digit else false</returns>
+        public static bool IsOnlyDigit(string? content)
+        {
+            if (content == null)
+            {
+                return false;
+            }
+
+            return content.All(char.IsDigit);
+        }
+
+        /// <summary>
+        /// Check whether the content contain letters or not.
+        /// </summary>
+        /// <param name="content">Content to be checked</param>
+        /// <returns>Return true if content contain all letters else false</returns>
+        public static bool IsOnlyChar(string? content)
+        {
+            if (content == null)
+            {
+                return false;
+            }
+
+            return content.All(char.IsLetter);
+        }
     }
 }

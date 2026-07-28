@@ -86,5 +86,38 @@ namespace Assignment_3.Service
         {
             return this._productInventory.SearchProductByProductId(productId);
         }
+
+        /// <summary>
+        /// Edit the product from the inventory by using name.
+        /// </summary>
+        /// <param name="id">Id of the product</param>
+        /// <param name="name">Name of the product</param>
+        /// <param name="price">Price of the product</param>
+        /// <param name="quantity">Quantity of the product</param>
+        /// <returns>Return the product that got edited</returns>
+        public Product? EditProductById(string? id, string? name, decimal price, int quantity)
+        {
+            return this._productInventory.EditProductFromInventoryById(id, name, price, quantity);
+        }
+
+        /// <summary>
+        /// Delete product from the inventory
+        /// </summary>
+        /// <param name="id">Id to be deleted</param>
+        /// <returns>Return true if product got deleted else false</returns>
+        public bool DeleteProductById(string? id)
+        {
+            return this._productInventory.DeleteProductById(id);
+        }
+
+        /// <summary>
+        /// Delete product from the inventory
+        /// </summary>
+        /// <param name="name">Id to be deleted</param>
+        /// <returns>Return true if product got deleted else false</returns>
+        public bool DeleteProductByName(string? name)
+        {
+            return this._productInventory.DeleteProductByName(name);
+        }
     }
 }

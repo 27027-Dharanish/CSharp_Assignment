@@ -88,5 +88,26 @@ namespace Assignment_3.Model
             /// </summary>
             SearchUsingProductName = 2,
         }
+
+        /// <summary>
+        /// Specifies the fields available in the product for edit alone.
+        /// </summary>
+        public enum ProductFieldToBeEdited
+        {
+            /// <summary>
+            /// Represents the name of the product.
+            /// </summary>
+            Name = 1,
+
+            /// <summary>
+            /// Represents the price of the product.
+            /// </summary>
+            Price = 2,
+
+            /// <summary>
+            /// Represents the quantity of the product.
+            /// </summary>
+            Quantity = 3,
+        }
     }
 }
