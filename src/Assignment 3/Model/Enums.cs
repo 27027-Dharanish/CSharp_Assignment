@@ -9,7 +9,7 @@ namespace Assignment_3.Model
     /// <summary>
     /// Represents the enum available for the inventory management system.
     /// </summary>
-    internal class Enums
+    public class Enums
     {
         /// <summary>
         /// Specifies the fields available in the product.
@@ -71,6 +71,22 @@ namespace Assignment_3.Model
             /// Represents exit from the inventory management system.
             /// </summary>
             Exit = 6,
+        }
+
+        /// <summary>
+        /// Specifies the option available in the search product in the inventory.
+        /// </summary>
+        public enum SearchUsingField
+        {
+            /// <summary>
+            /// Represents search using the ID.
+            /// </summary>
+            SearchUsingID = 1,
+
+            /// <summary>
+            /// Represents search using the product name.
+            /// </summary>
+            SearchUsingProductName = 2,
         }
     }
 }

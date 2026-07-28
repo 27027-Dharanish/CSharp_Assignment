@@ -9,7 +9,7 @@ namespace Assignment_3.Model
     /// <summary>
     /// give the summary for the inventory management
     /// </summary>
-    internal class Product
+    public class Product
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Product"/> class.

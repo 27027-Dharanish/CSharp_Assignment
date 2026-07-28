@@ -28,6 +28,17 @@ namespace Assignment_3.Service
         }
 
         /// <summary>
+        /// Get all product available in inventory.
+        /// </summary>
+        /// <returns>Return list of all product</returns>
+        public List<Product> GetAllFromInventory()
+        {
+            List<Product> products = this._productInventory.GetInventoryProduct();
+            products.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase));
+            return products;
+        }
+
+        /// <summary>
         /// Check if the product name already exist.
         /// </summary>
         /// <param name="name">Name of the product</param>
@@ -45,6 +56,35 @@ namespace Assignment_3.Service
         public bool IsIdAlreadyExist(string? name)
         {
             return this._productInventory.CheckIfIdExist(name);
+        }
+
+        /// <summary>
+        /// Get the count of product in the inventory.
+        /// </summary>
+        /// <returns>Return the count of product in inventory</returns>
+        public int InventoryCount()
+        {
+            return this._productInventory.GetInventoryCount();
+        }
+
+        /// <summary>
+        /// Search the product using the name.
+        /// </summary>
+        /// <param name="productName">Name of the product</param>
+        /// <returns>Return the product matched with the name</returns>
+        public Product? SearchProductUsingName(string? productName)
+        {
+            return this._productInventory.SearchProductByName(productName);
+        }
+
+        /// <summary>
+        /// Search the product using the id.
+        /// </summary>
+        /// <param name="productId">ID of the product</param>
+        /// <returns>Return the product matched with the Id</returns>
+        public Product? SearchProductUsingID(string? productId)
+        {
+            return this._productInventory.SearchProductByProductId(productId);
         }
     }
 }

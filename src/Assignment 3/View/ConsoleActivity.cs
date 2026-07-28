@@ -90,11 +90,38 @@ namespace Assignment_3.View
         }
 
         /// <summary>
+        /// Print the product details in console.
+        /// </summary>
+        /// <param name="product">Product to be printed in console</param>
+        public static void PrintProductInConsole(Product product)
+        {
+            Console.WriteLine("Product ID : " + product.ProductId);
+            Console.WriteLine("Name : " + product.Name);
+            Console.WriteLine("Price : " + product.Price);
+            Console.WriteLine("Quantity : " + product.Quantity);
+        }
+
+        /// <summary>
         /// Clear the console.
         /// </summary>
         public static void ClearConsole()
         {
             Console.Clear();
+        }
+
+        /// <summary>
+        /// Show the menu option available in searching of a product.
+        /// </summary>
+        public static void ShowSearchProductMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Search Product from Inventory!!");
+            Console.WriteLine();
+            Console.WriteLine("Search Using:");
+            Console.WriteLine();
+            Console.WriteLine("1.Product Id");
+            Console.WriteLine("2.Product Name");
+            Console.WriteLine();
         }
     }
 }

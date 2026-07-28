@@ -10,7 +10,7 @@ namespace Assignment_3.Model
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving, editing, deleting Inventory entities.
     /// </summary>
-    internal class InventoryManagementRepository
+    public class InventoryManagementRepository
     {
         private readonly List<Product> _inventoryList = new ();
 
@@ -44,9 +44,9 @@ namespace Assignment_3.Model
         /// Get the duplicate inventory after performing deep copy of original inventory list.
         /// </summary>
         /// <returns>Return the copy of original inventory</returns>
-        public List<Product?> GetInventoryProduct()
+        public List<Product> GetInventoryProduct()
         {
-            List<Product?> duplicateInventory = new ();
+            List<Product> duplicateInventory = new ();
             foreach (Product product in this._inventoryList)
             {
                 duplicateInventory.Add(this.CreateNewProduct(product.ProductId, product.Name, product.Price, product.Quantity));
@@ -181,7 +181,11 @@ namespace Assignment_3.Model
             return true;
         }
 
-        private int GetInventoryCount()
+        /// <summary>
+        /// Get the count of product in the inventory.
+        /// </summary>
+        /// <returns>Return the count of product in inventory</returns>
+        public int GetInventoryCount()
         {
             return this._inventoryList.Count;
         }
