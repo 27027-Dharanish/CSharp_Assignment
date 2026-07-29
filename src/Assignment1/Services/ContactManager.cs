@@ -64,7 +64,7 @@ namespace Assignment1.Services
         /// <returns>Matched contact</returns>
         public ContactInfo? SearchContact(string content, int option)
         {
-            ContactInfo? contact = null;
+            ContactInfo? contact;
             if (option == (int)SearchUsingConstant.SearchUsingName)
             {
                 contact = this._repo.FindByName(content);

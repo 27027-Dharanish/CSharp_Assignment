@@ -104,12 +104,13 @@ namespace Assignment1.Services
         }
 
         /// <summary>
-        /// Get input from console choose name or number option
+        /// Get input from console choose name or number option.
         /// </summary>
+        /// <param name="field">The field the user want to use for selecting it</param>
         /// <returns>Return choosed field</returns>
-        public string? GetInputFromUserChooseNameOrNumber()
+        public string? GetInputFromUserChooseNameOrNumber(string? field)
         {
-            this.PrintInConsole("Select method to search: ");
+            this.PrintInConsole($"Select method to {field}: ");
             this.PrintInConsole("1.By name");
             this.PrintInConsole("2.By number");
             string? choiceSearch = this.GetInputFromUser("Option ( 1 or 2 )");

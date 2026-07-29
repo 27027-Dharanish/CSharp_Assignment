@@ -276,7 +276,7 @@ namespace Assignment1.Controller
                 return;
             }
 
-            string? choiceSearch = this.ChooseNameOrNumber();
+            string? choiceSearch = this.ChooseNameOrNumber("search");
             if (int.TryParse(choiceSearch, out var choiceNumber))
             {
                 if (choiceNumber == (int)SearchType.ByName)
@@ -289,10 +289,16 @@ namespace Assignment1.Controller
                 }
                 else
                 {
-                    Console.Clear();
+                    this._consoleActivity.PrintEmptyLine();
                     this._consoleActivity.PrintInConsole("Enter a vaid Number!!");
                     this._consoleActivity.WaitInConsole();
                 }
+            }
+            else
+            {
+                this._consoleActivity.PrintEmptyLine();
+                this._consoleActivity.PrintInConsole("Enter a vaid Number!!");
+                this._consoleActivity.WaitInConsole();
             }
         }
 
@@ -355,6 +361,13 @@ namespace Assignment1.Controller
 
             this._consoleActivity.PrintInConsole("Deletion of contact using Name!!");
             string? name = this._consoleActivity.GetInputFromUser("name to Delete");
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                this._consoleActivity.PrintInConsole("Name cannot be Empty!!");
+                this._consoleActivity.WaitInConsole();
+                return;
+            }
+
             if (this._service.DeleteContact(name) && !string.IsNullOrWhiteSpace(name))
             {
                 this._consoleActivity.PrintInConsole("Contact deleted successfully!!");
@@ -379,13 +392,20 @@ namespace Assignment1.Controller
                 return;
             }
 
-            string? choiceSearch = this.ChooseNameOrNumber();
+            string? choiceSearch = this.ChooseNameOrNumber("update");
             ContactInfo? contact = null;
             if (int.TryParse(choiceSearch, out int choiceSearchNumber))
             {
                 if (choiceSearchNumber == (int)SearchType.ByName)
                 {
                     string? name = this._consoleActivity.GetInputFromUser("name to edit");
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        this._consoleActivity.PrintInConsole("Name cannot be Empty!!");
+                        this._consoleActivity.WaitInConsole();
+                        return;
+                    }
+
                     if (name != null)
                     {
                         contact = this._service.SearchContact(name, (int)SearchUsingConstant.SearchUsingName);
@@ -409,7 +429,7 @@ namespace Assignment1.Controller
 
             if (contact == null)
             {
-                this._consoleActivity.PrintInConsole("Invalid details given !!");
+                this._consoleActivity.PrintInConsole("Enter a valid option !!");
                 this._consoleActivity.WaitInConsole();
                 return;
             }
@@ -423,6 +443,13 @@ namespace Assignment1.Controller
                 if (contactSearchNumber == (int)ContactFieldConstant.Name)
                 {
                     string? newName = this._consoleActivity.GetInputFromUser("new name");
+                    if (string.IsNullOrWhiteSpace(newName))
+                    {
+                        this._consoleActivity.PrintInConsole("Name cannot be Empty!!");
+                        this._consoleActivity.WaitInConsole();
+                        return;
+                    }
+
                     if (this._service.IsNamePresent(newName))
                     {
                         this._consoleActivity.PrintInConsole("Name already present in contact!!");
@@ -506,10 +533,11 @@ namespace Assignment1.Controller
         /// <summary>
         /// Show option available for searching (name and number).
         /// </summary>
+        /// <param name="field">Field that uses the method</param>
         /// <returns>Return 1 or 2 as string</returns>
-        public string? ChooseNameOrNumber()
+        public string? ChooseNameOrNumber(string? field)
         {
-            string? choiceSearch = this._consoleActivity.GetInputFromUserChooseNameOrNumber();
+            string? choiceSearch = this._consoleActivity.GetInputFromUserChooseNameOrNumber(field);
             return choiceSearch;
         }
 
