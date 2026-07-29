@@ -101,9 +101,9 @@ namespace Assignment_3.Service
         }
 
         /// <summary>
-        /// Delete product from the inventory
+        /// Delete product from the inventory by Id.
         /// </summary>
-        /// <param name="id">Id to be deleted</param>
+        /// <param name="id">Id that used to deleted</param>
         /// <returns>Return true if product got deleted else false</returns>
         public bool DeleteProductById(string? id)
         {
@@ -111,9 +111,9 @@ namespace Assignment_3.Service
         }
 
         /// <summary>
-        /// Delete product from the inventory
+        /// Delete product from the inventory by name.
         /// </summary>
-        /// <param name="name">Id to be deleted</param>
+        /// <param name="name">Name that used to deleted</param>
         /// <returns>Return true if product got deleted else false</returns>
         public bool DeleteProductByName(string? name)
         {

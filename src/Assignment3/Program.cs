@@ -9,7 +9,7 @@ namespace Assignments
     public class Program
     {
         /// <summary>
-        /// Main entry point of the program and start the controller
+        /// Main entry point of the program and start the controller.
         /// </summary>
         public static void Main()
         {

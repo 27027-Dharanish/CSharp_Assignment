@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Assignment_3.Model;
 using Assignment_3.Service;
 using Assignment_3.View;
@@ -34,40 +35,51 @@ namespace Assignment_3.Controller
         /// </summary>
         public void ShowInventoryManagementOption()
         {
-            int userChoice;
-            do
+            try
             {
-                ConsoleActivity.InventoryMenu();
-                string? userChoiceString = ConsoleActivity.GetInputFromConsole("option to perform");
-                int.TryParse(userChoiceString, out userChoice);
-                switch (userChoice)
+                int userChoice;
+                do
                 {
-                    case (int)Enums.InventoryOption.AddNewProduct:
-                        this.HandleAddNewProduct();
-                        break;
-                    case (int)Enums.InventoryOption.ViewAllProduct:
-                        this.HandleViewAllProduct();
-                        break;
-                    case (int)Enums.InventoryOption.EditInventory:
-                        this.HandleEditProduct();
-                        break;
-                    case (int)Enums.InventoryOption.SearchProduct:
-                        this.HandleSearchProduct();
-                        break;
-                    case (int)Enums.InventoryOption.DeleteProduct:
-                        this.HandleDeleteProduct();
-                        break;
-                    case (int)Enums.InventoryOption.Exit:
-                        // This prevent default case from executing.
-                        break;
-                    default:
-                        ConsoleActivity.PrintInConsole("Exiting from the inventory!!");
-                        break;
+                    ConsoleActivity.InventoryMenu();
+                    string? userChoiceString = ConsoleActivity.GetInputFromConsole("option to perform");
+                    int.TryParse(userChoiceString, out userChoice);
+                    switch (userChoice)
+                    {
+                        case (int)Enums.InventoryOption.AddNewProduct:
+                            this.HandleAddNewProduct();
+                            break;
+                        case (int)Enums.InventoryOption.ViewAllProduct:
+                            this.HandleViewAllProduct();
+                            break;
+                        case (int)Enums.InventoryOption.EditInventory:
+                            this.HandleEditProduct();
+                            break;
+                        case (int)Enums.InventoryOption.SearchProduct:
+                            this.HandleSearchProduct();
+                            break;
+                        case (int)Enums.InventoryOption.DeleteProduct:
+                            this.HandleDeleteProduct();
+                            break;
+                        case (int)Enums.InventoryOption.Exit:
+                            // This prevent default case from executing.
+                            break;
+                        default:
+                            ConsoleActivity.PrintInConsole("Enter a valid input!!");
+                            ConsoleActivity.WaitInConsole();
+                            break;
+                    }
                 }
+                while (userChoice != (int)Enums.InventoryOption.Exit);
             }
-            while (userChoice != (int)Enums.InventoryOption.Exit);
+            catch (Exception e)
+            {
+                ConsoleActivity.PrintInConsole("Unknown exception raised and exception message :" + e.Message);
+            }
         }
 
+        /// <summary>
+        /// Collects user input and adds a new product to the inventory.
+        /// </summary>
         private void HandleAddNewProduct()
         {
             ConsoleActivity.ClearConsole();
@@ -77,31 +89,39 @@ namespace Assignment_3.Controller
             string? productID = ConsoleActivity.GetInputFromConsole("Product Id");
             if (!this.ProductIDValidator(productID))
             {
-                this.ShowInventoryManagementOption();
+                return;
             }
 
             string? productName = ConsoleActivity.GetInputFromConsole("Product name");
             if (!this.ProductNameValidator(productName))
             {
-                this.ShowInventoryManagementOption();
+                return;
             }
 
             string? productPrice = ConsoleActivity.GetInputFromConsole("Product price");
             if (!decimal.TryParse(productPrice, out decimal price))
             {
-                ConsoleActivity.PrintInvalidField("product price");
-                this.ShowInventoryManagementOption();
+                ConsoleActivity.PrintInvalidField("product price or product out of range");
+                return;
             }
 
-            this.ProductPriceValidator(price);
+            if (!this.ProductPriceValidator(price))
+            {
+                return;
+            }
+
             string? productQuantity = ConsoleActivity.GetInputFromConsole("Product Quantity");
             int.TryParse(productQuantity, out int quantity);
-            this.ProductQuantityValidator(quantity);
+            if (!this.ProductQuantityValidator(quantity))
+            {
+                return;
+            }
+
             if (this._service.AddNewProductToInventory(productID, productName, price, quantity))
             {
                 ConsoleActivity.ClearConsole();
                 ConsoleActivity.PrintEmptyLine();
-                ConsoleActivity.PrintInConsole("Contact Added Successfully!!");
+                ConsoleActivity.PrintInConsole("Product Added Successfully!!");
                 ConsoleActivity.WaitInConsole();
             }
             else
@@ -113,6 +133,9 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Retrieves all contacts sorted by name and displays them.Shows an empty-list message if none exist.
+        /// </summary>
         private void HandleViewAllProduct()
         {
             ConsoleActivity.ClearConsole();
@@ -134,6 +157,9 @@ namespace Assignment_3.Controller
             ConsoleActivity.WaitInConsole();
         }
 
+        /// <summary>
+        /// Coordinates the process for modifying an existing product.
+        /// </summary>
         private void HandleEditProduct()
         {
             ConsoleActivity.ClearConsole();
@@ -155,11 +181,13 @@ namespace Assignment_3.Controller
                     break;
                 default:
                     ConsoleActivity.PrintInvalidField("option");
-                    this.ShowInventoryManagementOption();
                     break;
             }
         }
 
+        /// <summary>
+        /// Edit the product details using the product ID.
+        /// </summary>
         private void EditUsingProductID()
         {
             ConsoleActivity.ClearConsole();
@@ -176,6 +204,9 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Edit the product using the product name.
+        /// </summary>
         private void EditUsingProductName()
         {
             ConsoleActivity.ClearConsole();
@@ -192,6 +223,10 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Enable the user to select and edit individual fields of a product.
+        /// </summary>
+        /// <param name="product">Product to be updated</param>
         private void GetInputAndEditContact(Product product)
         {
             ConsoleActivity.ShowMenuToEdit();
@@ -251,6 +286,9 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Coordinates the process for searching an existing product.
+        /// </summary>
         private void HandleSearchProduct()
         {
             ConsoleActivity.ClearConsole();
@@ -272,11 +310,13 @@ namespace Assignment_3.Controller
                     break;
                 default:
                     ConsoleActivity.PrintInvalidField("option");
-                    this.ShowInventoryManagementOption();
-                    break;
+                    return;
             }
         }
 
+        /// <summary>
+        /// Search the product from inventory using the product ID.
+        /// </summary>
         private void SearchUsingProductID()
         {
             ConsoleActivity.ClearConsole();
@@ -296,6 +336,9 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Search the product from the inventory using the product name.
+        /// </summary>
         private void SearchUsingProductName()
         {
             ConsoleActivity.ClearConsole();
@@ -315,6 +358,9 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Coordinates the process for deleting an existing product.
+        /// </summary>
         private void HandleDeleteProduct()
         {
             ConsoleActivity.ClearConsole();
@@ -336,11 +382,13 @@ namespace Assignment_3.Controller
                     break;
                 default:
                     ConsoleActivity.PrintInvalidField("option");
-                    this.ShowInventoryManagementOption();
                     break;
             }
         }
 
+        /// <summary>
+        /// Delete the product using the product ID.
+        /// </summary>
         private void DeleteUsingProductID()
         {
             ConsoleActivity.ClearConsole();
@@ -366,10 +414,19 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Delete the product using the product name.
+        /// </summary>
         private void DeleteUsingProductName()
         {
             ConsoleActivity.ClearConsole();
             string? name = ConsoleActivity.GetInputFromConsole("product Name");
+            if (this.ProductNameValidator(name))
+            {
+                ConsoleActivity.PrintInvalidField("name");
+                return;
+            }
+
             Product? product = this._service.SearchProductUsingName(name);
             if (product == null)
             {
@@ -391,6 +448,11 @@ namespace Assignment_3.Controller
             }
         }
 
+        /// <summary>
+        /// Check whether the name is valid or not
+        /// </summary>
+        /// <param name="productName">Name to be validated</param>
+        /// <returns>Return true if name is valid else false</returns>
         private bool ProductNameValidator(string? productName)
         {
             if (InventoryHelper.IsEmpty(productName))
@@ -413,6 +475,11 @@ namespace Assignment_3.Controller
             return true;
         }
 
+        /// <summary>
+        /// Check whether the id is valid.
+        /// </summary>
+        /// <param name="productID">Id to be checked</param>
+        /// <returns>Return true if product id is valid else false</returns>
         private bool ProductIDValidator(string? productID)
         {
             if (InventoryHelper.IsEmpty(productID))
@@ -435,6 +502,11 @@ namespace Assignment_3.Controller
             return true;
         }
 
+        /// <summary>
+        /// Check whether the product price is valid.
+        /// </summary>
+        /// <param name="price">Product price</param>
+        /// <returns>Return true if price is valid else false</returns>
         private bool ProductPriceValidator(decimal price)
         {
             if (price >= decimal.MaxValue)
@@ -453,6 +525,11 @@ namespace Assignment_3.Controller
             return true;
         }
 
+        /// <summary>
+        /// Check whether the product quantity is valid.
+        /// </summary>
+        /// <param name="quantity">Product quantity</param>
+        /// <returns>Return true if quantity is valid else false</returns>
         private bool ProductQuantityValidator(int quantity)
         {
             if (quantity >= int.MaxValue)
@@ -471,6 +548,10 @@ namespace Assignment_3.Controller
             return true;
         }
 
+        /// <summary>
+        /// Check whether the product inventory is empty.
+        /// </summary>
+        /// <returns>Return true if inventory is empty else false</returns>
         private bool IsInventoryEmpty()
         {
             if (this._service.InventoryCount() == 0)

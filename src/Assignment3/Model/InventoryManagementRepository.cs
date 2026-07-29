@@ -197,6 +197,14 @@ namespace Assignment_3.Model
             return this._inventoryList.Count;
         }
 
+        /// <summary>
+        /// Create a new product with the given parameter.
+        /// </summary>
+        /// <param name="id">Product id</param>
+        /// <param name="name">Product name</param>
+        /// <param name="price">Product price</param>
+        /// <param name="quantity">Product quantity</param>
+        /// <returns>Return the product that have been created</returns>
         private Product CreateNewProduct(string? id, string? name, decimal price, int quantity)
         {
             Product newProduct = new (id);
