@@ -85,7 +85,7 @@ namespace Assignment2.Controller
         private void ShapeAssignment()
         {
             this._shape.StartShapeContorller();
-            this.ShowAssignmentAvailable();
+            return;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Assignment2.Controller
         private void EmployeeAssignment()
         {
             this._employee.StartEmployeeContorller();
-            this.ShowAssignmentAvailable();
+            return;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Assignment2.Controller
         private void BankAssignment()
         {
             this._bankController.StartBankController();
-            this.ShowAssignmentAvailable();
+            return;
         }
     }
 }

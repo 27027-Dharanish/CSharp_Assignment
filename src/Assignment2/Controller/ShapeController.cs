@@ -68,7 +68,6 @@ namespace Assignment2.Controller
                 }
             }
             while (!canExit);
-
         }
 
         /// <summary>

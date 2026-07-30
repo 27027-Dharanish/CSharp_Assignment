@@ -91,5 +91,21 @@
             string? userChoice = Console.ReadLine();
             return userChoice;
         }
+
+        /// <summary>
+        /// Show the employee menu.
+        /// </summary>
+        /// <returns>Return user selected option</returns>
+        public string? ShowEmployeeMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Create new Employee Profile:");
+            Console.WriteLine("1.Manager");
+            Console.WriteLine("2.Developer");
+            Console.WriteLine("3.Exit");
+            Console.WriteLine("Enter the option : ");
+            string? userChoice = Console.ReadLine();
+            return userChoice;
+        }
     }
 }

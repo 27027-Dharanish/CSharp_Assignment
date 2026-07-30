@@ -33,37 +33,39 @@ namespace Assignment2.Controller
         /// </summary>
         private void ShowEmployeeOption()
         {
-            this._console.ClearConsole();
-            this._console.PrintInConsole("Create new Employee Profile:");
-            this._console.PrintInConsole("1.Manager");
-            this._console.PrintInConsole("2.Developer");
-            this._console.PrintInConsole("3.Exit");
-            string? userChoice = this._console.GetInputFromConsole("option");
-            if (int.TryParse(userChoice, out int userChoiceNumber))
+            bool canExit = false;
+            do
             {
-                if (userChoiceNumber == (int)Enums.EmployeeName.Manager)
+                string? userChoiceInput = this._console.ShowEmployeeMenu();
+                if (int.TryParse(userChoiceInput, out int userChoice))
                 {
-                    this.ShowManagerOption();
-                }
-                else if (userChoiceNumber == (int)Enums.EmployeeName.Developer)
-                {
-                    this.ShowDeveloperOption();
-                }
-                else if (userChoiceNumber == (int)Enums.EmployeeName.Exit)
-                {
-                    return;
+                    switch (userChoice)
+                    {
+                        case (int)Enums.EmployeeName.Manager:
+                            this.ShowManagerOption();
+                            break;
+
+                        case (int)Enums.EmployeeName.Developer:
+                            this.ShowDeveloperOption();
+                            break;
+
+                        case (int)Enums.EmployeeName.Exit:
+                            canExit = true;
+                            break;
+
+                        default:
+                            this._console.PrintInvalid();
+                            this._console.WaitInConsole();
+                            break;
+                    }
                 }
                 else
                 {
-                    this._console.PrintInvalid();
+                    this._console.PrintInConsole("Enter valid digit!!");
                     this._console.WaitInConsole();
-                    this.ShowEmployeeOption();
                 }
             }
-
-            this._console.PrintInvalid();
-            this._console.WaitInConsole();
-            this.ShowEmployeeOption();
+            while (!canExit);
         }
 
         /// <summary>
@@ -74,19 +76,15 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Manager Operations:");
             string? name = this._console.GetInputFromConsole("name of the manager");
-            if ((name == string.Empty || name == null) && Helper.IsNotDigit(name))
+            if (!this.IsValidName(name))
             {
-                this._console.PrintInvalidField("name");
-                this._console.WaitInConsole();
-                this.ShowManagerOption();
+                return;
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (salary == string.Empty || salary == null)
+            if (!this.IsValidSalary(salary))
             {
-                this._console.PrintInvalidField("salary");
-                this._console.WaitInConsole();
-                this.ShowManagerOption();
+                return;
             }
 
             if (decimal.TryParse(salary, out decimal salaryDecimal))
@@ -96,13 +94,11 @@ namespace Assignment2.Controller
                 var (managerName, managerSalary, managerBonus) = manager.PrintDetails();
                 this.PrintEmployeeInformation(managerName, managerSalary, managerBonus, "Manager");
                 this._console.WaitInConsole();
-                this.ShowEmployeeOption();
             }
             else
             {
-                this._console.PrintInvalid();
+                Console.WriteLine("Salary exceeded the range. Max range is " + decimal.MaxValue);
                 this._console.WaitInConsole();
-                this.ShowEmployeeOption();
             }
         }
 
@@ -114,19 +110,15 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Developer Operations:");
             string? name = this._console.GetInputFromConsole("name of the developer");
-            if ((name == string.Empty || name == null) && Helper.IsNotDigit(name))
+            if (!this.IsValidName(name))
             {
-                this._console.PrintInvalidField("name");
-                this._console.WaitInConsole();
-                this.ShowManagerOption();
+                return;
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (salary == string.Empty || salary == null)
+            if (!this.IsValidSalary(salary))
             {
-                this._console.PrintInvalidField("salary");
-                this._console.WaitInConsole();
-                this.ShowManagerOption();
+                return;
             }
 
             if (decimal.TryParse(salary, out decimal salaryDecimal))
@@ -136,13 +128,11 @@ namespace Assignment2.Controller
                 var (developerName, developerSalary, developerBonus) = developer.PrintDetails();
                 this.PrintEmployeeInformation(developerName, developerSalary, developerBonus, "Developer");
                 this._console.WaitInConsole();
-                this.ShowEmployeeOption();
             }
             else
             {
-                this._console.PrintInvalid();
+                Console.WriteLine("Salary exceeded the range. Max range is " + decimal.MaxValue);
                 this._console.WaitInConsole();
-                this.ShowEmployeeOption();
             }
         }
 
@@ -158,6 +148,51 @@ namespace Assignment2.Controller
             this._console.PrintInConsole($"Name of the {employeePosition} : {name}");
             this._console.PrintInConsole($"Salary of the {employeePosition} : {salary}");
             this._console.PrintInConsole($"Bonus of the {employeePosition} : {bonus}");
+        }
+
+        /// <summary>
+        /// Check whether the name is valid.
+        /// </summary>
+        /// <param name="name">Name to be checked</param>
+        /// <returns>Return true if name is valid else false</returns>
+        private bool IsValidName(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Name cannot be empty!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+            else if (!Helper.IsNotDigit(name))
+            {
+                Console.WriteLine("Name cannot contain digit!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check whether the salary is vaild.
+        /// </summary>
+        /// <param name="salary">Salary that needed to be checked</param>
+        /// <returns>Return true if salary is valid else false</returns>
+        private bool IsValidSalary(string? salary)
+        {
+            if (salary == null)
+            {
+                Console.WriteLine("Salary cannot be null!!");
+                return false;
+            }
+            else if (!salary.All(char.IsDigit))
+            {
+                Console.WriteLine("Salary must be in digits and cannot be negative!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+
+            return true;
         }
     }
 }
