@@ -7,8 +7,6 @@ namespace Assignment2.Service.Shapes
     /// </summary>
     public class Circle : Shape
     {
-        private const double PIE = 3.14159265359;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Circle"/> class.
         /// </summary>
@@ -29,11 +27,11 @@ namespace Assignment2.Service.Shapes
         /// <summary>
         /// Calculate the area of the circle.
         /// </summary>
-        /// <param name="radius">Length of the circle</param>
-        /// <param name="breadth">Breadth of the circle</param>
-        public override void CalculateArea(double radius, double breadth = 0.0)
+        /// <param name="radius">Radius of the circle</param>
+        /// <param name="pie">Constant value pie</param>
+        public override void CalculateArea(double radius, double pie)
         {
-            this.Area = PIE * (radius * radius);
+            this.Area = pie * (radius * radius);
         }
 
         /// <summary>

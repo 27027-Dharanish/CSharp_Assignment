@@ -1,4 +1,6 @@
-﻿using Assignment2.Model;
+﻿using System.ComponentModel;
+using System.Drawing;
+using Assignment2.Model;
 using Assignment2.Service.Shapes;
 using Assignment2.View;
 
@@ -33,33 +35,40 @@ namespace Assignment2.Controller
         /// </summary>
         private void ShowShapeOption()
         {
-            this._console.ClearConsole();
-            this._console.PrintInConsole("Create new :");
-            this._console.PrintInConsole("1.Rectange");
-            this._console.PrintInConsole("2.Circle");
-            this._console.PrintInConsole("Click Any other number to exit!!");
-            string? userChoice = this._console.GetInputFromConsole("option (1 or 2)");
-            if (int.TryParse(userChoice, out int userChoiceNumber))
+            bool canExit = false;
+            do
             {
-                if (userChoiceNumber == (int)Enums.Shapes.Rectangle)
+                string? userChoiceInput = this._console.ShowShapeAvailableMenu();
+                if (int.TryParse(userChoiceInput, out int userChoice))
                 {
-                    this.ShowRectangleOption();
-                }
-                else if (userChoiceNumber == (int)Enums.Shapes.Circle)
-                {
-                    this.ShowCircleOption();
+                    switch (userChoice)
+                    {
+                        case (int)Enums.Shapes.Rectangle:
+                            this.ShowRectangleOption();
+                            break;
+
+                        case (int)Enums.Shapes.Circle:
+                            this.ShowCircleOption();
+                            break;
+
+                        case (int)Enums.Shapes.Exit:
+                            canExit = true;
+                            break;
+
+                        default:
+                            this._console.PrintInvalid();
+                            this._console.WaitInConsole();
+                            break;
+                    }
                 }
                 else
                 {
-                    return;
+                    this._console.PrintInConsole("Enter valid digit!!");
+                    this._console.WaitInConsole();
                 }
             }
-            else
-            {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
-                this.ShowShapeOption();
-            }
+            while (!canExit);
+
         }
 
         /// <summary>
@@ -70,10 +79,8 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Rectangle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the rectangle");
-            if (!Helper.IsNotDigit(color) || string.IsNullOrWhiteSpace(color))
+            if (!this.IsShapeColorValid(color))
             {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
                 return;
             }
 
@@ -82,6 +89,19 @@ namespace Assignment2.Controller
             string? widthInput = this._console.GetInputFromConsole("Width");
             if (double.TryParse(lengthInput, out double lengthNumber) && double.TryParse(widthInput, out double widthNumber))
             {
+                if (this.IsNegativeNumber(lengthNumber))
+                {
+                    this._console.PrintInConsole("Length cannot be negative!!");
+                    this._console.WaitInConsole();
+                    return;
+                }
+                else if (this.IsNegativeNumber(widthNumber))
+                {
+                    this._console.PrintInConsole("Widht cannot be negative!!");
+                    this._console.WaitInConsole();
+                    return;
+                }
+
                 rectangle.CalculateArea(lengthNumber, widthNumber);
                 var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
                 this._console.PrintInConsole($"The rectangle of {rectangleColor} color and area is {rectangleArea}");
@@ -104,10 +124,8 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Circle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the circle");
-            if (!Helper.IsNotDigit(color) || string.IsNullOrWhiteSpace(color))
+            if (!this.IsShapeColorValid(color))
             {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
                 return;
             }
 
@@ -115,18 +133,63 @@ namespace Assignment2.Controller
             string? radiusIp = this._console.GetInputFromConsole("Radius");
             if (double.TryParse(radiusIp, out double radiusNumber))
             {
-                circle.CalculateArea(radiusNumber);
+                if (this.IsNegativeNumber(radiusNumber))
+                {
+                    this._console.PrintInConsole("Radius cannot be negative!!");
+                    this._console.WaitInConsole();
+                    return;
+                }
+
+                circle.CalculateArea(radiusNumber, Math.PI);
                 var (circleColor, circleArea) = circle.PrintDetails();
                 this._console.PrintInConsole($"The rectangle of {circleColor} color and area is {circleArea}");
                 this._console.WaitInConsole();
-                this.ShowShapeOption();
+                return;
             }
             else
             {
                 this._console.PrintInvalid();
                 this._console.WaitInConsole();
-                this.ShowShapeOption();
+                return;
             }
+        }
+
+        /// <summary>
+        /// Check whether the given value is negative or not.
+        /// </summary>
+        /// <param name="value">Value that needed to be check</param>
+        /// <returns>Return true if negative number else false</returns>
+        private bool IsNegativeNumber(double value)
+        {
+            if (value < 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check whether the shape color is valid.
+        /// </summary>
+        /// <param name="color">Color of the shape</param>
+        /// <returns>Return true if shape color is valid</returns>
+        private bool IsShapeColorValid(string? color)
+        {
+            if (!Helper.IsNotDigit(color))
+            {
+                this._console.PrintInConsole("Shape color cannot be digit!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+            else if (string.IsNullOrWhiteSpace(color))
+            {
+                this._console.PrintInConsole("Shape color cannot be Empty!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+
+            return true;
         }
     }
 }

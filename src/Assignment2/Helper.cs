@@ -41,7 +41,7 @@ namespace Assignment2
         /// Check whether the string is digit or not.
         /// </summary>
         /// <param name="input">The input string to be checked</param>
-        /// <returns>Return whether the input is gigit or not</returns>
+        /// <returns>Return whether the input is digit or not</returns>
         public static bool IsNotDigit(string? input)
         {
             if (input == null)
@@ -49,7 +49,7 @@ namespace Assignment2
                 return false;
             }
 
-            return !input.All(char.IsDigit);
+            return !input.Any(char.IsDigit);
         }
     }
 }

@@ -134,6 +134,11 @@
             /// Represents the circle.
             /// </summary>
             Circle = 2,
+
+            /// <summary>
+            /// Represents exiting from shape option.
+            /// </summary>
+            Exit = 3,
         }
     }
 }

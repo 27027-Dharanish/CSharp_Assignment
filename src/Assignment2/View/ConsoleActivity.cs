@@ -74,5 +74,22 @@
         {
             Console.WriteLine(new string('=', 15));
         }
+
+        /// <summary>
+        /// Show the shape available in the menu.
+        /// </summary>
+        /// <returns>Return the option selected by the user</returns>
+        public string? ShowShapeAvailableMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Create new :");
+            Console.WriteLine("1.Rectange");
+            Console.WriteLine("2.Circle");
+            Console.WriteLine("3.Exit");
+            Console.WriteLine();
+            Console.Write("Enter the option to perform : ");
+            string? userChoice = Console.ReadLine();
+            return userChoice;
+        }
     }
 }
