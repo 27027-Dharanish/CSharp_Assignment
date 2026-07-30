@@ -1,6 +1,8 @@
-﻿using Assignment2.Model;
+﻿using System.Xml.Linq;
+using Assignment2.Model;
 using Assignment2.Model.BankingModels;
 using Assignment2.Service.Banking;
+using Assignment2.Service.Employees;
 using Assignment2.View;
 
 namespace Assignment2.Controller
@@ -40,15 +42,7 @@ namespace Assignment2.Controller
             int userChoiceNumber;
             do
             {
-                this._console.ClearConsole();
-                this._console.PrintInConsole("!!Bank Application!!");
-                this._console.PrintEmptyLine();
-                this._console.PrintInConsole("Select the operation to perform :");
-                this._console.PrintInConsole("1.Create new account");
-                this._console.PrintInConsole("2.Log In to Existing account");
-                this._console.PrintInConsole("3.Exit");
-                this._console.PrintEmptyLine();
-                string? userChoice = this._console.GetInputFromConsole("option");
+                string? userChoice = this._console.ShowBankOptionMenu();
                 int.TryParse(userChoice, out userChoiceNumber);
                 switch (userChoiceNumber)
                 {
@@ -74,33 +68,33 @@ namespace Assignment2.Controller
         /// </summary>
         private void CreateNewAccountOption()
         {
-            this._console.ClearConsole();
-            this._console.PrintInConsole("Account Creation!!");
-            this._console.PrintEmptyLine();
-            this._console.PrintInConsole("Select the type of account :");
-            this._console.PrintInConsole("1.Saving Account");
-            this._console.PrintInConsole("2.Checking Account");
-            this._console.PrintInConsole("3.Exit");
-            this._console.PrintEmptyLine();
-            string? accountType = this._console.GetInputFromConsole("Account type");
-            int.TryParse(accountType, out int userChoiceNumber);
-            if (userChoiceNumber == (int)Enums.AccountType.SavingAccount)
+            int accountChoiceNumber;
+            do
             {
-                this.CreateNewSavingAccount();
+                string? accountType = this._console.ShowCreateNewAccountMenu();
+                int.TryParse(accountType, out accountChoiceNumber);
+
+                switch (accountChoiceNumber)
+                {
+                    case (int)Enums.AccountType.SavingAccount:
+                        this.CreateNewSavingAccount();
+                        break;
+
+                    case (int)Enums.AccountType.CheckingAccount:
+                        this.CreateNewCheckingAccount();
+                        break;
+
+                    case (int)Enums.BankOperation.Exit:
+                        // Exits this specific loop and returns to the main menu
+                        return;
+
+                    default:
+                        this._console.PrintInvalid();
+                        this._console.WaitInConsole();
+                        break;
+                }
             }
-            else if (userChoiceNumber == (int)Enums.AccountType.CheckingAccount)
-            {
-                this.CreateNewCheckingAccount();
-            }
-            else if (userChoiceNumber == (int)Enums.BankOperation.Exit)
-            {
-                return;
-            }
-            else
-            {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
-            }
+            while (accountChoiceNumber != (int)Enums.BankOperation.Exit);
         }
 
         /// <summary>
@@ -118,25 +112,28 @@ namespace Assignment2.Controller
             this._console.PrintInConsole($"Saving account : Minimum balance is Rs.{SavingsAccount.MinimumBalance} ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!Helper.IsNotEmpty(accountHolderName))
+            if (!this.IsValidName(accountHolderName))
             {
-                this._console.PrintInvalidField("name");
-                this._console.WaitInConsole();
                 return;
             }
 
             string? amountString = this._console.GetInputFromConsole("initial amount to be added in account");
-            int.TryParse(amountString, out int amountNumber);
-            if (amountNumber == 0)
+            if (!this.IsValidAmount(amountString))
             {
-                this._console.PrintInvalid();
-                this._console.WaitInConsole();
                 return;
             }
 
-            (string? accountStatus, string? accountNumber) = this._bankingService.AddSavingsAccount(amountNumber, accountHolderName);
-            this.PrintNewAccountDetails(accountStatus, accountNumber);
-            this._console.WaitInConsole();
+            if (decimal.TryParse(amountString, out decimal amountNumber))
+            {
+                (string? accountStatus, string? accountNumber) = this._bankingService.AddSavingsAccount(amountNumber, accountHolderName);
+                this.PrintNewAccountDetails(accountStatus, accountNumber);
+                this._console.WaitInConsole();
+            }
+            else
+            {
+                Console.WriteLine("Amount exceeded the range. Max range is " + decimal.MaxValue);
+                this._console.WaitInConsole();
+            }
         }
 
         /// <summary>
@@ -154,25 +151,29 @@ namespace Assignment2.Controller
             this._console.PrintInConsole("Checking account : Minimum balance is Rs 0.0 ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!Helper.IsNotEmpty(accountHolderName))
+            if (!this.IsValidName(accountHolderName))
             {
-                this._console.PrintInvalidField("name");
-                this._console.WaitInConsole();
                 return;
             }
 
-            string? amountString = this._console.GetInputFromConsole("initial amount");
-            if (int.TryParse(amountString, out int amount))
+            string? amountString = this._console.GetInputFromConsole("initial amount to be added in account");
+            if (!this.IsValidAmount(amountString))
             {
-                (string? accountStatus, string? accountNumber) = this._bankingService.AddCheckingAccount(amount, accountHolderName);
+                return;
+            }
+
+            if (decimal.TryParse(amountString, out decimal amountNumber))
+            {
+                (string? accountStatus, string? accountNumber) = this._bankingService.AddCheckingAccount(amountNumber, accountHolderName);
                 this.PrintNewAccountDetails(accountStatus, accountNumber);
                 this._console.WaitInConsole();
                 return;
             }
-
-            this._console.PrintInvalid();
-            this._console.WaitInConsole();
-            return;
+            else
+            {
+                Console.WriteLine("Amount exceeded the range. Max range is " + decimal.MaxValue);
+                this._console.WaitInConsole();
+            }
         }
 
         /// <summary>
@@ -289,16 +290,30 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
             string? amountInput = this._console.GetInputFromConsole("amount to deposit");
-            decimal.TryParse(amountInput, out decimal amount);
-            if (amount > 0)
+            if (!this.IsValidAmount(amountInput))
             {
+                return;
+            }
+
+            decimal userBalance = this._bankingService.GetAccountBalance(accountNumber);
+            if (decimal.TryParse(amountInput, out decimal amount))
+            {
+                if (amount + userBalance >= decimal.MaxValue)
+                {
+                    this._console.PrintInConsole("Balance crossed the limit!!");
+                    this._console.PrintInConsole("Your maximum balance limit" + decimal.MaxValue);
+                    this._console.PrintInConsole("Amount deposit failed!!");
+                    this._console.WaitInConsole();
+                    return;
+                }
+
                 this._bankingService.DepositAccountBalance(accountNumber, amount);
                 this._console.PrintInConsole("Amount Deposited successfully!!");
                 this._console.WaitInConsole();
             }
             else
             {
-                this._console.PrintInvalid();
+                this._console.PrintInConsole("Amount exceeded the range : " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
         }
@@ -312,8 +327,12 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
             string? amountInput = this._console.GetInputFromConsole("amount to withdraw");
-            decimal.TryParse(amountInput, out decimal amount);
-            if (amount > 0)
+            if (!this.IsValidAmount(amountInput))
+            {
+                return;
+            }
+
+            if (decimal.TryParse(amountInput, out decimal amount))
             {
                 if (this._bankingService.WithdrawAccountBalance(accountNumber, amount))
                 {
@@ -328,9 +347,54 @@ namespace Assignment2.Controller
             }
             else
             {
-                this._console.PrintInvalid();
+                this._console.PrintInConsole("Amount exceeded the range : " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
+        }
+
+        /// <summary>
+        /// Check whether the name is valid.
+        /// </summary>
+        /// <param name="name">Name to be checked</param>
+        /// <returns>Return true if name is valid else false</returns>
+        private bool IsValidName(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Name cannot be empty!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+            else if (!Helper.IsNotDigit(name))
+            {
+                Console.WriteLine("Name cannot contain digit!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check whether the amount is vaild.
+        /// </summary>
+        /// <param name="amount">Amount that needed to be checked</param>
+        /// <returns>Return true if amount is valid else false</returns>
+        private bool IsValidAmount(string? amount)
+        {
+            if (amount == null)
+            {
+                Console.WriteLine("Amount cannot be null!!");
+                return false;
+            }
+            else if (!amount.All(char.IsDigit))
+            {
+                Console.WriteLine("Amount must be in digits and cannot be negative!!");
+                this._console.WaitInConsole();
+                return false;
+            }
+
+            return true;
         }
     }
 }

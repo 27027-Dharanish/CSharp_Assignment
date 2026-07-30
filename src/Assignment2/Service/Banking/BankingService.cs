@@ -25,7 +25,7 @@ namespace Assignment2.Service.Banking
         /// <param name="initialAmount">Intial amount</param>
         /// <param name="accountHolderName">Account holer name</param>
         /// <returns>Status of account creation</returns>
-        public (string?, string?) AddSavingsAccount(int initialAmount, string? accountHolderName)
+        public (string?, string?) AddSavingsAccount(decimal initialAmount, string? accountHolderName)
         {
             string? newAccountNumber = _accountNumberInitializer.ToString();
             SavingsAccount newAccount = new SavingsAccount(newAccountNumber, accountHolderName);
@@ -50,7 +50,7 @@ namespace Assignment2.Service.Banking
         /// <param name="initialAmount">Intial amount</param>
         /// <param name="accountHolderName">Account holder name</param>
         /// <returns>Status of account creation</returns>
-        public (string?, string?) AddCheckingAccount(int initialAmount, string? accountHolderName)
+        public (string?, string?) AddCheckingAccount(decimal initialAmount, string? accountHolderName)
         {
             string? newAccountNumber = _accountNumberInitializer.ToString();
             CheckingAccount newAccount = new CheckingAccount(newAccountNumber, accountHolderName);

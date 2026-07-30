@@ -107,5 +107,43 @@
             string? userChoice = Console.ReadLine();
             return userChoice;
         }
+
+        /// <summary>
+        /// Show the option available in bank operation.
+        /// </summary>
+        /// <returns>Return the option selected by the user</returns>
+        public string? ShowBankOptionMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("!!Bank Application!!");
+            Console.WriteLine();
+            Console.WriteLine("Select the operation to perform :");
+            Console.WriteLine("1.Create new account");
+            Console.WriteLine("2.Log In to Existing account");
+            Console.WriteLine("3.Exit");
+            Console.WriteLine();
+            Console.Write("Enter the option : ");
+            string? userChoice = Console.ReadLine();
+            return userChoice;
+        }
+
+        /// <summary>
+        /// Show the menu option avaialbe in creating of new account.
+        /// </summary>
+        /// <returns>Return the user selected option</returns>
+        public string? ShowCreateNewAccountMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Account Creation!!");
+            Console.WriteLine();
+            Console.WriteLine("Select the type of account :");
+            Console.WriteLine("1.Saving Account");
+            Console.WriteLine("2.Checking Account");
+            Console.WriteLine("3.Exit");
+            Console.WriteLine();
+            Console.Write("Account type : ");
+            string? accountType = Console.ReadLine();
+            return accountType;
+        }
     }
 }
