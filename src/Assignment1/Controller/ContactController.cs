@@ -512,11 +512,13 @@ namespace Assignment1.Controller
                 else
                 {
                     this._consoleActivity.PrintInConsole("Invalid input!!");
+                    this._consoleActivity.WaitInConsole();
                 }
             }
             else
             {
                 this._consoleActivity.PrintInConsole("Invalid input!!");
+                this._consoleActivity.WaitInConsole();
             }
         }
 
