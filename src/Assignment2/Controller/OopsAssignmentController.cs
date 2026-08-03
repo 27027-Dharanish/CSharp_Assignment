@@ -80,7 +80,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the Shape Hierarchy controller.
+        /// Start the shape hierarchy controller.
         /// </summary>
         private void ShapeAssignment()
         {

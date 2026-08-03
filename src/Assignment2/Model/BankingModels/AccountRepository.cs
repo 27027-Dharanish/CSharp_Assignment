@@ -11,7 +11,7 @@
         /// Add new checking account to the repository.
         /// </summary>
         /// <param name="account">New checking account</param>
-        /// <returns>Return if account created or not</returns>
+        /// <returns>True if account created or not</returns>
         public bool AddNewAccount(BankAccount account)
         {
             if (account == null)

@@ -112,13 +112,13 @@ namespace Assignment2.Controller
             this._console.PrintInConsole($"Saving account : Minimum balance is Rs.{SavingsAccount.MinimumBalance} ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!this.IsValidName(accountHolderName))
+            if (!Helper.IsValidName(accountHolderName))
             {
                 return;
             }
 
             string? amountString = this._console.GetInputFromConsole("initial amount to be added in account");
-            if (!this.IsValidAmount(amountString))
+            if (!Helper.IsValidAmount(amountString))
             {
                 return;
             }
@@ -151,13 +151,13 @@ namespace Assignment2.Controller
             this._console.PrintInConsole("Checking account : Minimum balance is Rs 0.0 ");
             this._console.PrintEmptyLine();
             string? accountHolderName = this._console.GetInputFromConsole("account holder name");
-            if (!this.IsValidName(accountHolderName))
+            if (!Helper.IsValidName(accountHolderName))
             {
                 return;
             }
 
             string? amountString = this._console.GetInputFromConsole("initial amount to be added in account");
-            if (!this.IsValidAmount(amountString))
+            if (!Helper.IsValidAmount(amountString))
             {
                 return;
             }
@@ -171,7 +171,7 @@ namespace Assignment2.Controller
             }
             else
             {
-                Console.WriteLine("Amount exceeded the range. Max range is " + decimal.MaxValue);
+                this._console.PrintInConsole("Amount exceeded the range. Max range is " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
         }
@@ -282,7 +282,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Handle deposit option.
+        /// Handles the user interface option to deposit an amount to a specified account.
         /// </summary>
         /// <param name="accountNumber">Account number to be deposited</param>
         private void DepositAmountOption(string? accountNumber)
@@ -290,7 +290,7 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
             string? amountInput = this._console.GetInputFromConsole("amount to deposit");
-            if (!this.IsValidAmount(amountInput))
+            if (!Helper.IsValidAmount(amountInput))
             {
                 return;
             }
@@ -307,7 +307,7 @@ namespace Assignment2.Controller
                     return;
                 }
 
-                this._bankingService.DepositAccountBalance(accountNumber, amount);
+                this._bankingService.DepositAmountFromAccount(accountNumber, amount);
                 this._console.PrintInConsole("Amount Deposited successfully!!");
                 this._console.WaitInConsole();
             }
@@ -319,22 +319,22 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Handle withdraw option.
+        /// Handles the user interface option to withdraw an amount from a specified account.
         /// </summary>
-        /// <param name="accountNumber">Account number to be deposited</param>
+        /// <param name="accountNumber">Account number that needed to withdraw</param>
         private void WithdrawAmountOption(string? accountNumber)
         {
             this._console.ClearConsole();
             this._console.PrintEmptyLine();
             string? amountInput = this._console.GetInputFromConsole("amount to withdraw");
-            if (!this.IsValidAmount(amountInput))
+            if (!Helper.IsValidAmount(amountInput))
             {
                 return;
             }
 
             if (decimal.TryParse(amountInput, out decimal amount))
             {
-                if (this._bankingService.WithdrawAccountBalance(accountNumber, amount))
+                if (this._bankingService.WithdrawAmountFromAccount(accountNumber, amount))
                 {
                     this._console.PrintInConsole("Amount withdraw successfully!!");
                     this._console.WaitInConsole();
@@ -350,51 +350,6 @@ namespace Assignment2.Controller
                 this._console.PrintInConsole("Amount exceeded the range : " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
-        }
-
-        /// <summary>
-        /// Check whether the name is valid.
-        /// </summary>
-        /// <param name="name">Name to be checked</param>
-        /// <returns>Return true if name is valid else false</returns>
-        private bool IsValidName(string? name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                Console.WriteLine("Name cannot be empty!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-            else if (!Helper.IsNotDigit(name))
-            {
-                Console.WriteLine("Name cannot contain digit!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check whether the amount is vaild.
-        /// </summary>
-        /// <param name="amount">Amount that needed to be checked</param>
-        /// <returns>Return true if amount is valid else false</returns>
-        private bool IsValidAmount(string? amount)
-        {
-            if (amount == null)
-            {
-                Console.WriteLine("Amount cannot be null!!");
-                return false;
-            }
-            else if (!amount.All(char.IsDigit))
-            {
-                Console.WriteLine("Amount must be in digits and cannot be negative!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-
-            return true;
         }
     }
 }

@@ -24,7 +24,7 @@
         /// Withdraw amount from saving account.
         /// </summary>
         /// <param name="amount">Amount to be withdraw</param>
-        /// <returns>Withdraw whether amount debited or not</returns>
+        /// <returns>Return whether amount debited or not</returns>
         public override bool Withdraw(decimal amount)
         {
             if (this.Balance - amount >= 10000)

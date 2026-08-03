@@ -78,7 +78,7 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Rectangle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the rectangle");
-            if (!this.IsShapeColorValid(color))
+            if (!Helper.IsShapeColorValid(color))
             {
                 return;
             }
@@ -88,13 +88,13 @@ namespace Assignment2.Controller
             string? widthInput = this._console.GetInputFromConsole("Width");
             if (double.TryParse(lengthInput, out double lengthNumber) && double.TryParse(widthInput, out double widthNumber))
             {
-                if (this.IsNegativeNumber(lengthNumber))
+                if (Helper.IsNegativeNumber(lengthNumber))
                 {
                     this._console.PrintInConsole("Length cannot be negative!!");
                     this._console.WaitInConsole();
                     return;
                 }
-                else if (this.IsNegativeNumber(widthNumber))
+                else if (Helper.IsNegativeNumber(widthNumber))
                 {
                     this._console.PrintInConsole("Widht cannot be negative!!");
                     this._console.WaitInConsole();
@@ -105,13 +105,13 @@ namespace Assignment2.Controller
                 var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
                 this._console.PrintInConsole($"The rectangle of {rectangleColor} color and area is {rectangleArea}");
                 this._console.WaitInConsole();
-                this.ShowShapeOption();
+                return;
             }
             else
             {
                 this._console.PrintInvalid();
                 this._console.WaitInConsole();
-                this.ShowShapeOption();
+                return;
             }
         }
 
@@ -123,7 +123,7 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Circle Operations:");
             string? color = this._console.GetInputFromConsole("Color of the circle");
-            if (!this.IsShapeColorValid(color))
+            if (!Helper.IsShapeColorValid(color))
             {
                 return;
             }
@@ -132,7 +132,7 @@ namespace Assignment2.Controller
             string? radiusIp = this._console.GetInputFromConsole("Radius");
             if (double.TryParse(radiusIp, out double radiusNumber))
             {
-                if (this.IsNegativeNumber(radiusNumber))
+                if (Helper.IsNegativeNumber(radiusNumber))
                 {
                     this._console.PrintInConsole("Radius cannot be negative!!");
                     this._console.WaitInConsole();
@@ -151,44 +151,6 @@ namespace Assignment2.Controller
                 this._console.WaitInConsole();
                 return;
             }
-        }
-
-        /// <summary>
-        /// Check whether the given value is negative or not.
-        /// </summary>
-        /// <param name="value">Value that needed to be check</param>
-        /// <returns>Return true if negative number else false</returns>
-        private bool IsNegativeNumber(double value)
-        {
-            if (value < 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Check whether the shape color is valid.
-        /// </summary>
-        /// <param name="color">Color of the shape</param>
-        /// <returns>Return true if shape color is valid</returns>
-        private bool IsShapeColorValid(string? color)
-        {
-            if (!Helper.IsNotDigit(color))
-            {
-                this._console.PrintInConsole("Shape color cannot be digit!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-            else if (string.IsNullOrWhiteSpace(color))
-            {
-                this._console.PrintInConsole("Shape color cannot be Empty!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-
-            return true;
         }
     }
 }

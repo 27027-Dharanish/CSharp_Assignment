@@ -76,13 +76,13 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Manager Operations:");
             string? name = this._console.GetInputFromConsole("name of the manager");
-            if (!this.IsValidName(name))
+            if (!Helper.IsValidName(name))
             {
                 return;
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (!this.IsValidSalary(salary))
+            if (!Helper.IsValidSalary(salary))
             {
                 return;
             }
@@ -110,13 +110,13 @@ namespace Assignment2.Controller
             this._console.ClearConsole();
             this._console.PrintInConsole("Developer Operations:");
             string? name = this._console.GetInputFromConsole("name of the developer");
-            if (!this.IsValidName(name))
+            if (!Helper.IsValidName(name))
             {
                 return;
             }
 
             string? salary = this._console.GetInputFromConsole("salary");
-            if (!this.IsValidSalary(salary))
+            if (!Helper.IsValidSalary(salary))
             {
                 return;
             }
@@ -148,51 +148,6 @@ namespace Assignment2.Controller
             this._console.PrintInConsole($"Name of the {employeePosition} : {name}");
             this._console.PrintInConsole($"Salary of the {employeePosition} : {salary}");
             this._console.PrintInConsole($"Bonus of the {employeePosition} : {bonus}");
-        }
-
-        /// <summary>
-        /// Check whether the name is valid.
-        /// </summary>
-        /// <param name="name">Name to be checked</param>
-        /// <returns>Return true if name is valid else false</returns>
-        private bool IsValidName(string? name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                Console.WriteLine("Name cannot be empty!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-            else if (!Helper.IsNotDigit(name))
-            {
-                Console.WriteLine("Name cannot contain digit!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check whether the salary is vaild.
-        /// </summary>
-        /// <param name="salary">Salary that needed to be checked</param>
-        /// <returns>Return true if salary is valid else false</returns>
-        private bool IsValidSalary(string? salary)
-        {
-            if (salary == null)
-            {
-                Console.WriteLine("Salary cannot be null!!");
-                return false;
-            }
-            else if (!salary.All(char.IsDigit))
-            {
-                Console.WriteLine("Salary must be in digits and cannot be negative!!");
-                this._console.WaitInConsole();
-                return false;
-            }
-
-            return true;
         }
     }
 }

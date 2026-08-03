@@ -37,7 +37,7 @@ namespace Assignment2.Service.Banking
             else if (isAccountCreated)
             {
                 this.IncrementAccountNumber();
-                this.DepositAccountBalance(newAccountNumber, initialAmount);
+                this.DepositAmountFromAccount(newAccountNumber, initialAmount);
                 return ("Saving account created successfully!!", newAccountNumber);
             }
 
@@ -58,7 +58,7 @@ namespace Assignment2.Service.Banking
             if (isAccountCreated)
             {
                 this.IncrementAccountNumber();
-                this.DepositAccountBalance(newAccountNumber, initialAmount);
+                this.DepositAmountFromAccount(newAccountNumber, initialAmount);
                 return ("Checking account created successfully!!", newAccountNumber);
             }
 
@@ -126,7 +126,7 @@ namespace Assignment2.Service.Banking
         /// </summary>
         /// <param name="accountNumber">Account number</param>
         /// <param name="amount">Amount to be deposited</param>
-        public void DepositAccountBalance(string? accountNumber, decimal amount)
+        public void DepositAmountFromAccount(string? accountNumber, decimal amount)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
             if (bankAccount == null)
@@ -144,7 +144,7 @@ namespace Assignment2.Service.Banking
         /// <param name="accountNumber">Account number</param>
         /// <param name="amount">Amount to be withdraw</param>
         /// <returns>Return if amount withdrawed or not</returns>
-        public bool WithdrawAccountBalance(string? accountNumber, decimal amount)
+        public bool WithdrawAmountFromAccount(string? accountNumber, decimal amount)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);
             if (bankAccount == null)
