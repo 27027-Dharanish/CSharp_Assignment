@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Assignment_3.Model;
+﻿using Assignment_3.Model;
 using Assignment_3.Service;
 using Assignment_3.View;
 
@@ -41,7 +39,7 @@ namespace Assignment_3.Controller
                 do
                 {
                     ConsoleActivity.InventoryMenu();
-                    string? userChoiceString = ConsoleActivity.GetInputFromConsole("option to perform");
+                    string? userChoiceString = ConsoleActivity.GetInputFromConsole("option");
                     int.TryParse(userChoiceString, out userChoice);
                     switch (userChoice)
                     {
@@ -71,9 +69,13 @@ namespace Assignment_3.Controller
                 }
                 while (userChoice != (int)Enums.InventoryOption.Exit);
             }
+            catch (ArgumentNullException e)
+            {
+                ConsoleActivity.PrintInConsole("Argument null exception : " + e.Message);
+            }
             catch (Exception e)
             {
-                ConsoleActivity.PrintInConsole("Unknown exception raised and exception message :" + e.Message);
+                ConsoleActivity.PrintInConsole("Exception occured and exception message :" + e.Message);
             }
         }
 
@@ -128,7 +130,7 @@ namespace Assignment_3.Controller
             {
                 ConsoleActivity.ClearConsole();
                 ConsoleActivity.PrintEmptyLine();
-                ConsoleActivity.PrintInConsole("Failed to add Contact!!");
+                ConsoleActivity.PrintInConsole("Failed to add product!!");
                 ConsoleActivity.WaitInConsole();
             }
         }
@@ -229,6 +231,9 @@ namespace Assignment_3.Controller
         /// <param name="product">Product to be updated</param>
         private void GetInputAndEditContact(Product product)
         {
+            ConsoleActivity.ClearConsole();
+            ConsoleActivity.PrintInConsole("Product to be edited!!");
+            ConsoleActivity.PrintProductInConsole(product);
             ConsoleActivity.ShowMenuToEdit();
             string? id = product.ProductId;
             string? name = product.Name;
@@ -403,12 +408,12 @@ namespace Assignment_3.Controller
             {
                 if (this._service.DeleteProductById(product.ProductId))
                 {
-                    ConsoleActivity.PrintInConsole("Contact deleted succesfully");
+                    ConsoleActivity.PrintInConsole("Product deleted succesfully");
                     ConsoleActivity.WaitInConsole();
                 }
                 else
                 {
-                    ConsoleActivity.PrintInConsole("Contact deletion failed");
+                    ConsoleActivity.PrintInConsole("Product deletion failed");
                     ConsoleActivity.WaitInConsole();
                 }
             }
@@ -421,7 +426,7 @@ namespace Assignment_3.Controller
         {
             ConsoleActivity.ClearConsole();
             string? name = ConsoleActivity.GetInputFromConsole("product Name");
-            if (this.ProductNameValidator(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 ConsoleActivity.PrintInvalidField("name");
                 return;
@@ -437,19 +442,19 @@ namespace Assignment_3.Controller
             {
                 if (this._service.DeleteProductByName(product.Name))
                 {
-                    ConsoleActivity.PrintInConsole("Contact deleted succesfully");
+                    ConsoleActivity.PrintInConsole("Product deleted succesfully");
                     ConsoleActivity.WaitInConsole();
                 }
                 else
                 {
-                    ConsoleActivity.PrintInConsole("Contact deletion failed");
+                    ConsoleActivity.PrintInConsole("Product deletion failed");
                     ConsoleActivity.WaitInConsole();
                 }
             }
         }
 
         /// <summary>
-        /// Check whether the name is valid or not
+        /// Check whether the name is valid or not.
         /// </summary>
         /// <param name="productName">Name to be validated</param>
         /// <returns>Return true if name is valid else false</returns>

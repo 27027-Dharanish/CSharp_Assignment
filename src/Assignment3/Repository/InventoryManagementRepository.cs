@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment_3.Model;
+﻿using Assignment_3.Model;
 
-namespace Assignment_3.Model
+namespace Assignment_3.Repository
 {
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving, editing, deleting Inventory entities.
@@ -24,10 +19,11 @@ namespace Assignment_3.Model
         /// <returns>Return true if new product added or false if failed</returns>
         public bool AddNewProduct(string? id, string? name, decimal price, int quantity)
         {
-            // if (id == null)
-            // {
-            //    throw new ArgumentNullException("id");
-            // }
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
             Product newProduct = this.CreateNewProduct(id, name, price, quantity);
             int previousInventoryCount = this._inventoryList.Count;
             this._inventoryList.Add(newProduct);

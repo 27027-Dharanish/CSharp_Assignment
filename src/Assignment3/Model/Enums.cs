@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment_3.Model
+﻿namespace Assignment_3.Model
 {
     /// <summary>
     /// Represents the enum available for the inventory management system.

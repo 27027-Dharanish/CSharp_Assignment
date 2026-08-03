@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assignment_3.Model
 {
     /// <summary>
-    /// give the summary for the inventory management
+    /// Represents a product available within the inventory management system.
     /// </summary>
     public class Product
     {
@@ -21,7 +21,7 @@ namespace Assignment_3.Model
         }
 
         /// <summary>
-        /// Gets the id for the product
+        /// Gets the id for the product.
         /// </summary>
         /// <value>
         /// A string representing id for the product
@@ -29,7 +29,7 @@ namespace Assignment_3.Model
         public string? ProductId { get; init; }
 
         /// <summary>
-        /// Gets or sets the product name
+        /// Gets or sets the product name.
         /// </summary>
         /// <value>
         /// A string representing product name
@@ -37,7 +37,7 @@ namespace Assignment_3.Model
         public string? Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the price of product
+        /// Gets or sets the price of product.
         /// </summary>
         /// <value>
         /// A decimal representing price of product
@@ -45,7 +45,7 @@ namespace Assignment_3.Model
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets the quantity of the product
+        /// Gets or sets the quantity of the product.
         /// </summary>
         /// <value>
         /// A integer value representing quantity of the product

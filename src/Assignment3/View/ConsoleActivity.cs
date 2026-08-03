@@ -130,7 +130,8 @@ namespace Assignment_3.View
         /// </summary>
         public static void ShowMenuToEdit()
         {
-            Console.Clear();
+            Console.WriteLine("----------------------------");
+            Console.WriteLine();
             Console.WriteLine("Choose the field to edit!");
             Console.WriteLine();
             Console.WriteLine("1.Name");

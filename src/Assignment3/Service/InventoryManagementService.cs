@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment_3.Model;
+﻿using Assignment_3.Model;
+using Assignment_3.Repository;
 
 namespace Assignment_3.Service
 {
@@ -12,7 +8,7 @@ namespace Assignment_3.Service
     /// </summary>
     public class InventoryManagementService
     {
-        private InventoryManagementRepository _productInventory = new InventoryManagementRepository();
+        private readonly InventoryManagementRepository _productInventory = new InventoryManagementRepository();
 
         /// <summary>
         /// Add new product to the inventory.
