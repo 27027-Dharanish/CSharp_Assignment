@@ -3,7 +3,7 @@
 namespace Assignment_3.Repository
 {
     /// <summary>
-    /// Provides a centralized data repository for storing, retrieving, editing, deleting Inventory entities.
+    /// Provides a centralized data repository for storing, retrieving, editing, deleting inventory entities.
     /// </summary>
     public class InventoryManagementRepository
     {
@@ -16,7 +16,7 @@ namespace Assignment_3.Repository
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Return true if new product added or false if failed</returns>
+        /// <returns>True if new product added or false if failed</returns>
         public bool AddNewProduct(string? id, string? name, decimal price, int quantity)
         {
             if (id == null)
@@ -39,7 +39,7 @@ namespace Assignment_3.Repository
         /// <summary>
         /// Get the duplicate inventory after performing deep copy of original inventory list.
         /// </summary>
-        /// <returns>Return the copy of original inventory</returns>
+        /// <returns>The copy of original inventory</returns>
         public List<Product> GetInventoryProduct()
         {
             List<Product> duplicateInventory = new ();
@@ -56,7 +56,7 @@ namespace Assignment_3.Repository
         /// </summary>
         /// <param name="productName">Name of the product</param>
         /// <param name="returnDuplicateProduct">If true the deep copy of the product is returned else the actual reference is returned</param>
-        /// <returns>Return the product matched with the name</returns>
+        /// <returns>The product matched with the name</returns>
         public Product? SearchProductByName(string? productName, bool returnDuplicateProduct = true)
         {
             Product? matchedProduct = this._inventoryList.Find(product => string.Equals(productName, product.Name, StringComparison.OrdinalIgnoreCase));
@@ -78,7 +78,7 @@ namespace Assignment_3.Repository
         /// </summary>
         /// <param name="id">Product id</param>
         /// <param name="returnDuplicateProduct">If true, the deep copy of the product is returned else the actual reference is returned</param>
-        /// <returns>Return the product matched with the ID</returns>
+        /// <returns>The product matched with the ID</returns>
         public Product? SearchProductByProductId(string? id, bool returnDuplicateProduct = true)
         {
             Product? matchedProduct = this._inventoryList.Find(product => string.Equals(product.ProductId, id, StringComparison.OrdinalIgnoreCase));
@@ -102,7 +102,7 @@ namespace Assignment_3.Repository
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Return the updated product</returns>
+        /// <returns>The updated product</returns>
         public Product? EditProductFromInventoryById(string? id, string? name, decimal price, int quantity)
         {
             Product? productToBeEdit = this.SearchProductByProductId(id, false);
@@ -122,7 +122,7 @@ namespace Assignment_3.Repository
         /// Check if product name exist or not.
         /// </summary>
         /// <param name="name">Name of the product</param>
-        /// <returns>Return true if product name exist else false</returns>
+        /// <returns>True if product name exist else false</returns>
         public bool CheckIfNameExist(string? name)
         {
             Product? checkIfProductExist = this.SearchProductByName(name);
@@ -138,7 +138,7 @@ namespace Assignment_3.Repository
         /// Check if product id exist or not.
         /// </summary>
         /// <param name="id">Id of the product</param>
-        /// <returns>Return true of product id exist else false</returns>
+        /// <returns>True of product id exist else false</returns>
         public bool CheckIfIdExist(string? id)
         {
             Product? checkIfProductExist = this.SearchProductByProductId(id);
@@ -154,7 +154,7 @@ namespace Assignment_3.Repository
         /// Delete the product using ID.
         /// </summary>
         /// <param name="id">Id of the product</param>
-        /// <returns>Return true if product got deleted</returns>
+        /// <returns>True if product got deleted</returns>
         public bool DeleteProductById(string? id)
         {
             Product? productToBeEdit = this.SearchProductByProductId(id, false);
@@ -171,7 +171,7 @@ namespace Assignment_3.Repository
         /// Delete the product using name.
         /// </summary>
         /// <param name="name">Id of the product</param>
-        /// <returns>Return true if product got deleted</returns>
+        /// <returns>True if product got deleted</returns>
         public bool DeleteProductByName(string? name)
         {
             Product? productToBeEdit = this.SearchProductByName(name, false);
@@ -187,7 +187,7 @@ namespace Assignment_3.Repository
         /// <summary>
         /// Get the count of product in the inventory.
         /// </summary>
-        /// <returns>Return the count of product in inventory</returns>
+        /// <returns>The count of product in inventory</returns>
         public int GetInventoryCount()
         {
             return this._inventoryList.Count;
@@ -200,7 +200,7 @@ namespace Assignment_3.Repository
         /// <param name="name">Product name</param>
         /// <param name="price">Product price</param>
         /// <param name="quantity">Product quantity</param>
-        /// <returns>Return the product that have been created</returns>
+        /// <returns>The product that have been created</returns>
         private Product CreateNewProduct(string? id, string? name, decimal price, int quantity)
         {
             Product newProduct = new (id);

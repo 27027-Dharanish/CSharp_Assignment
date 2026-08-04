@@ -26,7 +26,7 @@ namespace Assignment_3.Service
         /// <summary>
         /// Get all product available in inventory.
         /// </summary>
-        /// <returns>Return list of all product</returns>
+        /// <returns>List of all product</returns>
         public List<Product> GetAllFromInventory()
         {
             List<Product> products = this._productInventory.GetInventoryProduct();
@@ -38,7 +38,7 @@ namespace Assignment_3.Service
         /// Check if the product name already exist.
         /// </summary>
         /// <param name="name">Name of the product</param>
-        /// <returns>Return true if name already exist else false</returns>
+        /// <returns>True if name already exist else false</returns>
         public bool IsNameAlreadyExist(string? name)
         {
             return this._productInventory.CheckIfNameExist(name);
@@ -48,7 +48,7 @@ namespace Assignment_3.Service
         /// Check if the product ID already exist.
         /// </summary>
         /// <param name="name">Name of the id</param>
-        /// <returns>Return true if id already exist else false</returns>
+        /// <returns>True if id already exist else false</returns>
         public bool IsIdAlreadyExist(string? name)
         {
             return this._productInventory.CheckIfIdExist(name);
@@ -57,7 +57,7 @@ namespace Assignment_3.Service
         /// <summary>
         /// Get the count of product in the inventory.
         /// </summary>
-        /// <returns>Return the count of product in inventory</returns>
+        /// <returns>The count of product in inventory</returns>
         public int InventoryCount()
         {
             return this._productInventory.GetInventoryCount();
@@ -67,7 +67,7 @@ namespace Assignment_3.Service
         /// Search the product using the name.
         /// </summary>
         /// <param name="productName">Name of the product</param>
-        /// <returns>Return the product matched with the name</returns>
+        /// <returns>The product matched with the name</returns>
         public Product? SearchProductUsingName(string? productName)
         {
             return this._productInventory.SearchProductByName(productName);
@@ -77,7 +77,7 @@ namespace Assignment_3.Service
         /// Search the product using the id.
         /// </summary>
         /// <param name="productId">ID of the product</param>
-        /// <returns>Return the product matched with the Id</returns>
+        /// <returns>The product matched with the Id</returns>
         public Product? SearchProductUsingID(string? productId)
         {
             return this._productInventory.SearchProductByProductId(productId);
@@ -90,7 +90,7 @@ namespace Assignment_3.Service
         /// <param name="name">Name of the product</param>
         /// <param name="price">Price of the product</param>
         /// <param name="quantity">Quantity of the product</param>
-        /// <returns>Return the product that got edited</returns>
+        /// <returns>The product that got edited</returns>
         public Product? EditProductById(string? id, string? name, decimal price, int quantity)
         {
             return this._productInventory.EditProductFromInventoryById(id, name, price, quantity);
@@ -100,7 +100,7 @@ namespace Assignment_3.Service
         /// Delete product from the inventory by Id.
         /// </summary>
         /// <param name="id">Id that used to deleted</param>
-        /// <returns>Return true if product got deleted else false</returns>
+        /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductById(string? id)
         {
             return this._productInventory.DeleteProductById(id);
@@ -110,7 +110,7 @@ namespace Assignment_3.Service
         /// Delete product from the inventory by name.
         /// </summary>
         /// <param name="name">Name that used to deleted</param>
-        /// <returns>Return true if product got deleted else false</returns>
+        /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductByName(string? name)
         {
             return this._productInventory.DeleteProductByName(name);

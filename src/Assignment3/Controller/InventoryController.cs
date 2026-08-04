@@ -1,4 +1,5 @@
-﻿using Assignment_3.Model;
+﻿using System.ComponentModel;
+using Assignment_3.Model;
 using Assignment_3.Service;
 using Assignment_3.View;
 
@@ -21,7 +22,7 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Starts the execution flow for the Inventory controller management options.
+        /// Starts the execution flow for the inventory controller management options.
         /// </summary>
         public void StartInventoryManagement()
         {
@@ -75,7 +76,7 @@ namespace Assignment_3.Controller
             }
             catch (Exception e)
             {
-                ConsoleActivity.PrintInConsole("Exception occured and exception message :" + e.Message);
+                ConsoleActivity.PrintInConsole("Exception occurred and exception message :" + e.Message);
             }
         }
 
@@ -103,18 +104,18 @@ namespace Assignment_3.Controller
             string? productPrice = ConsoleActivity.GetInputFromConsole("Product price");
             if (!decimal.TryParse(productPrice, out decimal price))
             {
-                ConsoleActivity.PrintInvalidField("product price or product out of range");
+                ConsoleActivity.PrintInvalidField("Product price must be in decimal");
                 return;
             }
 
-            if (!this.ProductPriceValidator(price))
+            if (!InventoryHelper.ProductPriceValidator(price))
             {
                 return;
             }
 
             string? productQuantity = ConsoleActivity.GetInputFromConsole("Product Quantity");
             int.TryParse(productQuantity, out int quantity);
-            if (!this.ProductQuantityValidator(quantity))
+            if (!InventoryHelper.ProductQuantityValidator(quantity))
             {
                 return;
             }
@@ -136,7 +137,7 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Retrieves all contacts sorted by name and displays them.Shows an empty-list message if none exist.
+        /// Retrieves all product sorted by name and displays them.Shows an empty-list message if none exist.
         /// </summary>
         private void HandleViewAllProduct()
         {
@@ -255,7 +256,7 @@ namespace Assignment_3.Controller
             {
                 string? newProductPrice = ConsoleActivity.GetInputFromConsole("new product price");
                 decimal.TryParse(newProductPrice, out decimal newPrice);
-                if (!this.ProductPriceValidator(newPrice))
+                if (!InventoryHelper.ProductPriceValidator(newPrice))
                 {
                     return;
                 }
@@ -266,7 +267,7 @@ namespace Assignment_3.Controller
             {
                 string? newQuantity = ConsoleActivity.GetInputFromConsole("new product quantity");
                 int.TryParse(newQuantity, out int productQuantity);
-                if (!this.ProductQuantityValidator(productQuantity))
+                if (!InventoryHelper.ProductQuantityValidator(productQuantity))
                 {
                     return;
                 }
@@ -408,7 +409,7 @@ namespace Assignment_3.Controller
             {
                 if (this._service.DeleteProductById(product.ProductId))
                 {
-                    ConsoleActivity.PrintInConsole("Product deleted succesfully");
+                    ConsoleActivity.PrintInConsole("Product deleted successfully");
                     ConsoleActivity.WaitInConsole();
                 }
                 else
@@ -442,7 +443,7 @@ namespace Assignment_3.Controller
             {
                 if (this._service.DeleteProductByName(product.Name))
                 {
-                    ConsoleActivity.PrintInConsole("Product deleted succesfully");
+                    ConsoleActivity.PrintInConsole("Product deleted successfully");
                     ConsoleActivity.WaitInConsole();
                 }
                 else
@@ -454,21 +455,14 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Check whether the name is valid or not.
+        /// Check whether the name is valid and duplicate exist or not.
         /// </summary>
         /// <param name="productName">Name to be validated</param>
-        /// <returns>Return true if name is valid else false</returns>
+        /// <returns>True if name is valid else false</returns>
         private bool ProductNameValidator(string? productName)
         {
-            if (InventoryHelper.IsEmpty(productName))
+            if (!InventoryHelper.IsValidProductName(productName))
             {
-                ConsoleActivity.PrintInvalidField("product Name");
-                return false;
-            }
-            else if (!InventoryHelper.IsOnlyChar(productName))
-            {
-                ConsoleActivity.PrintInConsole("Product name must be character!!");
-                ConsoleActivity.WaitInConsole();
                 return false;
             }
             else if (this._service.IsNameAlreadyExist(productName))
@@ -481,21 +475,14 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Check whether the id is valid.
+        /// Check whether the id is valid and duplicate exist.
         /// </summary>
         /// <param name="productID">Id to be checked</param>
-        /// <returns>Return true if product id is valid else false</returns>
+        /// <returns>True if product id is valid else false</returns>
         private bool ProductIDValidator(string? productID)
         {
-            if (InventoryHelper.IsEmpty(productID))
+            if (!InventoryHelper.IsValidProductId(productID))
             {
-                ConsoleActivity.PrintInvalidField("product ID");
-                return false;
-            }
-            else if (!InventoryHelper.IsOnlyDigit(productID))
-            {
-                ConsoleActivity.PrintInConsole("Product ID must be Digit!!");
-                ConsoleActivity.WaitInConsole();
                 return false;
             }
             else if (this._service.IsIdAlreadyExist(productID))
@@ -508,55 +495,9 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Check whether the product price is valid.
-        /// </summary>
-        /// <param name="price">Product price</param>
-        /// <returns>Return true if price is valid else false</returns>
-        private bool ProductPriceValidator(decimal price)
-        {
-            if (price >= decimal.MaxValue)
-            {
-                ConsoleActivity.PrintInConsole("Price value exeeded the range...");
-                ConsoleActivity.WaitInConsole();
-                return false;
-            }
-            else if (price < 0)
-            {
-                ConsoleActivity.PrintInConsole("Price cannot be negative...");
-                ConsoleActivity.WaitInConsole();
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check whether the product quantity is valid.
-        /// </summary>
-        /// <param name="quantity">Product quantity</param>
-        /// <returns>Return true if quantity is valid else false</returns>
-        private bool ProductQuantityValidator(int quantity)
-        {
-            if (quantity >= int.MaxValue)
-            {
-                ConsoleActivity.PrintInConsole("Quantity value exeeded the range...");
-                ConsoleActivity.WaitInConsole();
-                return false;
-            }
-            else if (quantity < 0)
-            {
-                ConsoleActivity.PrintInConsole("Quantity cannot be negative...");
-                ConsoleActivity.WaitInConsole();
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Check whether the product inventory is empty.
         /// </summary>
-        /// <returns>Return true if inventory is empty else false</returns>
+        /// <returns>True if inventory is empty else false</returns>
         private bool IsInventoryEmpty()
         {
             if (this._service.InventoryCount() == 0)
