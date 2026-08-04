@@ -21,7 +21,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Starts the execution flow for the Employee Hierarchy.
+        /// Starts the execution flow for the employee hierarchy.
         /// </summary>
         public void StartEmployeeContorller()
         {
@@ -29,7 +29,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the Employee Hierarchy.
+        /// Show the option available in the employee hierarchy.
         /// </summary>
         private void ShowEmployeeOption()
         {
@@ -69,7 +69,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Show the option available in the Manager.
+        /// Show the option available in the manager.
         /// </summary>
         private void ShowManagerOption()
         {
@@ -91,8 +91,7 @@ namespace Assignment2.Controller
             {
                 Manager manager = new (name, salaryDecimal);
                 manager.CalculateBonus();
-                var (managerName, managerSalary, managerBonus) = manager.PrintDetails();
-                this.PrintEmployeeInformation(managerName, managerSalary, managerBonus, "Manager");
+                this._console.PrintInConsole(manager.ToString());
                 this._console.WaitInConsole();
             }
             else
@@ -125,8 +124,7 @@ namespace Assignment2.Controller
             {
                 Developer developer = new (name, salaryDecimal);
                 developer.CalculateBonus();
-                var (developerName, developerSalary, developerBonus) = developer.PrintDetails();
-                this.PrintEmployeeInformation(developerName, developerSalary, developerBonus, "Developer");
+                this._console.PrintInConsole(developer.ToString());
                 this._console.WaitInConsole();
             }
             else
@@ -134,20 +132,6 @@ namespace Assignment2.Controller
                 Console.WriteLine("Salary exceeded the range. Max range is " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
-        }
-
-        /// <summary>
-        /// Print the employee details.
-        /// </summary>
-        /// <param name="name">Name of the employee</param>
-        /// <param name="salary">Salary of the employee</param>
-        /// <param name="bonus">Bonus of the employee</param>
-        /// <param name="employeePosition">Employee position</param>e
-        private void PrintEmployeeInformation(string? name, decimal salary, decimal bonus, string? employeePosition)
-        {
-            this._console.PrintInConsole($"Name of the {employeePosition} : {name}");
-            this._console.PrintInConsole($"Salary of the {employeePosition} : {salary}");
-            this._console.PrintInConsole($"Bonus of the {employeePosition} : {bonus}");
         }
     }
 }

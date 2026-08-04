@@ -15,11 +15,7 @@
         {
         }
 
-        /// <summary>
-        /// Withdraw the amount from checking account.
-        /// </summary>
-        /// <param name="amount">Amount to be withdrawed</param>
-        /// <returns>Return whether the amount withdrawed or not</returns>
+        /// <inheritdoc />
         public override bool Withdraw(decimal amount)
         {
             if (this.Balance - amount >= 0)

@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Model
 {
     /// <summary>
-    /// Represents a Employee model that provides basic operations.
+    /// Represents a employee model that provides basic operations.
     /// </summary>
     public abstract class Employee
     {
@@ -35,12 +35,22 @@
         public abstract void CalculateBonus();
 
         /// <summary>
-        /// Print the details of the employee.
+        /// Get the details of the employee.
         /// </summary>
         /// <returns>Return the employee details</returns>
-        public virtual (string?, decimal, decimal) PrintDetails()
+        public virtual (string?, decimal, decimal) GetDetails()
         {
             return (this.Name, this.Salary, this.Bonus);
+        }
+
+        /// <summary>
+        /// Formats the employee details as a readable string.
+        /// </summary>
+        /// <returns>A string containing the employee's name, salary, and bonus.</returns>
+        public override string ToString()
+        {
+            var (name, salary, bonus) = this.GetDetails();
+            return $"\nEmployee: {name}\nSalary: {salary}\nBonus: {bonus}\n";
         }
     }
 }

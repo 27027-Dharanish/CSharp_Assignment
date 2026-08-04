@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 using Assignment2.Service.Shapes;
 using Assignment2.View;
 
 namespace Assignment2.Controller
 {
     /// <summary>
-    /// Manages Shape Hierarchy, connect view and shape service.
+    /// Manages shape hierarchy, connect view and shape service.
     /// </summary>
     public class ShapeController
     {
@@ -25,7 +23,7 @@ namespace Assignment2.Controller
         /// <summary>
         /// Start the shape controller.
         /// </summary>
-        public void StartShapeContorller()
+        public void StartShapeController()
         {
             this.ShowShapeOption();
         }
@@ -96,13 +94,13 @@ namespace Assignment2.Controller
                 }
                 else if (Helper.IsNegativeNumber(widthNumber))
                 {
-                    this._console.PrintInConsole("Widht cannot be negative!!");
+                    this._console.PrintInConsole("Width cannot be negative!!");
                     this._console.WaitInConsole();
                     return;
                 }
 
                 rectangle.CalculateArea(lengthNumber, widthNumber);
-                var (rectangleColor, rectangleArea) = rectangle.PrintDetails();
+                var (rectangleColor, rectangleArea) = rectangle.GetDetails();
                 this._console.PrintInConsole($"The rectangle of {rectangleColor} color and area is {rectangleArea}");
                 this._console.WaitInConsole();
                 return;
@@ -140,7 +138,7 @@ namespace Assignment2.Controller
                 }
 
                 circle.CalculateArea(radiusNumber, Math.PI);
-                var (circleColor, circleArea) = circle.PrintDetails();
+                var (circleColor, circleArea) = circle.GetDetails();
                 this._console.PrintInConsole($"The rectangle of {circleColor} color and area is {circleArea}");
                 this._console.WaitInConsole();
                 return;

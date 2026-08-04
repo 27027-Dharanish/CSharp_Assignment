@@ -36,7 +36,7 @@
         /// Gets or sets the balance of the account.
         /// </summary>
         /// <value>
-        /// Balance of the accountu.
+        /// Balance of the account.
         /// </value>
         public decimal Balance { get; set; }
 
@@ -53,7 +53,7 @@
         /// Withdraw the amount.
         /// </summary>
         /// <param name="amount">Amount from the user</param>
-        /// <returns>Return whether the amount withdrawed or not</returns>
+        /// <returns>Return whether the amount withdraw or not</returns>
         public abstract bool Withdraw(decimal amount);
     }
 }

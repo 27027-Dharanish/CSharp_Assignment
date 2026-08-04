@@ -3,10 +3,12 @@
 namespace Assignment2.Service.Employees
 {
     /// <summary>
-    /// Represents a Manager employee role with specific bonus calculation logic.
+    /// Represents a manager employee role with specific bonus calculation logic.
     /// </summary>
     public class Manager : Employee
     {
+        private decimal _bonusPercentage = 0.30M;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Manager"/> class.
         /// </summary>
@@ -18,12 +20,10 @@ namespace Assignment2.Service.Employees
             this.Salary = salary;
         }
 
-        /// <summary>
-        /// Calculate the bonus for the manager
-        /// </summary>
+        /// <inheritdoc />
         public override void CalculateBonus()
         {
-            this.Bonus = this.Salary * (30M / 100M);
+            this.Bonus = this.Salary * this._bonusPercentage;
         }
     }
 }

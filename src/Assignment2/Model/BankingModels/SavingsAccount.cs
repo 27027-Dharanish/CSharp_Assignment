@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
-    /// Represents a Saving account model that provides standard deposit and withdrawal operations.
+    /// Represents a saving account model that provides standard deposit and withdrawal operations.
     /// </summary>
     public class SavingsAccount : BankAccount
     {
@@ -20,11 +20,7 @@
         {
         }
 
-        /// <summary>
-        /// Withdraw amount from saving account.
-        /// </summary>
-        /// <param name="amount">Amount to be withdraw</param>
-        /// <returns>Return whether amount debited or not</returns>
+        /// <inheritdoc />
         public override bool Withdraw(decimal amount)
         {
             if (this.Balance - amount >= 10000)

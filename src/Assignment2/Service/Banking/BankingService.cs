@@ -22,8 +22,8 @@ namespace Assignment2.Service.Banking
         /// <summary>
         /// Add new saving account.
         /// </summary>
-        /// <param name="initialAmount">Intial amount</param>
-        /// <param name="accountHolderName">Account holer name</param>
+        /// <param name="initialAmount">Initial amount</param>
+        /// <param name="accountHolderName">Account holder name</param>
         /// <returns>Status of account creation</returns>
         public (string?, string?) AddSavingsAccount(decimal initialAmount, string? accountHolderName)
         {
@@ -47,7 +47,7 @@ namespace Assignment2.Service.Banking
         /// <summary>
         /// Add new checking account.
         /// </summary>
-        /// <param name="initialAmount">Intial amount</param>
+        /// <param name="initialAmount">Initial amount</param>
         /// <param name="accountHolderName">Account holder name</param>
         /// <returns>Status of account creation</returns>
         public (string?, string?) AddCheckingAccount(decimal initialAmount, string? accountHolderName)
@@ -143,7 +143,7 @@ namespace Assignment2.Service.Banking
         /// </summary>
         /// <param name="accountNumber">Account number</param>
         /// <param name="amount">Amount to be withdraw</param>
-        /// <returns>Return if amount withdrawed or not</returns>
+        /// <returns>Return if amount withdraw or not</returns>
         public bool WithdrawAmountFromAccount(string? accountNumber, decimal amount)
         {
             BankAccount? bankAccount = this._accounts.GetBankAccount(accountNumber);

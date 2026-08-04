@@ -1,7 +1,7 @@
 ﻿namespace Assignment2.Model.BankingModels
 {
     /// <summary>
-    /// Holds all the account in the BankAccount.
+    /// Provides a centralized data repository for storing, retrieving banking info entities.
     /// </summary>
     public class AccountRepository
     {
@@ -27,7 +27,7 @@
         /// Get the bank account details.
         /// </summary>
         /// <param name="accountNumber">Account number to search</param>
-        /// <returns>Return the account details</returns>
+        /// <returns>The account details</returns>
         public BankAccount? GetBankAccount(string? accountNumber)
         {
             return this._bankAccounts.Find(account => account != null && string.Equals(account.AccountNumber, accountNumber, StringComparison.OrdinalIgnoreCase));
@@ -37,7 +37,7 @@
         /// Get the balance of the account.
         /// </summary>
         /// <param name="accountNumber">Account number</param>
-        /// <returns>Return true and balance if account number matched</returns>
+        /// <returns>True and balance ,if account number matched else false</returns>
         public (bool, decimal) GetBalance(string? accountNumber)
         {
             BankAccount? matchedAccount = this.GetBankAccount(accountNumber);

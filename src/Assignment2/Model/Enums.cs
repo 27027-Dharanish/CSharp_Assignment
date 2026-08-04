@@ -16,7 +16,7 @@
             CreateNewAccount = 1,
 
             /// <summary>
-            /// Represent Loggin in to existing account.
+            /// Represent Log in to existing account.
             /// </summary>
             LogIn = 2,
 
@@ -27,28 +27,28 @@
         }
 
         /// <summary>
-        /// Specifies the Constant for creating new account.
+        /// Specifies the constant for creating new account.
         /// </summary>
         public enum AccountType
         {
             /// <summary>
-            /// Represent Saving account.
+            /// Represent saving account.
             /// </summary>
             SavingAccount = 1,
 
             /// <summary>
-            /// Represent Log in to existing account.
+            /// Represent log in to existing account.
             /// </summary>
             CheckingAccount = 2,
 
             /// <summary>
-            /// Represent Exit from the bank operation.
+            /// Represent exit from the bank operation.
             /// </summary>
             Exit = 3,
         }
 
         /// <summary>
-        /// Specifies the Constant for banking operation after log in.
+        /// Specifies the constant for banking operation after log in.
         /// </summary>
         public enum BankLogInOption
         {
@@ -58,23 +58,23 @@
             CheckBalance = 1,
 
             /// <summary>
-            /// Represent Withdraw amount from account.
+            /// Represent withdraw amount from account.
             /// </summary>
             Withdraw = 2,
 
             /// <summary>
-            /// Represent Deposit amount from account.
+            /// Represent deposit amount from account.
             /// </summary>
             Deposit = 3,
 
             /// <summary>
-            /// Represent Exit from log in page.
+            /// Represent exit from log in page.
             /// </summary>
             Exit = 4,
         }
 
         /// <summary>
-        /// Specifies the Employee role.
+        /// Specifies the employee role.
         /// </summary>
         public enum EmployeeName
         {
@@ -89,7 +89,7 @@
             Developer = 2,
 
             /// <summary>
-            /// Exit from the Employee controller.
+            /// Exit from the employee controller.
             /// </summary>
             Exit = 3,
         }
@@ -100,17 +100,17 @@
         public enum AssignmentConstant
         {
             /// <summary>
-            /// Assignment Shape Hierarchy
+            /// Assignment shape hierarchy
             /// </summary>
             Shape = 1,
 
             /// <summary>
-            /// Assignment Employee Hierarchy
+            /// Assignment employee hierarchy
             /// </summary>
             Employee = 2,
 
             /// <summary>
-            /// Assignment Bank system
+            /// Assignment bank system
             /// </summary>
             Bank = 3,
 

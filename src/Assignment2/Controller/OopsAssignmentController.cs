@@ -1,5 +1,4 @@
-﻿using System;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 using Assignment2.Service.Banking;
 using Assignment2.View;
 
@@ -29,7 +28,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the assignment function.
+        /// Starts the execution flow for the oops assignment.
         /// </summary>
         public void StartAssignmentFunction()
         {
@@ -80,16 +79,16 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the shape hierarchy controller.
+        /// Starts the execution flow for the shape hierarchy controller.
         /// </summary>
         private void ShapeAssignment()
         {
-            this._shape.StartShapeContorller();
+            this._shape.StartShapeController();
             return;
         }
 
         /// <summary>
-        /// Start the Employee Hierarchy controller
+        /// Starts the execution flow for the employee hierarchy controller.
         /// </summary>
         private void EmployeeAssignment()
         {
@@ -98,7 +97,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Start the banking system controller
+        /// Starts the execution flow for the banking system controller.
         /// </summary>
         private void BankAssignment()
         {

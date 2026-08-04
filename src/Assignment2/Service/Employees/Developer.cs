@@ -7,6 +7,8 @@ namespace Assignment2.Service.Employees
     /// </summary>
     public class Developer : Employee
     {
+        private decimal _bonusPercentage = 0.10M;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Developer"/> class.
         /// </summary>
@@ -18,12 +20,10 @@ namespace Assignment2.Service.Employees
             this.Salary = salary;
         }
 
-        /// <summary>
-        /// Calculate the bonus for the developer
-        /// </summary>
+        /// <inheritdoc />
         public override void CalculateBonus()
         {
-            this.Bonus = this.Salary * (10M / 100M);
+            this.Bonus = this.Salary * this._bonusPercentage;
         }
     }
 }

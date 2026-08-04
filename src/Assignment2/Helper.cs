@@ -26,10 +26,10 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// Check if BankAccount is null.
+        /// Check if bankAccount is null.
         /// </summary>
         /// <param name="account">Account from the repository</param>
-        /// <returns>Return true if account is not null and false if account is null</returns>
+        /// <returns>True if account is not null and false if account is null</returns>
         public static bool IsBankAccountNull(BankAccount? account)
         {
             if (account == null)
@@ -59,7 +59,7 @@ namespace Assignment2
         /// Check whether the name is valid.
         /// </summary>
         /// <param name="name">Name to be checked</param>
-        /// <returns>Return true if name is valid else false</returns>
+        /// <returns>True if name is valid else false</returns>
         public static bool IsValidName(string? name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -79,10 +79,10 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// Check whether the salary is vaild.
+        /// Check whether the salary is valid.
         /// </summary>
         /// <param name="salary">Salary that needed to be checked</param>
-        /// <returns>Return true if salary is valid else false</returns>
+        /// <returns>True if salary is valid else false</returns>
         public static bool IsValidSalary(string? salary)
         {
             if (salary == null)
@@ -101,7 +101,7 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// Check whether the amount is vaild.
+        /// Check whether the amount is valid.
         /// </summary>
         /// <param name="amount">Amount that needed to be checked</param>
         /// <returns>True if amount is valid else false</returns>

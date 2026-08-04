@@ -83,7 +83,7 @@
         {
             Console.Clear();
             Console.WriteLine("Create new :");
-            Console.WriteLine("1.Rectange");
+            Console.WriteLine("1.Rectangle");
             Console.WriteLine("2.Circle");
             Console.WriteLine("3.Exit");
             Console.WriteLine();
@@ -128,7 +128,7 @@
         }
 
         /// <summary>
-        /// Show the menu option avaialbe in creating of new account.
+        /// Show the menu option available in creating of new account.
         /// </summary>
         /// <returns>Return the user selected option</returns>
         public string? ShowCreateNewAccountMenu()

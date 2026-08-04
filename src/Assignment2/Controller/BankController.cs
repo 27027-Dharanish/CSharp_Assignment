@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using Assignment2.Model;
+﻿using Assignment2.Model;
 using Assignment2.Model.BankingModels;
 using Assignment2.Service.Banking;
 using Assignment2.Service.Employees;
@@ -27,7 +26,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Starts the execution flow for the Banking system.
+        /// Starts the execution flow for the banking system.
         /// </summary>
         public void StartBankController()
         {
@@ -64,7 +63,7 @@ namespace Assignment2.Controller
         }
 
         /// <summary>
-        /// Shows Option available in creating new account.
+        /// Shows option available in creating new account.
         /// </summary>
         private void CreateNewAccountOption()
         {

@@ -17,28 +17,21 @@ namespace Assignment2.Service.Shapes
         }
 
         /// <summary>
-        /// Gets and set the area of the circle.
+        /// Gets and sets the area of the circle.
         /// </summary>
         /// <value>
         /// A area of the circle of type double <see langword="null"/>has been assigned.
         /// </value>
         public double Area { get; private set; }
 
-        /// <summary>
-        /// Calculate the area of the circle.
-        /// </summary>
-        /// <param name="radius">Radius of the circle</param>
-        /// <param name="pie">Constant value pie</param>
+        /// <inheritdoc />
         public override void CalculateArea(double radius, double pie)
         {
             this.Area = pie * (radius * radius);
         }
 
-        /// <summary>
-        /// Return the color and area of the circle.
-        /// </summary>
-        /// <returns>Color and area of circle as tuple</returns>
-        public override (string?, double) PrintDetails()
+        /// <inheritdoc />
+        public override (string?, double) GetDetails()
         {
             return (this.Color, this.Area);
         }

@@ -17,28 +17,21 @@ namespace Assignment2.Service.Shapes
         }
 
         /// <summary>
-        /// Gets and set the area of the rectangle.
+        /// Gets and sets the area of the rectangle.
         /// </summary>
         /// <value>
         /// A area of the rectangle of type double <see langword="null"/>has been assigned.
         /// </value>
         public double Area { get; private set; }
 
-        /// <summary>
-        /// Calculate the area of the rectangle.
-        /// </summary>
-        /// <param name="length">Length of the rectangle</param>
-        /// <param name="breadth">Breadth of the rectangle</param>
+        /// <inheritdoc />
         public override void CalculateArea(double length, double breadth)
         {
             this.Area = length * breadth;
         }
 
-        /// <summary>
-        /// Return the color and area of the rectangle.
-        /// </summary>
-        /// <returns>Color and area of rectangle as tuple</returns>
-        public override (string?, double) PrintDetails()
+        /// <inheritdoc />
+        public override (string?, double) GetDetails()
         {
             return (this.Color, this.Area);
         }

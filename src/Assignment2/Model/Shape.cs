@@ -33,6 +33,6 @@
         /// Print the color and area of the shape.
         /// </summary>
         /// <returns>Color and area of the shape</returns>
-        public abstract (string?, double) PrintDetails();
+        public abstract (string?, double) GetDetails();
     }
 }
