@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Assignment4.Core.ExpenseTrackerInterface;
+﻿using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
 using Assignment4.Repository;
 
@@ -8,7 +7,7 @@ namespace Assignment4.Service
     /// <summary>
     /// Provides core business logic for managing income, processing expense, and interacting with the expense tracker repository.
     /// </summary>
-    public class ExpenseTrackerService
+    public class ExpenseTrackerService : IExpenseTrackerService
     {
         private readonly IExpenseTrackerRepository _financialRepository;
         private int _transactionIdCounter;
@@ -129,6 +128,19 @@ namespace Assignment4.Service
         public List<Expense> GetAllExpense()
         {
             return this._financialRepository.ViewExpense();
+        }
+
+        /// <summary>
+        /// Updates the financial properties of an existing transaction by its ID.
+        /// </summary>
+        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
+        /// <param name="newAmount">New transaction amount</param>
+        /// <param name="newDate">New date</param>
+        /// <param name="newSourceOrCategory">New source or category</param>
+        /// <returns>Status of edit transaction</returns>
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory)
+        {
+            return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
         }
     }
 }

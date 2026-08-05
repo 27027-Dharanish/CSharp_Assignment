@@ -139,22 +139,25 @@ namespace Assignment4.Repository
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.
         /// </summary>
-        /// <param name="transactionId">Transaction id that needed to be edited</param>
-        /// <param name="newAmount">Transaction amount</param>
-        /// <param name="newSourceOrCategory">Source or category</param>
+        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
+        /// <param name="newAmount">New transaction amount</param>
+        /// <param name="newDate">New date</param>
+        /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, string? newSourceOrCategory)
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId, false);
             if (matchedTransaction is Income income)
             {
                 income.Amount = newAmount;
+                income.TransactionDate = newDate;
                 income.Source = newSourceOrCategory;
                 return true;
             }
             else if (matchedTransaction is Expense expense)
             {
                 expense.Amount = newAmount;
+                expense.TransactionDate = newDate;
                 expense.Category = newSourceOrCategory;
                 return true;
             }

@@ -1,4 +1,8 @@
-﻿namespace Assignments
+﻿using Assignment4.Controller;
+using Assignment4.Core.ExpenseTrackerInterface;
+using Assignment4.Service;
+
+namespace Assignments
 {
     /// <summary>
     /// Represents the main entry point for the application and handles initial setup.
@@ -10,7 +14,8 @@
         /// </summary>
         public static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            IExpenseTrackerService service = new ExpenseTrackerService();
+            ExpenseTrackerController controller = new ExpenseTrackerController(service);
         }
     }
 }

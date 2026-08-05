@@ -46,5 +46,15 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// </summary>
         /// <returns>All the income from transaction</returns>
         public List<Income> ViewIncome();
+
+        /// <summary>
+        /// Updates the financial properties of an existing transaction by its ID.
+        /// </summary>
+        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
+        /// <param name="newAmount">New transaction amount</param>
+        /// <param name="newDate">New date</param>
+        /// <param name="newSourceOrCategory">New source or category</param>
+        /// <returns>Status of edit transaction</returns>
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory);
     }
 }
