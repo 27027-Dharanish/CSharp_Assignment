@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment4.Model
+﻿namespace Assignment4.Model
 {
     /// <summary>
     /// Represents a expense available within the expense tracker.
@@ -20,11 +14,11 @@ namespace Assignment4.Model
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the amount for the expense.
+        /// Gets or sets the date on which the expense is added.
         /// </summary>
         /// <value>
-        /// A decimal representing amount for the expense.
+        /// A  representing amount for the expense.
         /// </value>
-        public  Date { get; set; }
+        public DateTime ExpenseAddedDate { get; set; }
     }
 }
