@@ -130,7 +130,7 @@ namespace Assignment2.Controller
             }
             else
             {
-                Console.WriteLine("Amount exceeded the range. Max range is " + decimal.MaxValue);
+                this._console.PrintInConsole("Amount exceeded the range. Max range is " + decimal.MaxValue);
                 this._console.WaitInConsole();
             }
         }

@@ -139,7 +139,7 @@ namespace Assignment2.Controller
 
                 circle.CalculateArea(radiusNumber, Math.PI);
                 var (circleColor, circleArea) = circle.GetDetails();
-                this._console.PrintInConsole($"The rectangle of {circleColor} color and area is {circleArea}");
+                this._console.PrintInConsole($"The circle of {circleColor} color and area is {circleArea}");
                 this._console.WaitInConsole();
                 return;
             }
