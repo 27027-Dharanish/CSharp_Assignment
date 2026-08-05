@@ -6,7 +6,7 @@ using Assignment_3.View;
 namespace Assignment_3.Controller
 {
     /// <summary>
-    /// Manages Inventory, connect view and Inventory Management service.
+    /// Manages inventory, connect view and inventory management service.
     /// </summary>
     public class InventoryController
     {
@@ -137,7 +137,7 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Retrieves all product sorted by name and displays them.Shows an empty-list message if none exist.
+        /// Retrieves all product sorted by name and displays them .Shows an empty-list message if none exist.
         /// </summary>
         private void HandleViewAllProduct()
         {

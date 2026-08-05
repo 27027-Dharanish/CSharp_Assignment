@@ -74,7 +74,7 @@ namespace Assignment_3.Repository
         }
 
         /// <summary>
-        /// Search the product using the ProductId of the product.
+        /// Search the product using the productId of the product.
         /// </summary>
         /// <param name="id">Product id</param>
         /// <param name="returnDuplicateProduct">If true, the deep copy of the product is returned else the actual reference is returned</param>
@@ -96,7 +96,7 @@ namespace Assignment_3.Repository
         }
 
         /// <summary>
-        /// Edit the product using name.
+        /// Edit the product using id.
         /// </summary>
         /// <param name="id">Id of the product</param>
         /// <param name="name">Name of the product</param>

@@ -84,7 +84,7 @@ namespace Assignment_3.Service
         }
 
         /// <summary>
-        /// Edit the product from the inventory by using name.
+        /// Edit the product from the inventory by using id.
         /// </summary>
         /// <param name="id">Id of the product</param>
         /// <param name="name">Name of the product</param>

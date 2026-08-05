@@ -26,7 +26,7 @@ namespace Assignment_3.View
         /// Get the input from the user via console.
         /// </summary>
         /// <param name="inputToGet">The input user must enter</param>
-        /// <returns>Return the data entered by the user</returns>
+        /// <returns>The data entered by the user</returns>
         public static string? GetInputFromConsole(string? inputToGet)
         {
             Console.WriteLine($"Enter the {inputToGet} : ");

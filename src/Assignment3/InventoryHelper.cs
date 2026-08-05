@@ -17,7 +17,7 @@ namespace Assignment_3
         /// Check whether the content is null or contain whitespace.
         /// </summary>
         /// <param name="content">Content need to be checked</param>
-        /// <returns>Return true if whitespace or null, else false</returns>
+        /// <returns>True if whitespace or null, else false</returns>
         public static bool IsEmpty(string? content)
         {
             return string.IsNullOrWhiteSpace(content);
@@ -42,7 +42,7 @@ namespace Assignment_3
         /// Check whether the content contain letters or not.
         /// </summary>
         /// <param name="content">Content to be checked</param>
-        /// <returns>Return true if content contain all letters else false</returns>
+        /// <returns>True if content contain all letters else false</returns>
         public static bool IsOnlyChar(string? content)
         {
             if (content == null)
@@ -57,7 +57,7 @@ namespace Assignment_3
         /// Check whether the product quantity is valid.
         /// </summary>
         /// <param name="quantity">Product quantity</param>
-        /// <returns>Return true if quantity is valid else false</returns>
+        /// <returns>True if quantity is valid else false</returns>
         public static bool ProductQuantityValidator(int quantity)
         {
             if (quantity >= int.MaxValue)
@@ -80,7 +80,7 @@ namespace Assignment_3
         /// Check whether the product price is valid.
         /// </summary>
         /// <param name="price">Product price</param>
-        /// <returns>Return true if price is valid else false</returns>
+        /// <returns>True if price is valid else false</returns>
         public static bool ProductPriceValidator(decimal price)
         {
             if (price >= decimal.MaxValue)
