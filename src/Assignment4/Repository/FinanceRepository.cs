@@ -83,6 +83,85 @@ namespace Assignment4.Repository
             return true;
         }
 
+        /// <summary>
+        /// Filters and retrieves a collection of all recorded income transactions.
+        /// </summary>
+        /// <returns>All the income from transaction</returns>
+        public List<Income> ViewIncome()
+        {
+            List<Income> allIncome = new List<Income>();
+            List<Transaction> transactions = this.GetAllTransaction();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Income income)
+                {
+                    allIncome.Add(income);
+                }
+            }
+
+            return allIncome;
+        }
+
+        /// <summary>
+        /// Filters and retrieves a collection of all recorded expense transactions.
+        /// </summary>
+        /// <returns>All the expense from transaction</returns>
+        public List<Expense> ViewExpense()
+        {
+            List<Expense> allExpense = new List<Expense>();
+            List<Transaction> transactions = this.GetAllTransaction();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Expense expense)
+                {
+                    allExpense.Add(expense);
+                }
+            }
+
+            return allExpense;
+        }
+
+        /// <summary>
+        /// Check whether the transaction id exist or not.
+        /// </summary>
+        /// <param name="id">Transaction id that to be checked</param>
+        /// <returns>True if transaction id exist else false</returns>
+        public bool IsTransactionIdExist(int id)
+        {
+            if (this.SearchTransactionUsingId(id) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Updates the financial properties of an existing transaction by its ID.
+        /// </summary>
+        /// <param name="transactionId">Transaction id that needed to be edited</param>
+        /// <param name="newAmount">Transaction amount</param>
+        /// <param name="newSourceOrCategory">Source or category</param>
+        /// <returns>Status of edit transaction</returns>
+        public bool EditTransactionById(int transactionId, decimal newAmount, string? newSourceOrCategory)
+        {
+            Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId, false);
+            if (matchedTransaction is Income income)
+            {
+                income.Amount = newAmount;
+                income.Source = newSourceOrCategory;
+                return true;
+            }
+            else if (matchedTransaction is Expense expense)
+            {
+                expense.Amount = newAmount;
+                expense.Category = newSourceOrCategory;
+                return true;
+            }
+
+            return false;
+        }
+
         private int GetTransactionCount()
         {
             return this._financeTracker.Count;

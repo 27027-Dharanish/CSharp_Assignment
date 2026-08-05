@@ -34,5 +34,17 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="id">Transaction id of transaction</param>
         /// <returns>Status of transaction deletion</returns>
         public bool DeleteTransactionById(int id);
+
+        /// <summary>
+        /// Filters and retrieves a collection of all recorded expense transactions.
+        /// </summary>
+        /// <returns>All the expense from transaction</returns>
+        public List<Expense> ViewExpense();
+
+        /// <summary>
+        /// Filters and retrieves a collection of all recorded income transactions.
+        /// </summary>
+        /// <returns>All the income from transaction</returns>
+        public List<Income> ViewIncome();
     }
 }

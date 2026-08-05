@@ -1,4 +1,5 @@
-﻿using Assignment4.Core.ExpenseTrackerInterface;
+﻿using System.Text.RegularExpressions;
+using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
 using Assignment4.Repository;
 
@@ -54,6 +55,80 @@ namespace Assignment4.Service
             newExpense.Category = category;
             return this._financialRepository.AddNewTransaction(newExpense);
         }
-        public List<Transaction>
+
+        /// <summary>
+        /// Calculates the total sum of all recorded income transactions
+        /// </summary>
+        /// <returns>Total income from all source</returns>
+        public decimal GetTotalIncome()
+        {
+            List<Transaction> transactions = this._financialRepository.GetAllTransaction();
+            decimal totalIncome = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Income income)
+                {
+                    totalIncome += income.Amount;
+                }
+            }
+
+            return totalIncome;
+        }
+
+        /// <summary>
+        /// Calculates the total sum of all recorded expense transactions.
+        /// </summary>
+        /// <returns>Total expense from all source</returns>
+        public decimal GetTotalExpense()
+        {
+            List<Transaction> transactions = this._financialRepository.GetAllTransaction();
+            decimal totalExpense = 0;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Expense expense)
+                {
+                    totalExpense += expense.Amount;
+                }
+            }
+
+            return totalExpense;
+        }
+
+        /// <summary>
+        /// Calculates the remaining net balance by subtracting total expenses from total income.
+        /// </summary>
+        /// <returns>Remaining balance amount after all expense</returns>
+        public decimal GetTotalBalanceAmount()
+        {
+            return this.GetTotalIncome() - this.GetTotalExpense();
+        }
+
+        /// <summary>
+        /// Deletes a specific transaction record using its unique identifier.
+        /// </summary>
+        /// <param name="id">Id of the transaction</param>
+        /// <returns>Status of transaction deletion</returns>
+        public bool DeleteTransaction(int id)
+        {
+            return this._financialRepository.DeleteTransactionById(id);
+        }
+
+        /// <summary>
+        ///  Retrieves a list of all recorded income transactions from the repository layer.
+        /// </summary>
+        /// <returns>Collection of income</returns>
+        public List<Income> GetAllIncome()
+        {
+            return this._financialRepository.ViewIncome();
+        }
+
+        /// <summary>
+        /// Retrieves a list of all recorded expense transactions from the repository layer.
+        /// </summary>
+        /// <returns>Collection of all expense</returns>
+        public List<Expense> GetAllExpense()
+        {
+            return this._financialRepository.ViewExpense();
+        }
     }
 }
