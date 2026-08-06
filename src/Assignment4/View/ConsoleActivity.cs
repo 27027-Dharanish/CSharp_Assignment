@@ -60,11 +60,20 @@
         /// </summary>
         public static void ShowFinancialTrackerMenu()
         {
+            ClearConsole();
             Console.WriteLine(new string('=', 40));
             Console.WriteLine("          EXPENSE TRACKER MENU          ");
             Console.WriteLine(new string('=', 40));
             Console.WriteLine(" 1. View Summary\n 2. Manage Income\n 3. Manage Expense\n 4. Exit");
             Console.WriteLine("----------------------------------------");
+        }
+
+        /// <summary>
+        /// Clear the console.
+        /// </summary>
+        public static void ClearConsole()
+        {
+            Console.Clear();
         }
     }
 }

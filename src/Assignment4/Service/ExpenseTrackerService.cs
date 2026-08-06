@@ -31,7 +31,7 @@ namespace Assignment4.Service
         public bool AddNewIncome(decimal amount, DateTime date, string? source)
         {
             this._transactionIdCounter++;
-            Income newIncome = new Income(this._transactionIdCounter);
+            Income newIncome = new (this._transactionIdCounter);
             newIncome.Amount = amount;
             newIncome.TransactionDate = date;
             newIncome.Source = source;
@@ -48,7 +48,7 @@ namespace Assignment4.Service
         public bool AddNewExpense(decimal amount, DateTime date, string? category)
         {
             this._transactionIdCounter++;
-            Expense newExpense = new Expense(this._transactionIdCounter);
+            Expense newExpense = new (this._transactionIdCounter);
             newExpense.Amount = amount;
             newExpense.TransactionDate = date;
             newExpense.Category = category;

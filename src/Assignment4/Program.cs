@@ -16,6 +16,7 @@ namespace Assignments
         {
             IExpenseTrackerService service = new ExpenseTrackerService();
             ExpenseTrackerController controller = new ExpenseTrackerController(service);
+            controller.StartExpenseTracker();
         }
     }
 }

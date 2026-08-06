@@ -34,13 +34,12 @@ namespace Assignment4.Controller
         /// </summary>
         public void ShowExpenseTrackerMenu()
         {
-            int choice;
+            int userChoice;
             do
             {
                 ConsoleActivity.ShowFinancialTrackerMenu();
-                string? userChoice = ConsoleActivity.GetInputFromUser("option");
-                int.TryParse(userChoice, out choice);
-                switch (choice)
+                userChoice = ExpenseHelper.GetChoiceFromUser();
+                switch (userChoice)
                 {
                     case (int)Enums.FinancialOption.ViewSummary:
                         // this.HandleViewSummary();
@@ -59,7 +58,7 @@ namespace Assignment4.Controller
                         break;
                 }
             }
-            while (choice != (int)Enums.FinancialOption.Exit);
+            while (userChoice != (int)Enums.FinancialOption.Exit);
         }
     }
 }
