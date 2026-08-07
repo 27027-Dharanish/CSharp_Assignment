@@ -55,6 +55,6 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="newDate">New date</param>
         /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory);
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
     }
 }

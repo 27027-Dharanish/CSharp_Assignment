@@ -36,6 +36,6 @@
         /// <value>
         /// A date representing the date on which transaction occurred.
         /// </value>
-        public DateTime TransactionDate { get; set; }
+        public DateOnly TransactionDate { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="date">Date of income</param>
         /// <param name="source">Source of income</param>
         /// <returns>Status of income added in repository</returns>
-        public bool AddNewIncome(decimal amount, DateTime date, string? source);
+        public bool AddNewIncome(decimal amount, DateOnly date, string? source);
 
         /// <summary>
         /// Creates and records a new expense transaction.
@@ -23,7 +23,7 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="date">Date of expense</param>
         /// <param name="category">Category of expense</param>
         /// <returns>Status of expense added in repository</returns>
-        public bool AddNewExpense(decimal amount, DateTime date, string? category);
+        public bool AddNewExpense(decimal amount, DateOnly date, string? category);
 
         /// <summary>
         /// Calculates the total sum of all recorded income transactions
@@ -70,6 +70,25 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="newDate">New date</param>
         /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory);
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
+
+        /// <summary>
+        /// Get the list of available income source.
+        /// </summary>
+        /// <returns>Collection of income source</returns>
+        public string[] GetIncomeSource();
+
+        /// <summary>
+        /// Checks if a transaction exists and returns it if found.
+        /// </summary>
+        /// <param name="id">The unique identifier of the transaction.</param>
+        /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
+        public (bool, Transaction?) GetTransactionIfExist(int id);
+
+        /// <summary>
+        /// Get the list of available expense categories.
+        /// </summary>
+        /// <returns>Collection of expense categories</returns>
+        public string[] GetExpenseCategories();
     }
 }

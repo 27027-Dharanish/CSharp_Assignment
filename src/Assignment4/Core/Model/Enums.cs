@@ -30,5 +30,57 @@
             /// </summary>
             Exit = 4,
         }
+
+        /// <summary>
+        /// Specifies the target fields of a transaction that can be edited.
+        /// </summary>
+        public enum TransactionField
+        {
+            /// <summary>
+            /// The financial value of the transaction.
+            /// </summary>
+            Amount = 1,
+
+            /// <summary>
+            /// The date when the transaction occurred.
+            /// </summary>
+            TransactionDate,
+
+            /// <summary>
+            /// The origin or classification label of the transaction.
+            /// </summary>
+            SourceOrCategory,
+        }
+
+        /// <summary>
+        /// Specifies the type of operation to perform on a transaction.
+        /// </summary>
+        public enum TransactionOperation
+        {
+            /// <summary>
+            /// Indicates a new transaction should be created and added.
+            /// </summary>
+            AddNewTransaction = 1,
+
+            /// <summary>
+            /// Indicates an existing transaction's details should be displayed.
+            /// </summary>
+            ViewTransaction,
+
+            /// <summary>
+            /// Indicates an existing transaction's details should be modified.
+            /// </summary>
+            EditTransaction,
+
+            /// <summary>
+            /// Indicates an existing transaction should be removed.
+            /// </summary>
+            DeleteTransaction,
+
+            /// <summary>
+            /// Option to gracefully close and exit the application.
+            /// </summary>
+            Exit,
+        }
     }
 }

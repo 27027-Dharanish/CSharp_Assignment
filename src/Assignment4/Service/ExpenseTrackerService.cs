@@ -9,6 +9,9 @@ namespace Assignment4.Service
     /// </summary>
     public class ExpenseTrackerService : IExpenseTrackerService
     {
+        private readonly string[] _incomeSources = { "Salary", "Freelance", "Investment", "Business", "Rental", "Pocket Money", "Others" };
+        private readonly string[] _expenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };
+
         private readonly IExpenseTrackerRepository _financialRepository;
         private int _transactionIdCounter;
 
@@ -28,7 +31,7 @@ namespace Assignment4.Service
         /// <param name="date">Date of income</param>
         /// <param name="source">Source of income</param>
         /// <returns>Status of income added in repository</returns>
-        public bool AddNewIncome(decimal amount, DateTime date, string? source)
+        public bool AddNewIncome(decimal amount, DateOnly date, string? source)
         {
             this._transactionIdCounter++;
             Income newIncome = new (this._transactionIdCounter);
@@ -45,7 +48,7 @@ namespace Assignment4.Service
         /// <param name="date">Date of expense</param>
         /// <param name="category">Category of expense</param>
         /// <returns>Status of expense added in repository</returns>
-        public bool AddNewExpense(decimal amount, DateTime date, string? category)
+        public bool AddNewExpense(decimal amount, DateOnly date, string? category)
         {
             this._transactionIdCounter++;
             Expense newExpense = new (this._transactionIdCounter);
@@ -138,9 +141,43 @@ namespace Assignment4.Service
         /// <param name="newDate">New date</param>
         /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateTime newDate, string? newSourceOrCategory)
+        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
+        }
+
+        /// <summary>
+        /// Get the list of available income source.
+        /// </summary>
+        /// <returns>Collection of income source</returns>
+        public string[] GetIncomeSource()
+        {
+            return this._incomeSources;
+        }
+
+        /// <summary>
+        /// Get the list of available expense categories.
+        /// </summary>
+        /// <returns>Collection of expense categories</returns>
+        public string[] GetExpenseCategories()
+        {
+            return this._expenseCategories;
+        }
+
+        /// <summary>
+        /// Checks if a transaction exists and returns it if found.
+        /// </summary>
+        /// <param name="id">The unique identifier of the transaction.</param>
+        /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
+        public (bool, Transaction?) GetTransactionIfExist(int id)
+        {
+            Transaction? matchedTransaction = this._financialRepository.SearchTransactionUsingId(id);
+            if (matchedTransaction != null)
+            {
+                return (true, matchedTransaction);
+            }
+
+            return (false, matchedTransaction);
         }
     }
 }
