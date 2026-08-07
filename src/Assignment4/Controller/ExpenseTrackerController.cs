@@ -43,7 +43,7 @@ namespace Assignment4.Controller
                 switch (userChoice)
                 {
                     case (int)Enums.FinancialOption.ViewSummary:
-                        // this.HandleViewSummary();
+                        this.HandleViewSummary();
                         break;
                     case (int)Enums.FinancialOption.ManageIncome:
                         this.HandleManageIncome();
@@ -424,6 +424,38 @@ namespace Assignment4.Controller
                     ConsoleActivity.PrintInvalidMessage("Expense deletion failed!!");
                 }
             }
+        }
+
+        private void HandleViewSummary()
+        {
+            ConsoleActivity.ShowSummaryHeader();
+            (decimal totalIncome, bool isIncomePresent) = this._financialTrackerService.GetTotalIncome();
+            if (!isIncomePresent)
+            {
+                ConsoleActivity.PrintInConsole("No Income!!");
+            }
+            else
+            {
+                ConsoleActivity.PrintInConsole($"Total Income  : {totalIncome}");
+            }
+
+            (decimal totalExpense, bool isExpensePresent) = this._financialTrackerService.GetTotalExpense();
+            if (!isExpensePresent)
+            {
+                ConsoleActivity.PrintInConsole("No Expense!!");
+            }
+            else
+            {
+                ConsoleActivity.PrintInConsole($"Total Expense : {totalExpense}");
+            }
+
+            ConsoleActivity.PrintInConsole($"Net Balance   : {totalIncome - totalExpense}");
+            if (totalIncome - totalExpense < 0)
+            {
+                ConsoleActivity.PrintInConsole("Your net balance is negative. Expense crossed the your total income!!");
+            }
+
+            ConsoleActivity.WaitInConsole();
         }
     }
 }

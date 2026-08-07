@@ -307,5 +307,17 @@ namespace Assignment4.View
             Console.WriteLine(new string('=', 40));
             ConsoleActivity.PrintEmptyLine();
         }
+
+        /// <summary>
+        /// Print the summary header in console.
+        /// </summary>
+        public static void ShowSummaryHeader()
+        {
+            Console.Clear();
+            Console.WriteLine(new string('=', 40));
+            Console.WriteLine("          INCOME-EXPENSE SUMMARY");
+            Console.WriteLine(new string('=', 40));
+            ConsoleActivity.PrintEmptyLine();
+        }
     }
 }

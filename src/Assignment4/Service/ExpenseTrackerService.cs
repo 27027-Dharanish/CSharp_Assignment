@@ -62,10 +62,15 @@ namespace Assignment4.Service
         /// Calculates the total sum of all recorded income transactions
         /// </summary>
         /// <returns>Total income from all source</returns>
-        public decimal GetTotalIncome()
+        public (decimal, bool) GetTotalIncome()
         {
             List<Transaction> transactions = this._financialRepository.GetAllTransaction();
             decimal totalIncome = 0;
+            if (transactions.Count == 0)
+            {
+                return (default, false);
+            }
+
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Income income)
@@ -74,17 +79,22 @@ namespace Assignment4.Service
                 }
             }
 
-            return totalIncome;
+            return (totalIncome, true);
         }
 
         /// <summary>
         /// Calculates the total sum of all recorded expense transactions.
         /// </summary>
         /// <returns>Total expense from all source</returns>
-        public decimal GetTotalExpense()
+        public (decimal, bool) GetTotalExpense()
         {
             List<Transaction> transactions = this._financialRepository.GetAllTransaction();
             decimal totalExpense = 0;
+            if (transactions.Count == 0)
+            {
+                return (default, false);
+            }
+
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Expense expense)
@@ -93,7 +103,7 @@ namespace Assignment4.Service
                 }
             }
 
-            return totalExpense;
+            return (totalExpense, true);
         }
 
         /// <summary>
@@ -102,7 +112,9 @@ namespace Assignment4.Service
         /// <returns>Remaining balance amount after all expense</returns>
         public decimal GetTotalBalanceAmount()
         {
-            return this.GetTotalIncome() - this.GetTotalExpense();
+            (decimal totalIncome, bool isIncomePresent) = this.GetTotalIncome();
+            (decimal totalExpense, bool isExpensePresent) = this.GetTotalExpense();
+            return totalIncome - totalExpense;
         }
 
         /// <summary>

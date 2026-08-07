@@ -29,13 +29,13 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// Calculates the total sum of all recorded income transactions
         /// </summary>
         /// <returns>Total income from all source</returns>
-        public decimal GetTotalIncome();
+        public (decimal, bool) GetTotalIncome();
 
         /// <summary>
         /// Calculates the total sum of all recorded expense transactions.
         /// </summary>
         /// <returns>Total expense from all source</returns>
-        public decimal GetTotalExpense();
+        public (decimal, bool) GetTotalExpense();
 
         /// <summary>
         /// Calculates the remaining net balance by subtracting total expenses from total income.
