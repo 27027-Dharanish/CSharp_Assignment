@@ -141,6 +141,13 @@ namespace Assignment4.Controller
 
         private void HandleViewAllIncome()
         {
+            ConsoleActivity.ShowDeleteIncomeHeader();
+            if (this._financialTrackerService.GetIncomeCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
             ConsoleActivity.ShowViewIncomeHeader();
             List<Income> incomeTransaction = this._financialTrackerService.GetAllIncome();
             ConsoleActivity.PrintIncomeInConsole(incomeTransaction);
@@ -149,6 +156,17 @@ namespace Assignment4.Controller
         private void HandleEditIncome()
         {
             ConsoleActivity.ShowEditIncomeHeader();
+            if (this._financialTrackerService.GetIncomeCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
+            if (this._financialTrackerService.GetIncomeCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+            }
+
             (bool isValidId, int transactionId) = ExpenseHelper.GetTransactionIdWithRetry(ConsoleActivity.ShowEditIncomeHeader);
             if (!isValidId)
             {
@@ -163,6 +181,7 @@ namespace Assignment4.Controller
             }
             else if (transaction != null)
             {
+                ConsoleActivity.ShowEditIncomeHeader();
                 Console.WriteLine("Income before editing :");
                 ConsoleActivity.PrintIncome(transaction);
                 ConsoleActivity.PrintEmptyLine();
@@ -203,8 +222,16 @@ namespace Assignment4.Controller
                     }
 
                     this._financialTrackerService.EditTransactionById(income.Id, newAmount, newDate, newSource);
-                    ConsoleActivity.PrintInConsole("Income edited successfully!!");
-                    ConsoleActivity.WaitInConsole();
+                    (bool isContactUpdated, Transaction? updatedTransaction) = this._financialTrackerService.GetTransactionIfExist(transactionId);
+                    if (isContactUpdated && updatedTransaction != null)
+                    {
+                        ConsoleActivity.ShowEditIncomeHeader();
+                        ConsoleActivity.PrintInConsole("Income edited successfully!!");
+                        ConsoleActivity.PrintEmptyLine();
+                        ConsoleActivity.PrintInConsole("Updated Income: ");
+                        ConsoleActivity.PrintIncome(updatedTransaction);
+                        ConsoleActivity.WaitInConsole();
+                    }
                 }
                 else
                 {
@@ -217,6 +244,12 @@ namespace Assignment4.Controller
         private void HandleDeleteIncome()
         {
             ConsoleActivity.ShowDeleteIncomeHeader();
+            if (this._financialTrackerService.GetIncomeCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
             (bool isValidId, int transactionId) = ExpenseHelper.GetTransactionIdWithRetry(ConsoleActivity.ShowEditIncomeHeader);
             if (!isValidId)
             {
@@ -324,6 +357,12 @@ namespace Assignment4.Controller
         private void HandleViewAllExpense()
         {
             ConsoleActivity.ShowViewExpenseHeader();
+            if (this._financialTrackerService.GetExpenseCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
             List<Expense> expenseTransaction = this._financialTrackerService.GetAllExpense();
             ConsoleActivity.PrintExpenseInConsole(expenseTransaction);
         }
@@ -331,6 +370,12 @@ namespace Assignment4.Controller
         private void HandleEditExpense()
         {
             ConsoleActivity.ShowEditExpenseHeader();
+            if (this._financialTrackerService.GetExpenseCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
             (bool isValidId, int transactionId) = ExpenseHelper.GetTransactionIdWithRetry(ConsoleActivity.ShowEditExpenseHeader);
             if (!isValidId)
             {
@@ -385,8 +430,16 @@ namespace Assignment4.Controller
                     }
 
                     this._financialTrackerService.EditTransactionById(expense.Id, newAmount, newDate, newCategory);
-                    ConsoleActivity.PrintInConsole("Expense edited successfully!!");
-                    ConsoleActivity.WaitInConsole();
+                    (bool isContactUpdated, Transaction? updatedTransaction) = this._financialTrackerService.GetTransactionIfExist(transactionId);
+                    if (isContactUpdated && updatedTransaction != null)
+                    {
+                        ConsoleActivity.ShowEditExpenseHeader();
+                        ConsoleActivity.PrintInConsole("Expense edited successfully!!");
+                        ConsoleActivity.PrintEmptyLine();
+                        ConsoleActivity.PrintInConsole("Updated expense: ");
+                        ConsoleActivity.PrintExpense(updatedTransaction);
+                        ConsoleActivity.WaitInConsole();
+                    }
                 }
                 else
                 {
@@ -399,6 +452,12 @@ namespace Assignment4.Controller
         private void HandleDeleteExpense()
         {
             ConsoleActivity.ShowDeleteExpenseHeader();
+            if (this._financialTrackerService.GetExpenseCount() < 1)
+            {
+                ConsoleActivity.ShowNoTransactionMessage();
+                return;
+            }
+
             (bool isValidId, int transactionId) = ExpenseHelper.GetTransactionIdWithRetry(ConsoleActivity.ShowDeleteExpenseHeader);
             if (!isValidId)
             {
@@ -436,7 +495,7 @@ namespace Assignment4.Controller
             }
             else
             {
-                ConsoleActivity.PrintInConsole($"Total Income  : {totalIncome}");
+                ConsoleActivity.PrintInConsole($"Total Income  : Rs.{totalIncome}");
             }
 
             (decimal totalExpense, bool isExpensePresent) = this._financialTrackerService.GetTotalExpense();
@@ -446,13 +505,13 @@ namespace Assignment4.Controller
             }
             else
             {
-                ConsoleActivity.PrintInConsole($"Total Expense : {totalExpense}");
+                ConsoleActivity.PrintInConsole($"Total Expense : Rs.{totalExpense}");
             }
 
-            ConsoleActivity.PrintInConsole($"Net Balance   : {totalIncome - totalExpense}");
+            ConsoleActivity.PrintInConsole($"Net Balance   : Rs.{totalIncome - totalExpense}");
             if (totalIncome - totalExpense < 0)
             {
-                ConsoleActivity.PrintInConsole("Your net balance is negative. Expense crossed the your total income!!");
+                ConsoleActivity.PrintInConsole("Your net balance is negative. Expense crossed your total income!!");
             }
 
             ConsoleActivity.WaitInConsole();

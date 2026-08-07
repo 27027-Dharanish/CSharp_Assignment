@@ -236,7 +236,6 @@ namespace Assignment4.View
         /// <param name="transaction">Income transaction</param>
         public static void PrintIncome(Transaction transaction)
         {
-            ShowEditIncomeHeader();
             PrintEmptyLine();
             if (transaction is Income income)
             {
@@ -318,6 +317,17 @@ namespace Assignment4.View
             Console.WriteLine("          INCOME-EXPENSE SUMMARY");
             Console.WriteLine(new string('=', 40));
             ConsoleActivity.PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Show transaction not found message
+        /// </summary>
+        public static void ShowNoTransactionMessage()
+        {
+            PrintEmptyLine();
+            PrintInConsole("No transaction made until now!!");
+            PrintInConsole("Add some transaction to perform operation!!!");
+            WaitInConsole();
         }
     }
 }

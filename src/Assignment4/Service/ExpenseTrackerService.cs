@@ -191,5 +191,23 @@ namespace Assignment4.Service
 
             return (false, matchedTransaction);
         }
+
+        /// <summary>
+        /// Get the income count.
+        /// </summary>
+        /// <returns>No.of transaction occurred</returns>
+        public int GetIncomeCount()
+        {
+            return this._financialRepository.GetIncomeCount();
+        }
+
+        /// <summary>
+        /// Get the expense count.
+        /// </summary>
+        /// <returns>No.of transaction occurred</returns>
+        public int GetExpenseCount()
+        {
+            return this._financialRepository.GetExpenseCount();
+        }
     }
 }

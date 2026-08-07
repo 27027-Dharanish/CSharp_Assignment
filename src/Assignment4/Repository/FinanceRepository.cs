@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
 
@@ -165,9 +166,31 @@ namespace Assignment4.Repository
             return false;
         }
 
-        private int GetTransactionCount()
+        /// <summary>
+        /// Get the total number of transaction count.
+        /// </summary>
+        /// <returns>Count of transaction</returns>
+        public int GetTransactionCount()
         {
             return this._financeTracker.Count;
+        }
+
+        /// <summary>
+        /// Get the income count.
+        /// </summary>
+        /// <returns>Income count</returns>
+        public int GetIncomeCount()
+        {
+            return this.ViewIncome().Count;
+        }
+
+        /// <summary>
+        /// Get the expense count.
+        /// </summary>
+        /// <returns>expense count</returns>
+        public int GetExpenseCount()
+        {
+            return this.ViewExpense().Count;
         }
 
         private Transaction? CreateDuplicateTransaction(Transaction transaction)

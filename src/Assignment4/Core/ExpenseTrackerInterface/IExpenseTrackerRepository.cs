@@ -56,5 +56,23 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
+
+        /// <summary>
+        /// Get the total number of transaction count.
+        /// </summary>
+        /// <returns>Count of transaction</returns>
+        public int GetTransactionCount();
+
+        /// <summary>
+        /// Get the income count.
+        /// </summary>
+        /// <returns>Income count</returns>
+        public int GetIncomeCount();
+
+        /// <summary>
+        /// Get the expense count.
+        /// </summary>
+        /// <returns>expense count</returns>
+        public int GetExpenseCount();
     }
 }
