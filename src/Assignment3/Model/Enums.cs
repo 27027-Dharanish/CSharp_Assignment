@@ -107,6 +107,11 @@
             /// Represents the quantity of the product.
             /// </summary>
             Quantity,
+
+            /// <summary>
+            /// Represents exit from the inventory management system.
+            /// </summary>
+            Exit,
         }
     }
 }

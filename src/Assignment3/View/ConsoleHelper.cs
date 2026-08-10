@@ -83,7 +83,7 @@ namespace Assignment3.View
             }
             else if (quantity == 0)
             {
-                ConsoleActivity.PrintInConsole("Quantity cannot be Rs.0 ....");
+                ConsoleActivity.PrintInConsole("Quantity cannot be 0 ....");
                 return false;
             }
             else if (quantity < 0)

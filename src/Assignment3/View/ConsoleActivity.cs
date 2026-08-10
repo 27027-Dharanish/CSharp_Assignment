@@ -50,7 +50,7 @@ namespace Assignment_3.View
         public static void InventoryMenu()
         {
             ClearConsole();
-            PrintInConsole("!!Inventory Management System!!");
+            ShowInventoryHeader();
             PrintEmptyLine();
             PrintInConsole("Select the option to perform: ");
             PrintEmptyLine();
@@ -128,6 +128,18 @@ namespace Assignment_3.View
             PrintInConsole("1.Name");
             PrintInConsole("2.Price");
             PrintInConsole("3.Quantity");
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the add new product header in console.
+        /// </summary>
+        public static void ShowInventoryHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("   !!Inventory Management System!!");
+            PrintInConsole(new string('=', 40));
             PrintEmptyLine();
         }
 

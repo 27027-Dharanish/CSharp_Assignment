@@ -525,7 +525,7 @@ namespace Assignment_3.Controller
                 string? productPrice = ConsoleActivity.GetInputFromConsole("Product price");
                 if (!ConsoleHelper.IsOnlyDigit(productPrice))
                 {
-                    ConsoleActivity.PrintInConsole("Product price must be in decimal");
+                    ConsoleActivity.PrintInConsole("Product price must be in decimal and cannot be negative!!");
                     userAttempt--;
                 }
                 else if (decimal.TryParse(productPrice, out decimal price))
@@ -566,7 +566,7 @@ namespace Assignment_3.Controller
                 string? productQuantity = ConsoleActivity.GetInputFromConsole("Product quantity");
                 if (!ConsoleHelper.IsOnlyDigit(productQuantity))
                 {
-                    ConsoleActivity.PrintInConsole("Product quantity must be in decimal");
+                    ConsoleActivity.PrintInConsole("Product quantity must be in decimal and cannot be negative!!");
                     userAttempt--;
                 }
                 else if (int.TryParse(productQuantity, out int quantity))
