@@ -85,41 +85,13 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
-        /// Filters and retrieves a collection of all recorded income transactions.
+        /// Filters and retrieves a collection of all recorded transactions.
         /// </summary>
-        /// <returns>All the income from transaction</returns>
-        public List<Income> ViewIncome()
+        /// <returns>All the transaction</returns>
+        public List<Transaction> ViewTransaction()
         {
-            List<Income> allIncome = new List<Income>();
             List<Transaction> transactions = this.GetAllTransaction();
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Income income)
-                {
-                    allIncome.Add(income);
-                }
-            }
-
-            return allIncome;
-        }
-
-        /// <summary>
-        /// Filters and retrieves a collection of all recorded expense transactions.
-        /// </summary>
-        /// <returns>All the expense from transaction</returns>
-        public List<Expense> ViewExpense()
-        {
-            List<Expense> allExpense = new List<Expense>();
-            List<Transaction> transactions = this.GetAllTransaction();
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Expense expense)
-                {
-                    allExpense.Add(expense);
-                }
-            }
-
-            return allExpense;
+            return transactions;
         }
 
         /// <summary>
@@ -176,6 +148,44 @@ namespace Assignment4.Repository
         }
 
         /// <summary>
+        /// Filters and retrieves a collection of all recorded income transactions.
+        /// </summary>
+        /// <returns>All the income from transaction</returns>
+        public List<Income> ViewIncome()
+        {
+            List<Income> allIncome = new List<Income>();
+            List<Transaction> transactions = this.GetAllTransaction();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Income income)
+                {
+                    allIncome.Add(income);
+                }
+            }
+
+            return allIncome;
+        }
+
+        /// <summary>
+        /// Filters and retrieves a collection of all recorded expense transactions.
+        /// </summary>
+        /// <returns>All the expense from transaction</returns>
+        public List<Expense> ViewExpense()
+        {
+            List<Expense> allExpense = new List<Expense>();
+            List<Transaction> transactions = this.GetAllTransaction();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is Expense expense)
+                {
+                    allExpense.Add(expense);
+                }
+            }
+
+            return allExpense;
+        }
+
+        /// <summary>
         /// Get the income count.
         /// </summary>
         /// <returns>Income count</returns>
@@ -197,17 +207,13 @@ namespace Assignment4.Repository
         {
             if (transaction is Income income)
             {
-                Income incomeCopy = new Income(income.Id);
-                incomeCopy.Amount = income.Amount;
-                incomeCopy.TransactionDate = income.TransactionDate;
+                Income incomeCopy = new Income(income.Id, income.Amount, income.TransactionDate);
                 incomeCopy.Source = income.Source;
                 return incomeCopy;
             }
             else if (transaction is Expense expense)
             {
-                Expense expenseCopy = new Expense(expense.Id);
-                expenseCopy.Amount = expense.Amount;
-                expenseCopy.TransactionDate = expense.TransactionDate;
+                Expense expenseCopy = new Expense(expense.Id, expense.Amount, expense.TransactionDate);
                 expenseCopy.Category = expense.Category;
                 return expenseCopy;
             }

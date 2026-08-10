@@ -9,9 +9,13 @@
         /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
         /// <param name="id">Id for the transaction</param>
-        public Transaction(int id)
+        /// <param name="amount">IAmount of the transaction</param>
+        /// <param name="date">Transaction date</param>
+        public Transaction(int id, decimal amount, DateOnly date)
         {
             this.Id = id;
+            this.Amount = amount;
+            this.TransactionDate = date;
         }
 
         /// <summary>

@@ -33,10 +33,13 @@ namespace Assignment4.Service
         /// <returns>Status of income added in repository</returns>
         public bool AddNewIncome(decimal amount, DateOnly date, string? source)
         {
+            if (amount == 0)
+            {
+                return false;
+            }
+
             this._transactionIdCounter++;
-            Income newIncome = new (this._transactionIdCounter);
-            newIncome.Amount = amount;
-            newIncome.TransactionDate = date;
+            Income newIncome = new (this._transactionIdCounter, amount, date);
             newIncome.Source = source;
             return this._financialRepository.AddNewTransaction(newIncome);
         }
@@ -50,10 +53,13 @@ namespace Assignment4.Service
         /// <returns>Status of expense added in repository</returns>
         public bool AddNewExpense(decimal amount, DateOnly date, string? category)
         {
+            if (amount == 0)
+            {
+                return false;
+            }
+
             this._transactionIdCounter++;
-            Expense newExpense = new (this._transactionIdCounter);
-            newExpense.Amount = amount;
-            newExpense.TransactionDate = date;
+            Expense newExpense = new (this._transactionIdCounter, amount, date);
             newExpense.Category = category;
             return this._financialRepository.AddNewTransaction(newExpense);
         }
@@ -128,21 +134,12 @@ namespace Assignment4.Service
         }
 
         /// <summary>
-        ///  Retrieves a list of all recorded income transactions from the repository layer.
+        ///  Retrieves a list of all recorded transactions from the repository layer.
         /// </summary>
-        /// <returns>Collection of income</returns>
-        public List<Income> GetAllIncome()
+        /// <returns>Collection of transaction</returns>
+        public List<Transaction> GetAllTransaction()
         {
-            return this._financialRepository.ViewIncome();
-        }
-
-        /// <summary>
-        /// Retrieves a list of all recorded expense transactions from the repository layer.
-        /// </summary>
-        /// <returns>Collection of all expense</returns>
-        public List<Expense> GetAllExpense()
-        {
-            return this._financialRepository.ViewExpense();
+            return this._financialRepository.GetAllTransaction();
         }
 
         /// <summary>

@@ -36,16 +36,10 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         public bool DeleteTransactionById(int id);
 
         /// <summary>
-        /// Filters and retrieves a collection of all recorded expense transactions.
+        /// Filters and retrieves a collection of all recorded transactions.
         /// </summary>
-        /// <returns>All the expense from transaction</returns>
-        public List<Expense> ViewExpense();
-
-        /// <summary>
-        /// Filters and retrieves a collection of all recorded income transactions.
-        /// </summary>
-        /// <returns>All the income from transaction</returns>
-        public List<Income> ViewIncome();
+        /// <returns>All the transaction</returns>
+        public List<Transaction> ViewTransaction();
 
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.

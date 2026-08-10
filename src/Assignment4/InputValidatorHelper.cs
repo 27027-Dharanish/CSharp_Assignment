@@ -8,7 +8,7 @@ namespace Assignment4
     /// <summary>
     /// Provides utility and supporting methods to assist with expense tracker operations.
     /// </summary>
-    public static class ExpenseHelper
+    public static class InputValidatorHelper
     {
         /// <summary>
         /// Tries to convert a text string into a integer number.
@@ -66,7 +66,15 @@ namespace Assignment4
                 }
                 else if (ConvertStringToDecimal(userAmount, out decimal amount))
                 {
-                    return (true, amount);
+                    if (amount == 0)
+                    {
+                        ConsoleActivity.PrintInConsole("Amount cannot be Rs.0 ....");
+                        userAttempt--;
+                    }
+                    else
+                    {
+                        return (true, amount);
+                    }
                 }
                 else
                 {

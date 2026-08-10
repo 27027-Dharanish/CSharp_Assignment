@@ -51,16 +51,10 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         public bool DeleteTransaction(int id);
 
         /// <summary>
-        ///  Retrieves a list of all recorded income transactions from the repository layer.
+        ///  Retrieves a list of all recorded transactions from the repository layer.
         /// </summary>
-        /// <returns>Collection of income</returns>
-        public List<Income> GetAllIncome();
-
-        /// <summary>
-        /// Retrieves a list of all recorded expense transactions from the repository layer.
-        /// </summary>
-        /// <returns>Collection of all expense</returns>
-        public List<Expense> GetAllExpense();
+        /// <returns>Collection of transaction</returns>
+        public List<Transaction> GetAllTransaction();
 
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.

@@ -10,9 +10,11 @@ namespace Assignment4.Core.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Income"/> class.
         /// </summary>
-        /// <param name="id">Id for the income</param>
-        public Income(int id)
-            : base(id)
+        /// <param name="id">Id for the transaction</param>
+        /// <param name="amount">IAmount of the transaction</param>
+        /// <param name="date">Transaction date</param>
+        public Income(int id, decimal amount, DateOnly date)
+            : base(id, amount, date)
         {
         }
 

@@ -35,7 +35,7 @@ namespace Assignment4.View
         public static void WaitInConsole()
         {
             PrintEmptyLine();
-            Console.WriteLine("Press any key to continue!!");
+            PrintInConsole("Press any key to continue!!");
             Console.ReadKey();
         }
 
@@ -46,7 +46,7 @@ namespace Assignment4.View
         public static void PrintInvalidMessage(string? content)
         {
             PrintEmptyLine();
-            Console.WriteLine(content);
+            PrintInConsole(content);
             WaitInConsole();
         }
 
@@ -64,11 +64,11 @@ namespace Assignment4.View
         public static void ShowFinancialTrackerMenu()
         {
             ClearConsole();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          EXPENSE TRACKER MENU");
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine(" 1. View Summary\n 2. Manage Income\n 3. Manage Expense\n 4. Exit");
-            Console.WriteLine(new string('-', 40));
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          EXPENSE TRACKER MENU");
+            PrintInConsole(new string('=', 40));
+            PrintInConsole(" 1. View Summary\n 2. Manage Income\n 3. Manage Expense\n 4. Exit");
+            PrintInConsole(new string('-', 40));
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowIncomeMenu()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          MANAGE  INCOME");
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine(" 1. Add New Income\n 2. View All Income\n 3. Edit Income\n 4. Delete Income\n 5. Exit");
-            Console.WriteLine(new string('-', 40));
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          MANAGE  INCOME");
+            PrintInConsole(new string('=', 40));
+            PrintInConsole(" 1. Add New Income\n 2. View All Income\n 3. Edit Income\n 4. Delete Income\n 5. Exit");
+            PrintInConsole(new string('-', 40));
         }
 
         /// <summary>
@@ -97,12 +97,12 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowExpenseMenu()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          MANAGE  EXPENSE");
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine(" 1. Add New Expense\n 2. View All Expense\n 3. Edit Expense\n 4. Delete Expense\n 5. Exit");
-            Console.WriteLine(new string('-', 40));
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          MANAGE  EXPENSE");
+            PrintInConsole(new string('=', 40));
+            PrintInConsole(" 1. Add New Expense\n 2. View All Expense\n 3. Edit Expense\n 4. Delete Expense\n 5. Exit");
+            PrintInConsole(new string('-', 40));
         }
 
         /// <summary>
@@ -110,11 +110,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowAddNewIncomeHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          ADD NEW INCOME");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          ADD NEW INCOME");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Assignment4.View
         {
             for (int i = 0; i < items.Length; i++)
             {
-                Console.WriteLine($"{i + 1}. {items[i]}");
+                PrintInConsole($"{i + 1}. {items[i]}");
             }
         }
 
@@ -143,11 +143,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowAddNewExpenseHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          ADD NEW EXPENSE");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          ADD NEW EXPENSE");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -155,11 +155,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowViewIncomeHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          VIEW ALL INCOME");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          VIEW ALL INCOME");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -167,11 +167,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowViewExpenseHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          VIEW ALL EXPENSE");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          VIEW ALL EXPENSE");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -179,11 +179,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowEditIncomeHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          EDIT INCOME");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          EDIT INCOME");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -191,23 +191,26 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowEditExpenseHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          EDIT EXPENSE");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          EDIT EXPENSE");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
         /// Prints a list of income transactions to the console in a clean, formatted table.
         /// </summary>
-        /// <param name="incomeTransaction">The list of income records to display</param>
-        public static void PrintIncomeInConsole(List<Income> incomeTransaction)
+        /// <param name="transactions">The list of transaction records to display</param>
+        public static void PrintIncomeInConsole(List<Transaction> transactions)
         {
             var incomeTable = new ConsoleTable("Transaction ID", "Amount", "Transaction Date", "Source");
-            foreach (Income income in incomeTransaction)
+            foreach (Transaction transaction in transactions)
             {
-                incomeTable.AddRow(income.Id, income.Amount, income.TransactionDate, income.Source);
+                if (transaction is Income income)
+                {
+                    incomeTable.AddRow(income.Id, income.Amount, income.TransactionDate, income.Source);
+                }
             }
 
             incomeTable.Write();
@@ -217,13 +220,16 @@ namespace Assignment4.View
         /// <summary>
         /// Prints a list of expense transactions to the console in a clean, formatted table.
         /// </summary>
-        /// <param name="expenseTransaction">The list of expense records to display</param>
-        public static void PrintExpenseInConsole(List<Expense> expenseTransaction)
+        /// <param name="transactions">The list of transaction records to display</param>
+        public static void PrintExpenseInConsole(List<Transaction> transactions)
         {
             var expenseTable = new ConsoleTable("Transaction ID", "Amount", "Transaction Date", "Category");
-            foreach (Expense expense in expenseTransaction)
+            foreach (Transaction transaction in transactions)
             {
-                expenseTable.AddRow(expense.Id, expense.Amount, expense.TransactionDate, expense.Category);
+                if (transaction is Expense expense)
+                {
+                    expenseTable.AddRow(expense.Id, expense.Amount, expense.TransactionDate, expense.Category);
+                }
             }
 
             expenseTable.Write();
@@ -240,11 +246,11 @@ namespace Assignment4.View
             if (transaction is Income income)
             {
                 PrintEmptyLine();
-                Console.WriteLine("Transaction Id: " + income.Id);
-                Console.WriteLine("Income amount : " + income.Amount);
-                Console.WriteLine("Transaction Date : " + income.TransactionDate);
-                Console.WriteLine("Income Source : " + income.Source);
-                Console.WriteLine();
+                PrintInConsole("Transaction Id: " + income.Id);
+                PrintInConsole("Income amount : " + income.Amount);
+                PrintInConsole("Transaction Date : " + income.TransactionDate);
+                PrintInConsole("Income Source : " + income.Source);
+                PrintEmptyLine();
             }
         }
 
@@ -259,11 +265,11 @@ namespace Assignment4.View
             if (transaction is Expense expense)
             {
                 PrintEmptyLine();
-                Console.WriteLine("Transaction Id: " + expense.Id);
-                Console.WriteLine("Income amount : " + expense.Amount);
-                Console.WriteLine("Transaction Date : " + expense.TransactionDate);
-                Console.WriteLine("Expense category : " + expense.Category);
-                Console.WriteLine();
+                PrintInConsole("Transaction Id: " + expense.Id);
+                PrintInConsole("Income amount : " + expense.Amount);
+                PrintInConsole("Transaction Date : " + expense.TransactionDate);
+                PrintInConsole("Expense category : " + expense.Category);
+                PrintEmptyLine();
             }
         }
 
@@ -274,12 +280,12 @@ namespace Assignment4.View
         /// <returns>The menu option string typed by the user</returns>
         public static string? ShowTransactionEditMenu(string? transactionType)
         {
-            ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Choose field to edit : ");
-            Console.WriteLine(" 1. Amount");
-            Console.WriteLine(" 2. Transaction Date");
-            Console.WriteLine($" 3. {transactionType}");
-            ConsoleActivity.PrintEmptyLine();
+            PrintEmptyLine();
+            PrintInConsole("Choose field to edit : ");
+            PrintInConsole(" 1. Amount");
+            PrintInConsole(" 2. Transaction Date");
+            PrintInConsole($" 3. {transactionType}");
+            PrintEmptyLine();
             return GetInputFromUser("option");
         }
 
@@ -288,11 +294,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowDeleteIncomeHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          DELETE INCOME");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          DELETE INCOME");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -300,11 +306,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowDeleteExpenseHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          DELETE EXPENSE");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          DELETE EXPENSE");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -312,11 +318,11 @@ namespace Assignment4.View
         /// </summary>
         public static void ShowSummaryHeader()
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 40));
-            Console.WriteLine("          INCOME-EXPENSE SUMMARY");
-            Console.WriteLine(new string('=', 40));
-            ConsoleActivity.PrintEmptyLine();
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("          INCOME-EXPENSE SUMMARY");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
 
         /// <summary>
