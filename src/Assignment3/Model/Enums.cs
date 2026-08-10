@@ -18,17 +18,17 @@
             /// <summary>
             /// Represents the name of the product.
             /// </summary>
-            Name = 2,
+            Name,
 
             /// <summary>
             /// Represents the price of the product.
             /// </summary>
-            Price = 3,
+            Price,
 
             /// <summary>
             /// Represents the quantity of the product.
             /// </summary>
-            Quantity = 4,
+            Quantity,
         }
 
         /// <summary>
@@ -44,27 +44,27 @@
             /// <summary>
             /// Represents viewing all product.
             /// </summary>
-            ViewAllProduct = 2,
+            ViewAllProduct,
 
             /// <summary>
             /// Represents editing inventory.
             /// </summary>
-            EditInventory = 3,
+            EditInventory,
 
             /// <summary>
             /// Represents searching product.
             /// </summary>
-            SearchProduct = 4,
+            SearchProduct,
 
             /// <summary>
             /// Represents searching product.
             /// </summary>
-            DeleteProduct = 5,
+            DeleteProduct,
 
             /// <summary>
             /// Represents exit from the inventory management system.
             /// </summary>
-            Exit = 6,
+            Exit,
         }
 
         /// <summary>
@@ -80,7 +80,12 @@
             /// <summary>
             /// Represents search using the product name.
             /// </summary>
-            SearchUsingProductName = 2,
+            SearchUsingProductName,
+
+            /// <summary>
+            /// Represents exit from the inventory management system.
+            /// </summary>
+            Exit,
         }
 
         /// <summary>
@@ -96,12 +101,12 @@
             /// <summary>
             /// Represents the price of the product.
             /// </summary>
-            Price = 2,
+            Price,
 
             /// <summary>
             /// Represents the quantity of the product.
             /// </summary>
-            Quantity = 3,
+            Quantity,
         }
     }
 }

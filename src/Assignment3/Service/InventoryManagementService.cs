@@ -1,5 +1,7 @@
-﻿using Assignment_3.Model;
+﻿using System.Xml.Linq;
+using Assignment_3.Model;
 using Assignment_3.Repository;
+using Assignment3.Interface;
 
 namespace Assignment_3.Service
 {
@@ -8,7 +10,7 @@ namespace Assignment_3.Service
     /// </summary>
     public class InventoryManagementService
     {
-        private readonly InventoryManagementRepository _productInventory = new InventoryManagementRepository();
+        private readonly IInventoryRepository _productInventory = new InventoryManagementRepository();
 
         /// <summary>
         /// Add new product to the inventory.
@@ -20,7 +22,13 @@ namespace Assignment_3.Service
         /// <returns>Return if product added or not</returns>
         public bool AddNewProductToInventory(string? id, string? productName, decimal price, int quantity)
         {
-            return this._productInventory.AddNewProduct(id, productName, price, quantity);
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            Product newProduct = new (id, productName, price, quantity);
+            return this._productInventory.AddNewProduct(newProduct);
         }
 
         /// <summary>
@@ -41,17 +49,29 @@ namespace Assignment_3.Service
         /// <returns>True if name already exist else false</returns>
         public bool IsNameAlreadyExist(string? name)
         {
-            return this._productInventory.CheckIfNameExist(name);
+            Product? checkIfProductExist = this._productInventory.SearchProductByName(name);
+            if (checkIfProductExist == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
         /// Check if the product ID already exist.
         /// </summary>
-        /// <param name="name">Name of the id</param>
+        /// <param name="id">Name of the id</param>
         /// <returns>True if id already exist else false</returns>
-        public bool IsIdAlreadyExist(string? name)
+        public bool IsIdAlreadyExist(string? id)
         {
-            return this._productInventory.CheckIfIdExist(name);
+            Product? checkIfProductExist = this._productInventory.SearchProductByProductId(id);
+            if (checkIfProductExist == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -103,7 +123,13 @@ namespace Assignment_3.Service
         /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductById(string? id)
         {
-            return this._productInventory.DeleteProductById(id);
+            Product? matchedProduct = this.SearchProductUsingID(id);
+            if (matchedProduct != null)
+            {
+                return this._productInventory.DeleteProduct(matchedProduct);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -113,7 +139,13 @@ namespace Assignment_3.Service
         /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductByName(string? name)
         {
-            return this._productInventory.DeleteProductByName(name);
+            Product? matchedProduct = this.SearchProductUsingName(name);
+            if (matchedProduct != null)
+            {
+                return this._productInventory.DeleteProduct(matchedProduct);
+            }
+
+            return false;
         }
     }
 }

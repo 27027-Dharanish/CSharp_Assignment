@@ -15,9 +15,15 @@ namespace Assignment_3.Model
         /// Initializes a new instance of the <see cref="Product"/> class.
         /// </summary>
         /// <param name="id">Id of the new product</param>
-        public Product(string? id)
+        /// <param name="name">Name of the new product</param>
+        /// <param name="price">Price of the new product</param>
+        /// <param name="quantity">Quantity of the new product</param>
+        public Product(string? id, string? name, decimal price, int quantity)
         {
             this.ProductId = id;
+            this.Name = name;
+            this.Price = price;
+            this.Quantity = quantity;
         }
 
         /// <summary>

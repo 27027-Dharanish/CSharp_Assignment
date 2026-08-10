@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment_3.Model;
-using Assignment_3.View;
+﻿using Assignment_3.View;
 
-namespace Assignment_3
+namespace Assignment3.View
 {
     /// <summary>
     /// Provides utility and supporting methods to assist with inventory management operations.
     /// </summary>
-    internal class InventoryHelper
+    public class ConsoleHelper
     {
         /// <summary>
         /// Check whether the content is null or contain whitespace.
@@ -54,6 +48,27 @@ namespace Assignment_3
         }
 
         /// <summary>
+        /// Check whether the product name is valid.
+        /// </summary>
+        /// <param name="productName">The name of the product</param>
+        /// <returns>True if product name is valid else false</returns>
+        public static bool IsValidProductName(string? productName)
+        {
+            if (IsEmpty(productName))
+            {
+                ConsoleActivity.PrintInConsole("Product name cannot be null or empty!!");
+                return false;
+            }
+            else if (!IsOnlyChar(productName))
+            {
+                ConsoleActivity.PrintInConsole("Product name must contain only character!!");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Check whether the product quantity is valid.
         /// </summary>
         /// <param name="quantity">Product quantity</param>
@@ -63,7 +78,12 @@ namespace Assignment_3
             if (quantity >= int.MaxValue)
             {
                 ConsoleActivity.PrintInConsole("Quantity value exceeded the range...");
-                ConsoleActivity.WaitInConsole();
+                ConsoleActivity.PrintInConsole("Quantity must be within : " + int.MaxValue);
+                return false;
+            }
+            else if (quantity == 0)
+            {
+                ConsoleActivity.PrintInConsole("Quantity cannot be Rs.0 ....");
                 return false;
             }
             else if (quantity < 0)
@@ -86,13 +106,17 @@ namespace Assignment_3
             if (price >= decimal.MaxValue)
             {
                 ConsoleActivity.PrintInConsole("Price value exceeded the range...");
-                ConsoleActivity.WaitInConsole();
+                ConsoleActivity.PrintInConsole("Price value must be within : " + decimal.MaxValue);
+                return false;
+            }
+            else if (price == 0)
+            {
+                ConsoleActivity.PrintInConsole("Price cannot be Rs.0 ....");
                 return false;
             }
             else if (price < 0)
             {
                 ConsoleActivity.PrintInConsole("Price cannot be negative...");
-                ConsoleActivity.WaitInConsole();
                 return false;
             }
 
@@ -108,35 +132,12 @@ namespace Assignment_3
         {
             if (IsEmpty(productID))
             {
-                ConsoleActivity.PrintInvalidField("product ID");
+                ConsoleActivity.PrintInConsole("Product ID cannot be null or empty!!");
                 return false;
             }
             else if (!IsOnlyDigit(productID))
             {
-                ConsoleActivity.PrintInConsole("Product ID must be Digit!!");
-                ConsoleActivity.WaitInConsole();
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check whether the product name is valid.
-        /// </summary>
-        /// <param name="productName">The name of the product</param>
-        /// <returns>True if product name is valid else false</returns>
-        public static bool IsValidProductName(string? productName)
-        {
-            if (InventoryHelper.IsEmpty(productName))
-            {
-                ConsoleActivity.PrintInvalidField("product Name");
-                return false;
-            }
-            else if (!InventoryHelper.IsOnlyChar(productName))
-            {
-                ConsoleActivity.PrintInConsole("Product name must be character!!");
-                ConsoleActivity.WaitInConsole();
+                ConsoleActivity.PrintInConsole("Product ID must contain only digit and cannot be negative!!");
                 return false;
             }
 

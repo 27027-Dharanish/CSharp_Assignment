@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment_3.Model;
+﻿using Assignment_3.Model;
 
 namespace Assignment_3.View
 {
@@ -29,7 +23,7 @@ namespace Assignment_3.View
         /// <returns>The data entered by the user</returns>
         public static string? GetInputFromConsole(string? inputToGet)
         {
-            Console.WriteLine($"Enter the {inputToGet} : ");
+            Console.Write($"Enter the {inputToGet} : ");
             return Console.ReadLine();
         }
 
@@ -46,7 +40,7 @@ namespace Assignment_3.View
         /// </summary>
         public static void WaitInConsole()
         {
-            Console.WriteLine("Press any key to continue!!");
+            PrintInConsole("Press any key to continue!!");
             Console.ReadKey();
         }
 
@@ -55,26 +49,26 @@ namespace Assignment_3.View
         /// </summary>
         public static void InventoryMenu()
         {
-            Console.Clear();
-            Console.WriteLine("!!Inventory Management System!!");
-            Console.WriteLine();
-            Console.WriteLine("Select the option to perform: ");
-            Console.WriteLine();
-            Console.WriteLine("1.Add new product");
-            Console.WriteLine("2.View all product in inventory");
-            Console.WriteLine("3.Edit product from inventory");
-            Console.WriteLine("4.Search product from inventory");
-            Console.WriteLine("5.Delete product");
-            Console.WriteLine("6.Exit");
+            ClearConsole();
+            PrintInConsole("!!Inventory Management System!!");
+            PrintEmptyLine();
+            PrintInConsole("Select the option to perform: ");
+            PrintEmptyLine();
+            PrintInConsole("1.Add new product");
+            PrintInConsole("2.View all product");
+            PrintInConsole("3.Edit product");
+            PrintInConsole("4.Search product");
+            PrintInConsole("5.Delete product");
+            PrintInConsole("6.Exit");
         }
 
         /// <summary>
-        /// Print the invalid field with field name.
+        /// Print and wait in the console
         /// </summary>
-        /// <param name="field">Invalid field name</param>
-        public static void PrintInvalidField(string? field)
+        /// <param name="content">Content to print in console</param>
+        public static void PrintAndWaitInConsole(string? content)
         {
-            Console.WriteLine("Invalid " + field);
+            PrintInConsole(content);
             WaitInConsole();
         }
 
@@ -84,9 +78,7 @@ namespace Assignment_3.View
         /// <param name="content">Duplicate content field</param>
         public static void PrintDuplicateFoundInConsole(string? content)
         {
-            Console.WriteLine($"{content} already present in inventory!!");
-            Console.WriteLine("Enter new value again..");
-            WaitInConsole();
+            PrintInConsole($"{content} already present in inventory!!");
         }
 
         /// <summary>
@@ -95,10 +87,10 @@ namespace Assignment_3.View
         /// <param name="product">Product to be printed in console</param>
         public static void PrintProductInConsole(Product product)
         {
-            Console.WriteLine("Product ID : " + product.ProductId);
-            Console.WriteLine("Name : " + product.Name);
-            Console.WriteLine("Price : " + product.Price);
-            Console.WriteLine("Quantity : " + product.Quantity);
+            PrintInConsole("Product ID : " + product.ProductId);
+            PrintInConsole("Name : " + product.Name);
+            PrintInConsole("Price : " + product.Price);
+            PrintInConsole("Quantity : " + product.Quantity);
         }
 
         /// <summary>
@@ -115,14 +107,13 @@ namespace Assignment_3.View
         /// <param name="field">Field that uses search option</param>
         public static void ShowSearchProductMenu(string? field)
         {
-            Console.Clear();
-            Console.WriteLine($"{field} Product from Inventory!!");
-            Console.WriteLine();
-            Console.WriteLine($"{field} Using:");
-            Console.WriteLine();
-            Console.WriteLine("1.Product Id");
-            Console.WriteLine("2.Product Name");
-            Console.WriteLine();
+            PrintEmptyLine();
+            PrintInConsole($"{field} Using:");
+            PrintEmptyLine();
+            PrintInConsole("1.Product Id");
+            PrintInConsole("2.Product Name");
+            PrintInConsole("3.Exit");
+            PrintEmptyLine();
         }
 
         /// <summary>
@@ -130,14 +121,74 @@ namespace Assignment_3.View
         /// </summary>
         public static void ShowMenuToEdit()
         {
-            Console.WriteLine("----------------------------");
-            Console.WriteLine();
-            Console.WriteLine("Choose the field to edit!");
-            Console.WriteLine();
-            Console.WriteLine("1.Name");
-            Console.WriteLine("2.Price");
-            Console.WriteLine("3.Quantity");
-            Console.WriteLine();
+            PrintInConsole("----------------------------");
+            PrintEmptyLine();
+            PrintInConsole("Choose the field to edit!");
+            PrintEmptyLine();
+            PrintInConsole("1.Name");
+            PrintInConsole("2.Price");
+            PrintInConsole("3.Quantity");
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the add new product header in console.
+        /// </summary>
+        public static void ShowAddNewProductHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("   !!Add New Product in Inventory!!");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the edit product header in console.
+        /// </summary>
+        public static void ShowEditProductHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("        Edit Product");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the view product header in console.
+        /// </summary>
+        public static void ShowViewProductHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("    !!View Product in Inventory!!");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the search product header in console.
+        /// </summary>
+        public static void ShowSearchProductHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("    !!Search Product in Inventory!!");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
+        }
+
+        /// <summary>
+        /// Print the delete product header in console.
+        /// </summary>
+        public static void ShowDeleteProductHeader()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 40));
+            PrintInConsole("    !!Delete Product in Inventory!!");
+            PrintInConsole(new string('=', 40));
+            PrintEmptyLine();
         }
     }
 }

@@ -1,30 +1,22 @@
 ﻿using Assignment_3.Model;
+using Assignment3.Interface;
 
 namespace Assignment_3.Repository
 {
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving, editing, deleting inventory entities.
     /// </summary>
-    public class InventoryManagementRepository
+    public class InventoryManagementRepository : IInventoryRepository
     {
         private readonly List<Product> _inventoryList = new ();
 
         /// <summary>
         ///  Adds a new product to the inventory.
         /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <param name="name">Name of the product</param>
-        /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the product</param>
+        /// <param name="newProduct">New product</param>
         /// <returns>True if new product added or false if failed</returns>
-        public bool AddNewProduct(string? id, string? name, decimal price, int quantity)
+        public bool AddNewProduct(Product newProduct)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Product newProduct = this.CreateNewProduct(id, name, price, quantity);
             int previousInventoryCount = this._inventoryList.Count;
             this._inventoryList.Add(newProduct);
             if (previousInventoryCount == this._inventoryList.Count)
@@ -119,68 +111,13 @@ namespace Assignment_3.Repository
         }
 
         /// <summary>
-        /// Check if product name exist or not.
-        /// </summary>
-        /// <param name="name">Name of the product</param>
-        /// <returns>True if product name exist else false</returns>
-        public bool CheckIfNameExist(string? name)
-        {
-            Product? checkIfProductExist = this.SearchProductByName(name);
-            if (checkIfProductExist == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check if product id exist or not.
-        /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <returns>True of product id exist else false</returns>
-        public bool CheckIfIdExist(string? id)
-        {
-            Product? checkIfProductExist = this.SearchProductByProductId(id);
-            if (checkIfProductExist == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Delete the product using ID.
-        /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <returns>True if product got deleted</returns>
-        public bool DeleteProductById(string? id)
-        {
-            Product? productToBeEdit = this.SearchProductByProductId(id, false);
-            if (productToBeEdit == null)
-            {
-                return false;
-            }
-
-            this._inventoryList.Remove(productToBeEdit);
-            return true;
-        }
-
-        /// <summary>
         /// Delete the product using name.
         /// </summary>
-        /// <param name="name">Id of the product</param>
+        /// <param name="productToBeDeleted">Product to be deleted</param>
         /// <returns>True if product got deleted</returns>
-        public bool DeleteProductByName(string? name)
+        public bool DeleteProduct(Product productToBeDeleted)
         {
-            Product? productToBeEdit = this.SearchProductByName(name, false);
-            if (productToBeEdit == null)
-            {
-                return false;
-            }
-
-            this._inventoryList.Remove(productToBeEdit);
+            this._inventoryList.Remove(productToBeDeleted);
             return true;
         }
 
@@ -203,10 +140,7 @@ namespace Assignment_3.Repository
         /// <returns>The product that have been created</returns>
         private Product CreateNewProduct(string? id, string? name, decimal price, int quantity)
         {
-            Product newProduct = new (id);
-            newProduct.Name = name;
-            newProduct.Price = price;
-            newProduct.Quantity = quantity;
+            Product newProduct = new (id, name, price, quantity);
             return newProduct;
         }
     }
