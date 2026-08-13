@@ -86,45 +86,42 @@ namespace Assignment_3.Controller
         /// </summary>
         private void HandleAddNewProduct()
         {
-            ConsoleActivity.ShowAddNewProductHeader();
-            (bool isValidProductId, string? productID) = this.GetProductIdWithRetry(ConsoleActivity.ShowAddNewProductHeader);
+            ConsoleActivity.ShowInventoryHeader("ADD NEW PRODUCT");
+            (bool isValidProductId, string? productID) = this.GetProductIdWithRetry("ADD NEW PRODUCT", ConsoleActivity.ShowInventoryHeader);
             if (!isValidProductId)
             {
                 return;
             }
 
-            (bool isValidProductName, string? productName) = this.GetProductNameWithRetry(ConsoleActivity.ShowAddNewProductHeader);
+            (bool isValidProductName, string? productName) = this.GetProductNameWithRetry("ADD NEW PRODUCT", ConsoleActivity.ShowInventoryHeader);
             if (!isValidProductName)
             {
                 return;
             }
 
-            (bool isValidProductPrice, decimal productPrice) = this.GetProductPriceWithRetry(ConsoleActivity.ShowAddNewProductHeader);
+            (bool isValidProductPrice, decimal productPrice) = this.GetProductPriceWithRetry("ADD NEW PRODUCT", ConsoleActivity.ShowInventoryHeader);
             if (!isValidProductPrice)
             {
                 return;
             }
 
-            (bool isValidProductQuantity, int productQuantity) = this.GetProductQuantityWithRetry(ConsoleActivity.ShowAddNewProductHeader);
+            (bool isValidProductQuantity, int productQuantity) = this.GetProductQuantityWithRetry("ADD NEW PRODUCT", ConsoleActivity.ShowInventoryHeader);
             if (!isValidProductQuantity)
             {
                 return;
             }
 
+            ConsoleActivity.ShowInventoryHeader("ADD NEW PRODUCT");
             if (this._service.AddNewProductToInventory(productID, productName, productPrice, productQuantity))
             {
-                ConsoleActivity.ShowAddNewProductHeader();
-                ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole("Product Added Successfully!!");
-                ConsoleActivity.WaitInConsole();
             }
             else
             {
-                ConsoleActivity.ShowAddNewProductHeader();
-                ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole("Failed to add product!!");
-                ConsoleActivity.WaitInConsole();
             }
+
+            ConsoleActivity.WaitInConsole();
         }
 
         /// <summary>
@@ -138,7 +135,7 @@ namespace Assignment_3.Controller
                 return;
             }
 
-            ConsoleActivity.ShowViewProductHeader();
+            ConsoleActivity.ShowInventoryHeader("VIEW PRODUCT FROM INVENTORY");
             ConsoleActivity.PrintEmptyLine();
             if (this.IsInventoryEmpty())
             {
@@ -170,7 +167,7 @@ namespace Assignment_3.Controller
                     return;
                 }
 
-                ConsoleActivity.ShowEditProductHeader();
+                ConsoleActivity.ShowInventoryHeader("EDIT PRODUCT IN INVENTORY");
                 ConsoleActivity.ShowSearchProductMenu("Edit");
                 string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
                 int.TryParse(userChoiceInput, out int choice);
@@ -178,10 +175,10 @@ namespace Assignment_3.Controller
                 switch (userChoice)
                 {
                     case Enums.SearchUsingField.SearchUsingID:
-                        this.ExecuteEditProduct(ConsoleActivity.ShowEditProductHeader, this.GetProductIdWithRetry, this._service.SearchProductUsingID);
+                        this.ExecuteEditProduct(this.GetProductIdWithRetry, this._service.SearchProductUsingID);
                         break;
                     case Enums.SearchUsingField.SearchUsingProductName:
-                        this.ExecuteEditProduct(ConsoleActivity.ShowEditProductHeader, this.GetProductNameWithRetry, this._service.SearchProductUsingName);
+                        this.ExecuteEditProduct(this.GetProductNameWithRetry, this._service.SearchProductUsingName);
                         break;
                     case Enums.SearchUsingField.Exit:
                         break;
@@ -196,13 +193,12 @@ namespace Assignment_3.Controller
         /// <summary>
         /// Finds a product for editing by retrieving validated user input and looking up the matching data item.
         /// </summary>
-        /// <param name="action">The UI header action executed at the start of the process</param>
         /// <param name="getProductDetails">Get the user for product details and returns a validation status</param>
         /// <param name="searchProduct">The method that searches for the product</param>
-        private void ExecuteEditProduct(Action action, Func<Action, bool, (bool, string?)> getProductDetails, Func<string?, Product?> searchProduct)
+        private void ExecuteEditProduct(Func<string?, Action<string?>, bool, (bool, string?)> getProductDetails, Func<string?, Product?> searchProduct)
         {
-            action();
-            (bool isValidProductDetails, string? productDetails) = getProductDetails(action, true);
+            ConsoleActivity.ShowInventoryHeader("EDIT PRODUCT FROM INVENTORY");
+            (bool isValidProductDetails, string? productDetails) = getProductDetails("EDIT PRODUCT FROM INVENTORY", ConsoleActivity.ShowInventoryHeader, true);
             if (!isValidProductDetails)
             {
                 return;
@@ -225,7 +221,7 @@ namespace Assignment_3.Controller
         /// <param name="product">Product to be updated</param>
         private void GetInputForEdit(Product product)
         {
-            ConsoleActivity.ShowEditProductHeader();
+            ConsoleActivity.ShowInventoryHeader("EDIT PRODUCT IN INVENTORY");
             ConsoleActivity.PrintEmptyLine();
             ConsoleActivity.PrintInConsole("Product to be edited!!");
             ConsoleActivity.PrintProductInConsole(product);
@@ -237,40 +233,38 @@ namespace Assignment_3.Controller
             string? fieldToEdit = ConsoleActivity.GetInputFromConsole("field to edit");
             int.TryParse(fieldToEdit, out int number);
             Enums.ProductFieldToBeEdited fieldNumber = (Enums.ProductFieldToBeEdited)number;
-            if (fieldNumber == Enums.ProductFieldToBeEdited.Name)
+            switch (fieldNumber)
             {
-                (bool isValidProductName, string? productName) = this.GetProductNameWithRetry(ConsoleActivity.ShowEditProductHeader);
-                if (!isValidProductName)
-                {
-                    return;
-                }
+                case Enums.ProductFieldToBeEdited.Name:
+                    (bool isValidProductName, string? productName) = this.GetProductNameWithRetry("EDIT PRODUCT IN INVENTORY", ConsoleActivity.ShowInventoryHeader);
+                    if (!isValidProductName)
+                    {
+                        return;
+                    }
 
-                name = productName;
-            }
-            else if (fieldNumber == Enums.ProductFieldToBeEdited.Price)
-            {
-                (bool isValidProductPrice, decimal productPrice) = this.GetProductPriceWithRetry(ConsoleActivity.ShowEditProductHeader);
-                if (!isValidProductPrice)
-                {
-                    return;
-                }
+                    name = productName;
+                    break;
+                case Enums.ProductFieldToBeEdited.Price:
+                    (bool isValidProductPrice, decimal productPrice) = this.GetProductPriceWithRetry("EDIT PRODUCT IN INVENTORY", ConsoleActivity.ShowInventoryHeader);
+                    if (!isValidProductPrice)
+                    {
+                        return;
+                    }
 
-                price = productPrice;
-            }
-            else if (fieldNumber == Enums.ProductFieldToBeEdited.Quantity)
-            {
-                (bool isValidProductQuantity, int productQuantity) = this.GetProductQuantityWithRetry(ConsoleActivity.ShowEditProductHeader);
-                if (!isValidProductQuantity)
-                {
-                    return;
-                }
+                    price = productPrice;
+                    break;
+                case Enums.ProductFieldToBeEdited.Quantity:
+                    (bool isValidProductQuantity, int productQuantity) = this.GetProductQuantityWithRetry("EDIT PRODUCT IN INVENTORY", ConsoleActivity.ShowInventoryHeader);
+                    if (!isValidProductQuantity)
+                    {
+                        return;
+                    }
 
-                quantity = productQuantity;
-            }
-            else
-            {
-                ConsoleActivity.PrintAndWaitInConsole("Invalid Input!!");
-                return;
+                    quantity = productQuantity;
+                    break;
+                default:
+                    ConsoleActivity.PrintAndWaitInConsole("Invalid Input!!");
+                    return;
             }
 
             this.EditProduct(id, name, price, quantity);
@@ -285,23 +279,22 @@ namespace Assignment_3.Controller
         /// <param name="quantity">The updated stock quantity value for the product.</param>
         private void EditProduct(string? id, string? name, decimal price, int quantity)
         {
+            ConsoleActivity.ShowInventoryHeader("EDIT PRODUCT IN INVENTORY");
+            ConsoleActivity.PrintEmptyLine();
             Product? updatedProduct = this._service.EditProductById(id, name, price, quantity);
             if (updatedProduct != null)
             {
-                ConsoleActivity.ShowEditProductHeader();
-                ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole("Product updated successfully!!");
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintProductInConsole(updatedProduct);
-                ConsoleActivity.WaitInConsole();
             }
             else
             {
-                ConsoleActivity.ShowEditProductHeader();
-                ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole("Product failed successfully!!");
                 ConsoleActivity.PrintEmptyLine();
             }
+
+            ConsoleActivity.WaitInConsole();
         }
 
         /// <summary>
@@ -318,7 +311,7 @@ namespace Assignment_3.Controller
                     return;
                 }
 
-                ConsoleActivity.ShowSearchProductHeader();
+                ConsoleActivity.ShowInventoryHeader("SEARCH PRODUCT FROM INVENTORY");
                 ConsoleActivity.ShowSearchProductMenu("Search");
                 string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
                 int.TryParse(userChoiceInput, out int choice);
@@ -348,23 +341,22 @@ namespace Assignment_3.Controller
         /// <param name="searchCriteria">The logic function that takes the user's input string and returns the matching Product object or null.</param>
         private void ExecuteProductSearch(string inputLabel, Func<string?, Product?> searchCriteria)
         {
-            ConsoleActivity.ShowSearchProductHeader();
+            ConsoleActivity.ShowInventoryHeader("SEARCH PRODUCT FROM INVENTORY");
             string? userInput = ConsoleActivity.GetInputFromConsole(inputLabel);
             Product? product = searchCriteria(userInput);
+            ConsoleActivity.ShowInventoryHeader("SEARCH PRODUCT FROM INVENTORY");
             if (product == null)
             {
-                ConsoleActivity.ShowSearchProductHeader();
                 ConsoleActivity.PrintInConsole("Product not found!!");
-                ConsoleActivity.WaitInConsole();
             }
             else
             {
-                ConsoleActivity.ShowSearchProductHeader();
                 ConsoleActivity.PrintInConsole("--Product Found--");
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintProductInConsole(product);
-                ConsoleActivity.WaitInConsole();
             }
+
+            ConsoleActivity.WaitInConsole();
         }
 
         /// <summary>
@@ -381,7 +373,7 @@ namespace Assignment_3.Controller
                     return;
                 }
 
-                ConsoleActivity.ShowDeleteProductHeader();
+                ConsoleActivity.ShowInventoryHeader("DELETE PRODUCT IN INVENTORY");
                 ConsoleActivity.ShowSearchProductMenu("Delete");
                 string? userChoiceInput = ConsoleActivity.GetInputFromConsole("option");
                 int.TryParse(userChoiceInput, out int choice);
@@ -412,9 +404,9 @@ namespace Assignment_3.Controller
         /// <param name="checkProductExist">The validation function that checks if the entered product identifier exists in the system.</param>
         private void ExecuteProductDelete(string inputLabel, Func<string?, bool> deleteProduct, Func<string?, bool> checkProductExist)
         {
-            ConsoleActivity.ShowDeleteProductHeader();
+            ConsoleActivity.ShowInventoryHeader("DELETE PRODUCT IN INVENTORY");
             string? userInput = ConsoleActivity.GetInputFromConsole(inputLabel);
-            ConsoleActivity.ShowDeleteProductHeader();
+            ConsoleActivity.ShowInventoryHeader("DELETE PRODUCT IN INVENTORY");
             if (checkProductExist(userInput))
             {
                 if (deleteProduct(userInput))
@@ -448,16 +440,18 @@ namespace Assignment_3.Controller
         }
 
         /// <summary>
-        /// Prompts the user for a product id with retry attempts
+        /// Prompts the user for a product id with retry attempts.
         /// </summary>
+        /// <param name="headerName">Name of the header</param>
         /// <param name="action">The UI layout or header action</param>
-        /// <returns>>A tuple indicating if the input is valid, and the parsed id value</returns>
-        private (bool, string?) GetProductIdWithRetry(Action action, bool isIgnoreDuplicate = false)
+        /// <param name="isIgnoreDuplicate">Whether to ignore duplicate or not</param>
+        /// <returns>A tuple of bool whether id is valid and string of valid id</returns>
+        private (bool, string?) GetProductIdWithRetry(string? headerName, Action<string?> action, bool isIgnoreDuplicate = false)
         {
             int userAttempt = 4;
             do
             {
-                action();
+                action(headerName);
                 string? productID = ConsoleActivity.GetInputFromConsole("Product Id");
                 if (!ConsoleHelper.IsValidProductId(productID))
                 {
@@ -482,14 +476,15 @@ namespace Assignment_3.Controller
         /// <summary>
         /// Prompts the user for a product name with retry attempts
         /// </summary>
+        /// <param name="headerName">Name of the header</param>
         /// <param name="action">The UI layout or header action</param>
         /// <returns>>A tuple indicating if the input is valid, and the name</returns>
-        private (bool, string?) GetProductNameWithRetry(Action action, bool isIgnoreDuplicate = false)
+        private (bool, string?) GetProductNameWithRetry(string? headerName, Action<string?> action, bool isIgnoreDuplicate = false)
         {
             int userAttempt = 4;
             do
             {
-                action();
+                action(headerName);
                 string? productName = ConsoleActivity.GetInputFromConsole("product name");
                 if (!ConsoleHelper.IsValidProductName(productName))
                 {
@@ -514,14 +509,15 @@ namespace Assignment_3.Controller
         /// <summary>
         /// Prompts the user for a product price with retry attempts
         /// </summary>
+        /// <param name="headerName">Name of the header</param>
         /// <param name="action">The UI layout or header action</param>
         /// <returns>>A tuple indicating if the input is valid, and the parsed price value</returns>
-        private (bool, decimal) GetProductPriceWithRetry(Action action)
+        private (bool, decimal) GetProductPriceWithRetry(string? headerName, Action<string?> action)
         {
             int userAttempt = 4;
             do
             {
-                action();
+                action(headerName);
                 string? productPrice = ConsoleActivity.GetInputFromConsole("Product price");
                 if (!ConsoleHelper.IsOnlyDigit(productPrice))
                 {
@@ -555,14 +551,15 @@ namespace Assignment_3.Controller
         /// <summary>
         /// Prompts the user for a product quantity with retry attempts
         /// </summary>
+        /// <param name="headerName">Name of the header</param>
         /// <param name="action">The UI layout or header action</param>
         /// <returns>>A tuple indicating if the input is valid, and the parsed quantity value</returns>
-        private (bool, int) GetProductQuantityWithRetry(Action action)
+        private (bool, int) GetProductQuantityWithRetry(string? headerName, Action<string?> action)
         {
             int userAttempt = 4;
             do
             {
-                action();
+                action(headerName);
                 string? productQuantity = ConsoleActivity.GetInputFromConsole("Product quantity");
                 if (!ConsoleHelper.IsOnlyDigit(productQuantity))
                 {

@@ -37,14 +37,11 @@ namespace Assignment3.Interface
         public Product? SearchProductByProductId(string? id, bool returnDuplicateProduct = true);
 
         /// <summary>
-        /// Edit the product using id.
+        /// Edit the product from inventory using the product ID.
         /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <param name="name">Name of the product</param>
-        /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the product</param>
-        /// <returns>The updated product</returns>
-        public Product? EditProductFromInventoryById(string? id, string? name, decimal price, int quantity);
+        /// <param name="updatedProduct">The updated product</param>
+        /// <returns>Deep copy of the updated product</returns>
+        public Product? EditProductFromInventoryById(Product updatedProduct);
 
         /// <summary>
         /// Delete the product using name.

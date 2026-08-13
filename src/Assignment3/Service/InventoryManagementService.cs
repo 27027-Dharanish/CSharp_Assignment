@@ -113,7 +113,8 @@ namespace Assignment_3.Service
         /// <returns>The product that got edited</returns>
         public Product? EditProductById(string? id, string? name, decimal price, int quantity)
         {
-            return this._productInventory.EditProductFromInventoryById(id, name, price, quantity);
+            Product updatedProduct = new Product(id, name, price, quantity);
+            return this._productInventory.EditProductFromInventoryById(updatedProduct);
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Assignment_3.Service
         /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductById(string? id)
         {
-            Product? matchedProduct = this.SearchProductUsingID(id);
+            Product? matchedProduct = this._productInventory.SearchProductByProductId(id, false);
             if (matchedProduct != null)
             {
                 return this._productInventory.DeleteProduct(matchedProduct);
@@ -139,7 +140,7 @@ namespace Assignment_3.Service
         /// <returns>True if product got deleted else false</returns>
         public bool DeleteProductByName(string? name)
         {
-            Product? matchedProduct = this.SearchProductUsingName(name);
+            Product? matchedProduct = this._productInventory.SearchProductByName(name, false);
             if (matchedProduct != null)
             {
                 return this._productInventory.DeleteProduct(matchedProduct);

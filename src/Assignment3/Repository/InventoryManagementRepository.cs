@@ -10,11 +10,7 @@ namespace Assignment_3.Repository
     {
         private readonly List<Product> _inventoryList = new ();
 
-        /// <summary>
-        ///  Adds a new product to the inventory.
-        /// </summary>
-        /// <param name="newProduct">New product</param>
-        /// <returns>True if new product added or false if failed</returns>
+        /// <inheritdoc />
         public bool AddNewProduct(Product newProduct)
         {
             int previousInventoryCount = this._inventoryList.Count;
@@ -28,10 +24,7 @@ namespace Assignment_3.Repository
             return true;
         }
 
-        /// <summary>
-        /// Get the duplicate inventory after performing deep copy of original inventory list.
-        /// </summary>
-        /// <returns>The copy of original inventory</returns>
+        /// <inheritdoc />
         public List<Product> GetInventoryProduct()
         {
             List<Product> duplicateInventory = new ();
@@ -43,12 +36,7 @@ namespace Assignment_3.Repository
             return duplicateInventory;
         }
 
-        /// <summary>
-        /// Search the product using the name of the product.
-        /// </summary>
-        /// <param name="productName">Name of the product</param>
-        /// <param name="returnDuplicateProduct">If true the deep copy of the product is returned else the actual reference is returned</param>
-        /// <returns>The product matched with the name</returns>
+        /// <inheritdoc />
         public Product? SearchProductByName(string? productName, bool returnDuplicateProduct = true)
         {
             Product? matchedProduct = this._inventoryList.Find(product => string.Equals(productName, product.Name, StringComparison.OrdinalIgnoreCase));
@@ -65,12 +53,7 @@ namespace Assignment_3.Repository
             return matchedProduct;
         }
 
-        /// <summary>
-        /// Search the product using the productId of the product.
-        /// </summary>
-        /// <param name="id">Product id</param>
-        /// <param name="returnDuplicateProduct">If true, the deep copy of the product is returned else the actual reference is returned</param>
-        /// <returns>The product matched with the ID</returns>
+        /// <inheritdoc />
         public Product? SearchProductByProductId(string? id, bool returnDuplicateProduct = true)
         {
             Product? matchedProduct = this._inventoryList.Find(product => string.Equals(product.ProductId, id, StringComparison.OrdinalIgnoreCase));
@@ -87,44 +70,31 @@ namespace Assignment_3.Repository
             return matchedProduct;
         }
 
-        /// <summary>
-        /// Edit the product using id.
-        /// </summary>
-        /// <param name="id">Id of the product</param>
-        /// <param name="name">Name of the product</param>
-        /// <param name="price">Price of the product</param>
-        /// <param name="quantity">Quantity of the product</param>
-        /// <returns>The updated product</returns>
-        public Product? EditProductFromInventoryById(string? id, string? name, decimal price, int quantity)
+        /// <inheritdoc />
+        public Product? EditProductFromInventoryById(Product updatedProduct)
         {
-            Product? productToBeEdit = this.SearchProductByProductId(id, false);
+            Product? productToBeEdit = this.SearchProductByProductId(updatedProduct.ProductId, false);
             if (productToBeEdit == null)
             {
                 return null;
             }
 
-            productToBeEdit.Name = name;
-            productToBeEdit.Price = price;
-            productToBeEdit.Quantity = quantity;
+            productToBeEdit.Name = updatedProduct.Name;
+            productToBeEdit.Price = updatedProduct.Price;
+            productToBeEdit.Quantity = updatedProduct.Quantity;
 
-            return this.SearchProductByName(name);
+            // Return deep copy of the product that got edited
+            return this.CreateNewProduct(updatedProduct.ProductId, updatedProduct.Name, updatedProduct.Price, updatedProduct.Quantity);
         }
 
-        /// <summary>
-        /// Delete the product using name.
-        /// </summary>
-        /// <param name="productToBeDeleted">Product to be deleted</param>
-        /// <returns>True if product got deleted</returns>
+        /// <inheritdoc />
         public bool DeleteProduct(Product productToBeDeleted)
         {
             this._inventoryList.Remove(productToBeDeleted);
             return true;
         }
 
-        /// <summary>
-        /// Get the count of product in the inventory.
-        /// </summary>
-        /// <returns>The count of product in inventory</returns>
+        /// <inheritdoc />
         public int GetInventoryCount()
         {
             return this._inventoryList.Count;

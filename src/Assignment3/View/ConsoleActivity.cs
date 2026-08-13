@@ -50,7 +50,7 @@ namespace Assignment_3.View
         public static void InventoryMenu()
         {
             ClearConsole();
-            ShowInventoryHeader();
+            ShowInventoryHeader("INVENTORY MANAGEMENT SYSTEM");
             PrintEmptyLine();
             PrintInConsole("Select the option to perform: ");
             PrintEmptyLine();
@@ -132,73 +132,14 @@ namespace Assignment_3.View
         }
 
         /// <summary>
-        /// Print the add new product header in console.
+        /// Prints the inventory header.
         /// </summary>
-        public static void ShowInventoryHeader()
+        /// <param name="operation">The current operation name</param>
+        public static void ShowInventoryHeader(string? operation)
         {
             ClearConsole();
             PrintInConsole(new string('=', 40));
-            PrintInConsole("   !!Inventory Management System!!");
-            PrintInConsole(new string('=', 40));
-            PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Print the add new product header in console.
-        /// </summary>
-        public static void ShowAddNewProductHeader()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 40));
-            PrintInConsole("   !!Add New Product in Inventory!!");
-            PrintInConsole(new string('=', 40));
-            PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Print the edit product header in console.
-        /// </summary>
-        public static void ShowEditProductHeader()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 40));
-            PrintInConsole("        Edit Product");
-            PrintInConsole(new string('=', 40));
-            PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Print the view product header in console.
-        /// </summary>
-        public static void ShowViewProductHeader()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 40));
-            PrintInConsole("    !!View Product in Inventory!!");
-            PrintInConsole(new string('=', 40));
-            PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Print the search product header in console.
-        /// </summary>
-        public static void ShowSearchProductHeader()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 40));
-            PrintInConsole("    !!Search Product in Inventory!!");
-            PrintInConsole(new string('=', 40));
-            PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Print the delete product header in console.
-        /// </summary>
-        public static void ShowDeleteProductHeader()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 40));
-            PrintInConsole("    !!Delete Product in Inventory!!");
+            PrintInConsole($"   !!{operation}!!");
             PrintInConsole(new string('=', 40));
             PrintEmptyLine();
         }
