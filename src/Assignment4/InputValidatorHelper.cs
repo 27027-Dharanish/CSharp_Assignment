@@ -6,65 +6,29 @@ using Assignment4.View;
 namespace Assignment4
 {
     /// <summary>
-    /// Provides utility and supporting methods to assist with expense tracker operations.
+    /// Provides helper methods to validate user input.
     /// </summary>
     public static class InputValidatorHelper
     {
         /// <summary>
-        /// Tries to convert a text string into a integer number.
-        /// </summary>
-        /// <param name="userData">The text to convert</param>
-        /// <param name="integerResult">The converted number, else 0 if failed</param>
-        /// <returns>True if conversion succeeds, otherwise false</returns>
-        public static bool ConvertStringToInt(string? userData, out int integerResult)
-        {
-            bool isConverted = int.TryParse(userData, out int result);
-            integerResult = result;
-            return isConverted;
-        }
-
-        /// <summary>
-        /// Tries to convert a text string into a decimal number.
-        /// </summary>
-        /// <param name="userData">The text to convert</param>
-        /// <param name="integerResult">The converted decimal, else 0 if failed</param>
-        /// <returns>True if conversion succeeds, otherwise false</returns>
-        public static bool ConvertStringToDecimal(string? userData, out decimal integerResult)
-        {
-            bool isConverted = decimal.TryParse(userData, out decimal result);
-            integerResult = result;
-            return isConverted;
-        }
-
-        /// <summary>
-        /// Get the user choice to select the menu option.
-        /// </summary>
-        /// <returns>User selected menu option</returns>
-        public static int GetMenuChoiceFromUser()
-        {
-            ConvertStringToInt(ConsoleActivity.GetInputFromUser("option"), out int userMenuChoice);
-            return userMenuChoice;
-        }
-
-        /// <summary>
         /// Prompts the user for an amount with retry attempts.
-        /// </summary>/// <param name="action">Determines whether to display the header that requires an ID.</param>
+        /// </summary>/// <param name="actionHeader">Determines whether to display the header that requires an ID.</param>
         /// <param name="field">The name of the input field to display to the user</param>
         /// <returns>A tuple containing a success flag (bool) and the validated amount (decimal)returns>
-        public static (bool, decimal) GetAmountWithRetry(Action action, string? field)
+        public static (bool, decimal) GetAmountWithRetry(Action actionHeader, string? field)
         {
             int userAttempt = 4;
             do
             {
                 ConsoleActivity.ClearConsole();
-                action();
+                actionHeader();
                 string? userAmount = ConsoleActivity.GetInputFromUser(field);
                 if (string.IsNullOrWhiteSpace(userAmount) || !userAmount.All(char.IsDigit))
                 {
                     ConsoleActivity.PrintInConsole("Amount must contain numbers only!!");
                     userAttempt--;
                 }
-                else if (ConvertStringToDecimal(userAmount, out decimal amount))
+                else if (decimal.TryParse(userAmount, out decimal amount))
                 {
                     if (amount == 0)
                     {
@@ -209,7 +173,7 @@ namespace Assignment4
                     ConsoleActivity.PrintInConsole("Transaction ID must contain numbers only!!");
                     userAttempt--;
                 }
-                else if (ConvertStringToInt(transactionIDInput, out int transactionID))
+                else if (int.TryParse(transactionIDInput, out int transactionID))
                 {
                     return (true, transactionID);
                 }

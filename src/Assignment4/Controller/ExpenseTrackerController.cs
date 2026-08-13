@@ -46,7 +46,8 @@ namespace Assignment4.Controller
             do
             {
                 ConsoleActivity.ShowFinancialTrackerMenu();
-                int userInput = InputValidatorHelper.GetMenuChoiceFromUser();
+                string? menuChoice = ConsoleActivity.GetInputFromUser("option");
+                int userInput = int.TryParse
                 userChoice = (Enums.FinancialOption)userInput;
                 switch (userChoice)
                 {

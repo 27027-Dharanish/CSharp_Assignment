@@ -8,6 +8,12 @@ namespace Assignment4.View
     /// </summary>
     public static class ConsoleActivity
     {
+        public bool TryParse<T>(T userInput, out T result)
+            where T : datatype
+        {
+            return T.TryParse(userInput, out result);
+        }
+
         /// <summary>
         /// Print the given content in the console.
         /// </summary>

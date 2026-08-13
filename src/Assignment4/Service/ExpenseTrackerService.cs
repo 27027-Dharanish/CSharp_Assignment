@@ -18,9 +18,10 @@ namespace Assignment4.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
         /// </summary>
-        public ExpenseTrackerService()
+        /// <param name="repository">Repository for managing finance data</param>
+        public ExpenseTrackerService(IExpenseTrackerRepository repository)
         {
-            this._financialRepository = new FinanceRepository();
+            this._financialRepository = repository;
             this._transactionIdCounter = 0;
         }
 

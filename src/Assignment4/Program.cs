@@ -1,5 +1,6 @@
 ﻿using Assignment4.Controller;
 using Assignment4.Core.ExpenseTrackerInterface;
+using Assignment4.Repository;
 using Assignment4.Service;
 
 namespace Assignments
@@ -10,11 +11,12 @@ namespace Assignments
     public class Program
     {
         /// <summary>
-        /// Main entry point of the program and start the expense tracker controller.
+        /// Start the expense tracker controller.
         /// </summary>
         public static void Main()
         {
-            IExpenseTrackerService service = new ExpenseTrackerService();
+            IExpenseTrackerRepository repository = new FinanceRepository();
+            IExpenseTrackerService service = new ExpenseTrackerService(repository);
             ExpenseTrackerController controller = new ExpenseTrackerController(service);
             controller.StartExpenseTracker();
         }
