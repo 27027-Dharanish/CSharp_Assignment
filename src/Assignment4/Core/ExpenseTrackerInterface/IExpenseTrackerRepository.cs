@@ -36,12 +36,6 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         public bool DeleteTransactionById(int id);
 
         /// <summary>
-        /// Filters and retrieves a collection of all recorded transactions.
-        /// </summary>
-        /// <returns>All the transaction</returns>
-        public List<Transaction> ViewTransaction();
-
-        /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.
         /// </summary>
         /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
@@ -50,12 +44,6 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="newSourceOrCategory">New source or category</param>
         /// <returns>Status of edit transaction</returns>
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
-
-        /// <summary>
-        /// Get the total number of transaction count.
-        /// </summary>
-        /// <returns>Count of transaction</returns>
-        public int GetTransactionCount();
 
         /// <summary>
         /// Get the income count.

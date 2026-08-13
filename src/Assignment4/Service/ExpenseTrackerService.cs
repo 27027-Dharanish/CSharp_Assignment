@@ -25,13 +25,7 @@ namespace Assignment4.Service
             this._transactionIdCounter = 0;
         }
 
-        /// <summary>
-        /// Creates and records a new income transaction.
-        /// </summary>
-        /// <param name="amount">Income amount</param>
-        /// <param name="date">Date of income</param>
-        /// <param name="source">Source of income</param>
-        /// <returns>Status of income added in repository</returns>
+        /// <inheritdoc />
         public bool AddNewIncome(decimal amount, DateOnly date, string? source)
         {
             if (amount == 0)
@@ -45,13 +39,7 @@ namespace Assignment4.Service
             return this._financialRepository.AddNewTransaction(newIncome);
         }
 
-        /// <summary>
-        /// Creates and records a new expense transaction.
-        /// </summary>
-        /// <param name="amount">Expense amount</param>
-        /// <param name="date">Date of expense</param>
-        /// <param name="category">Category of expense</param>
-        /// <returns>Status of expense added in repository</returns>
+        /// <inheritdoc />
         public bool AddNewExpense(decimal amount, DateOnly date, string? category)
         {
             if (amount == 0)
@@ -65,10 +53,7 @@ namespace Assignment4.Service
             return this._financialRepository.AddNewTransaction(newExpense);
         }
 
-        /// <summary>
-        /// Calculates the total sum of all recorded income transactions
-        /// </summary>
-        /// <returns>Total income from all source</returns>
+        /// <inheritdoc />
         public (decimal, bool) GetTotalIncome()
         {
             List<Transaction> transactions = this._financialRepository.GetAllTransaction();
@@ -89,10 +74,7 @@ namespace Assignment4.Service
             return (totalIncome, true);
         }
 
-        /// <summary>
-        /// Calculates the total sum of all recorded expense transactions.
-        /// </summary>
-        /// <returns>Total expense from all source</returns>
+        /// <inheritdoc />
         public (decimal, bool) GetTotalExpense()
         {
             List<Transaction> transactions = this._financialRepository.GetAllTransaction();
@@ -113,10 +95,7 @@ namespace Assignment4.Service
             return (totalExpense, true);
         }
 
-        /// <summary>
-        /// Calculates the remaining net balance by subtracting total expenses from total income.
-        /// </summary>
-        /// <returns>Remaining balance amount after all expense</returns>
+        /// <inheritdoc />
         public decimal GetTotalBalanceAmount()
         {
             (decimal totalIncome, bool isIncomePresent) = this.GetTotalIncome();
@@ -124,61 +103,37 @@ namespace Assignment4.Service
             return totalIncome - totalExpense;
         }
 
-        /// <summary>
-        /// Deletes a specific transaction record using its unique identifier.
-        /// </summary>
-        /// <param name="id">Id of the transaction</param>
-        /// <returns>Status of transaction deletion</returns>
+        /// <inheritdoc />
         public bool DeleteTransaction(int id)
         {
             return this._financialRepository.DeleteTransactionById(id);
         }
 
-        /// <summary>
-        ///  Retrieves a list of all recorded transactions from the repository layer.
-        /// </summary>
-        /// <returns>Collection of transaction</returns>
+        /// <inheritdoc />
         public List<Transaction> GetAllTransaction()
         {
             return this._financialRepository.GetAllTransaction();
         }
 
-        /// <summary>
-        /// Updates the financial properties of an existing transaction by its ID.
-        /// </summary>
-        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
-        /// <param name="newAmount">New transaction amount</param>
-        /// <param name="newDate">New date</param>
-        /// <param name="newSourceOrCategory">New source or category</param>
-        /// <returns>Status of edit transaction</returns>
+        /// <inheritdoc />
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
         }
 
-        /// <summary>
-        /// Get the list of available income source.
-        /// </summary>
-        /// <returns>Collection of income source</returns>
+        /// <inheritdoc />
         public string[] GetIncomeSource()
         {
             return this._incomeSources;
         }
 
-        /// <summary>
-        /// Get the list of available expense categories.
-        /// </summary>
-        /// <returns>Collection of expense categories</returns>
+        /// <inheritdoc />
         public string[] GetExpenseCategories()
         {
             return this._expenseCategories;
         }
 
-        /// <summary>
-        /// Checks if a transaction exists and returns it if found.
-        /// </summary>
-        /// <param name="id">The unique identifier of the transaction.</param>
-        /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
+        /// <inheritdoc />
         public (bool, Transaction?) GetTransactionIfExist(int id)
         {
             Transaction? matchedTransaction = this._financialRepository.SearchTransactionUsingId(id);
@@ -190,19 +145,13 @@ namespace Assignment4.Service
             return (false, matchedTransaction);
         }
 
-        /// <summary>
-        /// Get the income count.
-        /// </summary>
-        /// <returns>No.of transaction occurred</returns>
+        /// <inheritdoc />
         public int GetIncomeCount()
         {
             return this._financialRepository.GetIncomeCount();
         }
 
-        /// <summary>
-        /// Get the expense count.
-        /// </summary>
-        /// <returns>No.of transaction occurred</returns>
+        /// <inheritdoc />
         public int GetExpenseCount()
         {
             return this._financialRepository.GetExpenseCount();

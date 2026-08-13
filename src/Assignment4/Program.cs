@@ -6,7 +6,7 @@ using Assignment4.Service;
 namespace Assignments
 {
     /// <summary>
-    /// Represents the main entry point for the application and handles initial setup.
+    /// Represents the main entry point for the expense tracker and handles initial setup.
     /// </summary>
     public class Program
     {

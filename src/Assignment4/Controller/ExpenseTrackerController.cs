@@ -42,59 +42,61 @@ namespace Assignment4.Controller
         /// </summary>
         public void ShowExpenseTrackerMenu()
         {
-            Enums.FinancialOption userChoice;
+            FinancialOption userChoice;
             do
             {
                 ConsoleActivity.ShowFinancialTrackerMenu();
                 string? menuChoice = ConsoleActivity.GetInputFromUser("option");
-                int userInput = int.TryParse
-                userChoice = (Enums.FinancialOption)userInput;
+                int userInput;
+                int.TryParse(menuChoice, out userInput);
+                userChoice = (FinancialOption)userInput;
                 switch (userChoice)
                 {
-                    case Enums.FinancialOption.ViewSummary:
+                    case FinancialOption.ViewSummary:
                         this.HandleViewSummary();
                         break;
-                    case Enums.FinancialOption.ManageIncome:
+                    case FinancialOption.ManageIncome:
                         this.HandleManageIncome();
                         break;
-                    case Enums.FinancialOption.ManageExpense:
+                    case FinancialOption.ManageExpense:
                         this.HandleManageExpense();
                         break;
-                    case Enums.FinancialOption.Exit:
-                        // This case is just to escape from the default being executing.
+                    case FinancialOption.Exit:
+                        ConsoleActivity.ExitApplication();
                         break;
                     default:
                         ConsoleActivity.PrintInvalidMessage("Invalid choice!!");
                         break;
                 }
             }
-            while (userChoice != Enums.FinancialOption.Exit);
+            while (userChoice != FinancialOption.Exit);
         }
 
         private void HandleManageIncome()
         {
-            Enums.TransactionOperation userChoice;
+            TransactionOperation userChoice;
             do
             {
                 ConsoleActivity.ShowIncomeMenu();
-                int userInput = InputValidatorHelper.GetMenuChoiceFromUser();
-                userChoice = (Enums.TransactionOperation)userInput;
+                string? menuChoice = ConsoleActivity.GetInputFromUser("option");
+                int.TryParse(menuChoice, out int userInput);
+                userChoice = (TransactionOperation)userInput;
                 switch (userChoice)
                 {
-                    case Enums.TransactionOperation.AddNewTransaction:
+                    case TransactionOperation.AddNewTransaction:
                         this.ExecuteAddNewTransaction("Income", ConsoleActivity.ShowAddNewIncomeHeader, this.GetIncomeSource, this._financialTrackerService.AddNewIncome);
                         break;
-                    case Enums.TransactionOperation.ViewTransaction:
+                    case TransactionOperation.ViewTransaction:
                         // this.HandleViewAllIncome();
                         this.ExecuteViewAllTransaction("Income", ConsoleActivity.ShowViewIncomeHeader, this._financialTrackerService.GetIncomeCount, this._financialTrackerService.GetAllTransaction, ConsoleActivity.PrintIncomeInConsole);
                         break;
-                    case Enums.TransactionOperation.EditTransaction:
+                    case TransactionOperation.EditTransaction:
                         this.HandleEditIncome();
                         break;
-                    case Enums.TransactionOperation.DeleteTransaction:
+                    case TransactionOperation.DeleteTransaction:
                         this.ExecuteDeleteTransaction("Income", ConsoleActivity.ShowDeleteIncomeHeader, this._financialTrackerService.GetIncomeCount);
                         break;
-                    case Enums.TransactionOperation.Exit:
+                    case TransactionOperation.Exit:
                         // This case is just to escape from the default being executing.
                         break;
                     default:
@@ -102,32 +104,33 @@ namespace Assignment4.Controller
                         break;
                 }
             }
-            while (userChoice != Enums.TransactionOperation.Exit);
+            while (userChoice != TransactionOperation.Exit);
         }
 
         private void HandleManageExpense()
         {
-            Enums.TransactionOperation userChoice;
+            TransactionOperation userChoice;
             do
             {
                 ConsoleActivity.ShowExpenseMenu();
-                int userChoiceInput = InputValidatorHelper.GetMenuChoiceFromUser();
-                userChoice = (Enums.TransactionOperation)userChoiceInput;
+                string? menuChoice = ConsoleActivity.GetInputFromUser("option");
+                int.TryParse(menuChoice, out int userChoiceInput);
+                userChoice = (TransactionOperation)userChoiceInput;
                 switch (userChoice)
                 {
-                    case Enums.TransactionOperation.AddNewTransaction:
+                    case TransactionOperation.AddNewTransaction:
                         this.ExecuteAddNewTransaction("Expense", ConsoleActivity.ShowAddNewExpenseHeader, this.GetExpenseCategory, this._financialTrackerService.AddNewExpense);
                         break;
-                    case Enums.TransactionOperation.ViewTransaction:
+                    case TransactionOperation.ViewTransaction:
                         this.ExecuteViewAllTransaction("Expense", ConsoleActivity.ShowViewExpenseHeader, this._financialTrackerService.GetExpenseCount, this._financialTrackerService.GetAllTransaction, ConsoleActivity.PrintExpenseInConsole);
                         break;
-                    case Enums.TransactionOperation.EditTransaction:
+                    case TransactionOperation.EditTransaction:
                         this.HandleEditExpense();
                         break;
-                    case Enums.TransactionOperation.DeleteTransaction:
+                    case TransactionOperation.DeleteTransaction:
                         this.ExecuteDeleteTransaction("Expense", ConsoleActivity.ShowDeleteExpenseHeader, this._financialTrackerService.GetExpenseCount);
                         break;
-                    case Enums.TransactionOperation.Exit:
+                    case TransactionOperation.Exit:
                         // This case is just to escape from the default being executing.
                         break;
                     default:
@@ -135,7 +138,7 @@ namespace Assignment4.Controller
                         break;
                 }
             }
-            while (userChoice != Enums.TransactionOperation.Exit);
+            while (userChoice != TransactionOperation.Exit);
         }
 
         private void ExecuteAddNewTransaction(string? inputLabel, Action action, GetSourceOrCategory getSourceOrCategory, Func<decimal, DateOnly, string?, bool> addNewTransaction)
@@ -241,7 +244,7 @@ namespace Assignment4.Controller
             }
             else if (transaction != null)
             {
-                Enums.TransactionField userChoice;
+                TransactionField userChoice;
                 ConsoleActivity.ShowEditIncomeHeader();
                 Console.WriteLine("Income before editing :");
                 ConsoleActivity.PrintIncome(transaction);
@@ -249,11 +252,11 @@ namespace Assignment4.Controller
                 string? userChoiceInput = ConsoleActivity.ShowTransactionEditMenu("source");
                 if (InputValidatorHelper.ValidateUserChoice(userChoiceInput, out int userChoiceInt) && transaction is Income income)
                 {
-                    userChoice = (Enums.TransactionField)userChoiceInt;
+                    userChoice = (TransactionField)userChoiceInt;
                     decimal newAmount = income.Amount;
                     DateOnly newDate = income.TransactionDate;
                     string? newSource = income.Source;
-                    if (userChoice == Enums.TransactionField.Amount)
+                    if (userChoice == TransactionField.Amount)
                     {
                         (bool isValidAmount, newAmount) = InputValidatorHelper.GetAmountWithRetry(ConsoleActivity.ShowEditIncomeHeader, "new income amount");
                         if (!isValidAmount)
@@ -261,7 +264,7 @@ namespace Assignment4.Controller
                             return;
                         }
                     }
-                    else if (userChoice == Enums.TransactionField.TransactionDate)
+                    else if (userChoice == TransactionField.TransactionDate)
                     {
                         (bool isValidDate, newDate) = InputValidatorHelper.GetTransactionDateWithRetry(ConsoleActivity.ShowEditIncomeHeader);
                         if (!isValidDate)
@@ -269,7 +272,7 @@ namespace Assignment4.Controller
                             return;
                         }
                     }
-                    else if (userChoice == Enums.TransactionField.SourceOrCategory)
+                    else if (userChoice == TransactionField.SourceOrCategory)
                     {
                         newSource = this.GetIncomeSource(out bool isValidSource);
                         if (!isValidSource)
@@ -326,18 +329,18 @@ namespace Assignment4.Controller
             }
             else if (transaction != null)
             {
-                Enums.TransactionField userChoice;
+                TransactionField userChoice;
                 Console.WriteLine("Expense before editing :");
                 ConsoleActivity.PrintExpense(transaction);
                 ConsoleActivity.PrintEmptyLine();
                 string? userChoiceInput = ConsoleActivity.ShowTransactionEditMenu("category");
                 if (InputValidatorHelper.ValidateUserChoice(userChoiceInput, out int userChoiceInt) && transaction is Expense expense)
                 {
-                    userChoice = (Enums.TransactionField)userChoiceInt;
+                    userChoice = (TransactionField)userChoiceInt;
                     decimal newAmount = expense.Amount;
                     DateOnly newDate = expense.TransactionDate;
                     string? newCategory = expense.Category;
-                    if (userChoice == Enums.TransactionField.Amount)
+                    if (userChoice == TransactionField.Amount)
                     {
                         (bool isValidAmount, newAmount) = InputValidatorHelper.GetAmountWithRetry(ConsoleActivity.ShowEditExpenseHeader, "new expense amount");
                         if (!isValidAmount)
@@ -345,7 +348,7 @@ namespace Assignment4.Controller
                             return;
                         }
                     }
-                    else if (userChoice == Enums.TransactionField.TransactionDate)
+                    else if (userChoice == TransactionField.TransactionDate)
                     {
                         (bool isValidDate, newDate) = InputValidatorHelper.GetTransactionDateWithRetry(ConsoleActivity.ShowEditExpenseHeader);
                         if (!isValidDate)
@@ -353,7 +356,7 @@ namespace Assignment4.Controller
                             return;
                         }
                     }
-                    else if (userChoice == Enums.TransactionField.SourceOrCategory)
+                    else if (userChoice == TransactionField.SourceOrCategory)
                     {
                         newCategory = this.GetExpenseCategory(out bool isValidCategory);
                         if (!isValidCategory)

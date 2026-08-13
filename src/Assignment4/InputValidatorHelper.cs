@@ -13,27 +13,32 @@ namespace Assignment4
         /// <summary>
         /// Prompts the user for an amount with retry attempts.
         /// </summary>/// <param name="actionHeader">Determines whether to display the header that requires an ID.</param>
-        /// <param name="field">The name of the input field to display to the user</param>
+        /// <param name="inputField">The name of the input field to display to the user</param>
         /// <returns>A tuple containing a success flag (bool) and the validated amount (decimal)returns>
-        public static (bool, decimal) GetAmountWithRetry(Action actionHeader, string? field)
+        public static (bool, decimal) GetAmountWithRetry(Action actionHeader, string? inputField)
         {
-            int userAttempt = 4;
+            int maxUserAttempt = 4;
             do
             {
                 ConsoleActivity.ClearConsole();
                 actionHeader();
-                string? userAmount = ConsoleActivity.GetInputFromUser(field);
-                if (string.IsNullOrWhiteSpace(userAmount) || !userAmount.All(char.IsDigit))
+                string? userAmount = ConsoleActivity.GetInputFromUser(inputField);
+                if (string.IsNullOrWhiteSpace(userAmount))
                 {
-                    ConsoleActivity.PrintInConsole("Amount must contain numbers only!!");
-                    userAttempt--;
+                    ConsoleActivity.PrintInConsole("Amount cannot be null or contain white space!!");
+                    maxUserAttempt--;
                 }
                 else if (decimal.TryParse(userAmount, out decimal amount))
                 {
-                    if (amount == 0)
+                    if (amount < 0)
+                    {
+                        ConsoleActivity.PrintInConsole("Amount cannot be negative!!");
+                        maxUserAttempt--;
+                    }
+                    else if (amount == 0)
                     {
                         ConsoleActivity.PrintInConsole("Amount cannot be Rs.0 ....");
-                        userAttempt--;
+                        maxUserAttempt--;
                     }
                     else
                     {
@@ -42,41 +47,40 @@ namespace Assignment4
                 }
                 else
                 {
-                    ConsoleActivity.PrintInConsole("!!Amount exceeded the range " + decimal.MaxValue);
-                    userAttempt--;
+                    ConsoleActivity.PrintInConsole("Amount must contain only digit!!");
+                    maxUserAttempt--;
                 }
 
-                ConsoleActivity.PrintInConsole($"{userAttempt} attempts remaining!!");
+                ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
-            while (userAttempt > 0);
+            while (maxUserAttempt > 0);
             return (false, default);
         }
 
         /// <summary>
         /// Prompts the user for a transaction date with retry attempts
         /// </summary>
-        /// <param name="action">Determines whether to display the header that requires date.</param>
+        /// <param name="actionHeader">Determines whether to display the header that requires date.</param>
         /// <returns>A tuple containing a success flag (bool) and the validated transaction date (DateTime)</returns>
-        public static (bool, DateOnly) GetTransactionDateWithRetry(Action action)
+        public static (bool, DateOnly) GetTransactionDateWithRetry(Action actionHeader)
         {
-            int userAttempt = 4;
+            int maxUserAttempt = 4;
             do
             {
                 ConsoleActivity.ClearConsole();
-                action();
-                ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)");
-                ConsoleActivity.PrintInConsole("Or Just press enter to add today's date");
+                actionHeader();
+                ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)\nOr Just press enter to add today's date");
                 ConsoleActivity.PrintEmptyLine();
-                string? userDate = ConsoleActivity.GetInputFromUser("transaction date");
+                string? userDate = ConsoleActivity.GetInputFromUser("Transaction date");
                 if (userDate == null)
                 {
                     ConsoleActivity.PrintInConsole("Date cannot be null!!");
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
                 else if (string.IsNullOrWhiteSpace(userDate))
                 {
-                    action();
+                    actionHeader();
                     ConsoleActivity.PrintInConsole($"Transaction date : {DateOnly.FromDateTime(DateTime.Today)}");
                     ConsoleActivity.PrintInConsole("Press enter to confirm!!");
                     if (ConsoleActivity.PressEnterToConfirm())
@@ -84,14 +88,14 @@ namespace Assignment4
                         return (true, DateOnly.FromDateTime(DateTime.Today));
                     }
 
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
                 else if (DateOnly.TryParse(userDate, out DateOnly transactionDate))
                 {
                     if (transactionDate >= DateOnly.FromDateTime(DateTime.Today))
                     {
-                        ConsoleActivity.PrintInConsole("Transaction date must not be future!!");
-                        userAttempt--;
+                        ConsoleActivity.PrintInConsole("The transaction date cannot be in the future.");
+                        maxUserAttempt--;
                     }
                     else
                     {
@@ -101,14 +105,14 @@ namespace Assignment4
                 else
                 {
                     ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)");
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
 
                 ConsoleActivity.PrintEmptyLine();
-                ConsoleActivity.PrintInConsole($"{userAttempt} attempts remaining!!");
+                ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
-            while (userAttempt > 0);
+            while (maxUserAttempt > 0);
             return (false, default);
         }
 
@@ -117,41 +121,42 @@ namespace Assignment4
         /// </summary>
         /// <param name="action">The console header menu screen.</param>
         /// <param name="predefinedList">The list of valid options the user can choose from.</param>
-        /// <param name="isIncome">True if selecting an income source; false if an expense category.</param>
+        /// <param name="isIncome">True when selecting an income source; otherwise selects an expense category. </param>
         /// <returns>A tuple containing a true/false success status and the selected string value.</returns>
         public static (bool, string?) GetSourceOrCategory(Action action, string[] predefinedList, bool isIncome)
         {
-            int userAttempt = 4;
+            int maxUserAttempt = 4;
             do
             {
+                int listLength = predefinedList.Length;
                 action();
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole(isIncome ? "Select the source of income:" : "Select the expense category:");
                 ConsoleActivity.PrintItems(predefinedList);
-                string? userChoiceInput = ConsoleActivity.GetInputFromUser($"option [1-{predefinedList.Length}]");
+                string? userChoiceInput = ConsoleActivity.GetInputFromUser($"option [1-{listLength}]");
                 if (ValidateUserChoice(userChoiceInput, out int userChoice))
                 {
-                    if (userChoice > 0 && userChoice <= predefinedList.Length)
+                    if (userChoice > 0 && userChoice <= listLength)
                     {
                         return (true, predefinedList[userChoice - 1]);
                     }
                     else
                     {
-                        ConsoleActivity.PrintInConsole($"Choice must be within range 1-{predefinedList.Length}");
-                        userAttempt--;
+                        ConsoleActivity.PrintInConsole($"Choice must be within range 1-{listLength}");
+                        maxUserAttempt--;
                     }
                 }
                 else
                 {
                     ConsoleActivity.PrintInConsole("Choice must be number!!");
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
 
                 ConsoleActivity.PrintEmptyLine();
-                ConsoleActivity.PrintInConsole($"{userAttempt} attempts remaining!!");
+                ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
-            while (userAttempt > 0);
+            while (maxUserAttempt > 0);
             return (false, default);
         }
 
@@ -162,7 +167,7 @@ namespace Assignment4
         /// <returns>A tuple where the first value indicates success (true/false) and the second value is the valid transaction ID</returns>
         public static (bool, int) GetTransactionIdWithRetry(Action action)
         {
-            int userAttempt = 4;
+            int maxUserAttempt = 4;
             do
             {
                 action();
@@ -171,7 +176,7 @@ namespace Assignment4
                 if (string.IsNullOrWhiteSpace(transactionIDInput) || !transactionIDInput.All(char.IsDigit))
                 {
                     ConsoleActivity.PrintInConsole("Transaction ID must contain numbers only!!");
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
                 else if (int.TryParse(transactionIDInput, out int transactionID))
                 {
@@ -180,13 +185,13 @@ namespace Assignment4
                 else
                 {
                     ConsoleActivity.PrintInConsole("!!Transaction exceeded the range " + int.MaxValue);
-                    userAttempt--;
+                    maxUserAttempt--;
                 }
 
-                ConsoleActivity.PrintInConsole($"{userAttempt} attempts remaining!!");
+                ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
-            while (userAttempt > 0);
+            while (maxUserAttempt > 0);
             return (false, default);
         }
 

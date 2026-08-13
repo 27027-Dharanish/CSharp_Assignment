@@ -8,12 +8,6 @@ namespace Assignment4.View
     /// </summary>
     public static class ConsoleActivity
     {
-        public bool TryParse<T>(T userInput, out T result)
-            where T : datatype
-        {
-            return T.TryParse(userInput, out result);
-        }
-
         /// <summary>
         /// Print the given content in the console.
         /// </summary>
@@ -339,6 +333,19 @@ namespace Assignment4.View
             PrintEmptyLine();
             PrintInConsole("No transaction made until now!!");
             PrintInConsole("Add some transaction to perform operation!!!");
+            WaitInConsole();
+        }
+
+        /// <summary>
+        /// exit from the expense tracker application
+        /// </summary>
+        public static void ExitApplication()
+        {
+            ClearConsole();
+            PrintInConsole(new string('=', 70));
+            PrintInConsole("          Thank you for using the application");
+            PrintInConsole(new string('=', 70));
+            PrintEmptyLine();
             WaitInConsole();
         }
     }
