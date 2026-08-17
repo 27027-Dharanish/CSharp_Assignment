@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Security.Principal;
-using Assignment4.Core.ExpenseTrackerInterface;
+﻿using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
 
 namespace Assignment4.Repository
@@ -8,7 +6,7 @@ namespace Assignment4.Repository
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving expense info entities.
     /// </summary>
-    public class FinanceRepository : IExpenseTrackerRepository
+    public class FinanceRepository : IFinancialTrackerRepository
     {
         private readonly List<Transaction> _financeTracker;
 
@@ -91,15 +89,20 @@ namespace Assignment4.Repository
         }
 
         /// <inheritdoc />
-        public int GetIncomeCount()
+        public List<T> FilterTransaction<T>()
+            where T : Transaction
         {
-            return this.ViewIncome().Count;
-        }
+            List<T> filteredTransaction = new List<T>();
+            List<Transaction> transactions = this.GetAllTransaction();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is T matchedTransaction)
+                {
+                    filteredTransaction.Add(matchedTransaction);
+                }
+            }
 
-        /// <inheritdoc />
-        public int GetExpenseCount()
-        {
-            return this.ViewExpense().Count;
+            return filteredTransaction;
         }
 
         private Transaction? CreateDuplicateTransaction(Transaction transaction)
@@ -118,36 +121,6 @@ namespace Assignment4.Repository
             }
 
             return null;
-        }
-
-        private List<Income> ViewIncome()
-        {
-            List<Income> allIncome = new List<Income>();
-            List<Transaction> transactions = this.GetAllTransaction();
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Income income)
-                {
-                    allIncome.Add(income);
-                }
-            }
-
-            return allIncome;
-        }
-
-        private List<Expense> ViewExpense()
-        {
-            List<Expense> allExpense = new List<Expense>();
-            List<Transaction> transactions = this.GetAllTransaction();
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Expense expense)
-                {
-                    allExpense.Add(expense);
-                }
-            }
-
-            return allExpense;
         }
 
         private int GetTransactionCount()

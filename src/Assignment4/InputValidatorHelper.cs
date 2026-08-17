@@ -1,27 +1,24 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Runtime;
-using Assignment4.View;
+﻿using Assignment4.View;
 
 namespace Assignment4
 {
     /// <summary>
-    /// Provides helper methods to validate user input.
+    /// Provides helper methods to get user input with retry attempt and validate it.
     /// </summary>
     public static class InputValidatorHelper
     {
         /// <summary>
         /// Prompts the user for an amount with retry attempts.
-        /// </summary>/// <param name="actionHeader">Determines whether to display the header that requires an ID.</param>
+        /// </summary>/// <param name="header">Determines whether to display the header that requires an ID.</param>
         /// <param name="inputField">The name of the input field to display to the user</param>
-        /// <returns>A tuple containing a success flag (bool) and the validated amount (decimal)returns>
-        public static (bool, decimal) GetAmountWithRetry(Action actionHeader, string? inputField)
+        /// <returns>A tuple containing a success flag and the validated amount returns>
+        public static (bool, decimal) GetAmountWithRetry(string? header, string? inputField)
         {
             int maxUserAttempt = 4;
             do
             {
                 ConsoleActivity.ClearConsole();
-                actionHeader();
+                ConsoleActivity.ShowFinancialTrackerHeader(header);
                 string? userAmount = ConsoleActivity.GetInputFromUser(inputField);
                 if (string.IsNullOrWhiteSpace(userAmount))
                 {
@@ -59,17 +56,17 @@ namespace Assignment4
         }
 
         /// <summary>
-        /// Prompts the user for a transaction date with retry attempts
+        /// Prompts the user for a transaction date with retry attempts.
         /// </summary>
-        /// <param name="actionHeader">Determines whether to display the header that requires date.</param>
-        /// <returns>A tuple containing a success flag (bool) and the validated transaction date (DateTime)</returns>
-        public static (bool, DateOnly) GetTransactionDateWithRetry(Action actionHeader)
+        /// <param name="header">Determines whether to display the header that requires date.</param>
+        /// <returns>A tuple containing a success flag  and the validated transaction date</returns>
+        public static (bool, DateOnly) GetTransactionDateWithRetry(string? header)
         {
             int maxUserAttempt = 4;
             do
             {
                 ConsoleActivity.ClearConsole();
-                actionHeader();
+                ConsoleActivity.ShowFinancialTrackerHeader(header);
                 ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)\nOr Just press enter to add today's date");
                 ConsoleActivity.PrintEmptyLine();
                 string? userDate = ConsoleActivity.GetInputFromUser("Transaction date");
@@ -80,10 +77,9 @@ namespace Assignment4
                 }
                 else if (string.IsNullOrWhiteSpace(userDate))
                 {
-                    actionHeader();
-                    ConsoleActivity.PrintInConsole($"Transaction date : {DateOnly.FromDateTime(DateTime.Today)}");
-                    ConsoleActivity.PrintInConsole("Press enter to confirm!!");
-                    if (ConsoleActivity.PressEnterToConfirm())
+                    ConsoleActivity.ShowFinancialTrackerHeader(header);
+                    ConsoleActivity.PrintInConsole($"Transaction date : {DateOnly.FromDateTime(DateTime.Today)}\nPress enter to confirm!!");
+                    if (ConsoleActivity.IsEmptyInputToConfirm())
                     {
                         return (true, DateOnly.FromDateTime(DateTime.Today));
                     }
@@ -119,17 +115,17 @@ namespace Assignment4
         /// <summary>
         /// Prompts the user to select a source or category from a list with retry attempts.
         /// </summary>
-        /// <param name="action">The console header menu screen.</param>
+        /// <param name="header">The console header menu screen.</param>
         /// <param name="predefinedList">The list of valid options the user can choose from.</param>
         /// <param name="isIncome">True when selecting an income source; otherwise selects an expense category. </param>
         /// <returns>A tuple containing a true/false success status and the selected string value.</returns>
-        public static (bool, string?) GetSourceOrCategory(Action action, string[] predefinedList, bool isIncome)
+        public static (bool, string?) GetSourceOrCategory(string? header, string[] predefinedList, bool isIncome)
         {
             int maxUserAttempt = 4;
             do
             {
                 int listLength = predefinedList.Length;
-                action();
+                ConsoleActivity.ShowFinancialTrackerHeader(header);
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole(isIncome ? "Select the source of income:" : "Select the expense category:");
                 ConsoleActivity.PrintItems(predefinedList);
@@ -163,14 +159,14 @@ namespace Assignment4
         /// <summary>
         /// Prompts the user for a transaction ID and retries until a valid input is entered.
         /// </summary>
-        /// <param name="action">Show the header which require ID</param>
+        /// <param name="header">Show the header which require ID</param>
         /// <returns>A tuple where the first value indicates success (true/false) and the second value is the valid transaction ID</returns>
-        public static (bool, int) GetTransactionIdWithRetry(Action action)
+        public static (bool, int) GetTransactionIdWithRetry(string? header)
         {
             int maxUserAttempt = 4;
             do
             {
-                action();
+                ConsoleActivity.ShowFinancialTrackerHeader(header);
                 ConsoleActivity.PrintEmptyLine();
                 string? transactionIDInput = ConsoleActivity.GetInputFromUser("transaction ID");
                 if (string.IsNullOrWhiteSpace(transactionIDInput) || !transactionIDInput.All(char.IsDigit))

@@ -5,7 +5,7 @@ namespace Assignment4.Core.ExpenseTrackerInterface
     /// <summary>
     /// Provides the data persistence abstraction layer for transactions, categories, and financial data within the expense tracker.
     /// </summary>
-    public interface IExpenseTrackerRepository
+    public interface IFinancialTrackerRepository
     {
         /// <summary>
         /// Adds a new transaction record to the tracking system and verifies its successful insertion.
@@ -46,15 +46,11 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
-        /// Get the income count.
+        /// Filter the transaction into income or expense
         /// </summary>
-        /// <returns>Income count</returns>
-        public int GetIncomeCount();
-
-        /// <summary>
-        /// Get the expense count.
-        /// </summary>
-        /// <returns>expense count</returns>
-        public int GetExpenseCount();
+        /// <typeparam name="T">Indicate the transaction type</typeparam>
+        /// <returns>The list of filtered transaction</returns>
+        public List<T> FilterTransaction<T>()
+            where T : Transaction;
     }
 }

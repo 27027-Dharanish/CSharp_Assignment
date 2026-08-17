@@ -15,10 +15,10 @@ namespace Assignments
         /// </summary>
         public static void Main()
         {
-            IExpenseTrackerRepository repository = new FinanceRepository();
-            IExpenseTrackerService service = new ExpenseTrackerService(repository);
-            ExpenseTrackerController controller = new ExpenseTrackerController(service);
-            controller.StartExpenseTracker();
+            IFinancialTrackerRepository repository = new FinanceRepository();
+            IFinancialTrackerService service = new FinancialTrackerService(repository);
+            ExpenseTrackerController financialController = new ExpenseTrackerController(service);
+            financialController.StartExpenseTracker();
         }
     }
 }

@@ -5,37 +5,25 @@ namespace Assignment4.Core.ExpenseTrackerInterface
     /// <summary>
     /// Defines the business logic contract for the expense tracker..
     /// </summary>
-    public interface IExpenseTrackerService
+    public interface IFinancialTrackerService
     {
         /// <summary>
         /// Creates and records a new income transaction.
         /// </summary>
         /// <param name="amount">Income amount</param>
         /// <param name="date">Date of income</param>
-        /// <param name="source">Source of income</param>
+        /// <param name="context">Source of transaction</param>
+        /// <param name="isIncome">True if transaction is income; Otherwise transaction is expense</param>
         /// <returns>Status of income added in repository</returns>
-        public bool AddNewIncome(decimal amount, DateOnly date, string? source);
+        public bool AddNewTransaction(decimal amount, DateOnly date, string? context, bool isIncome);
 
         /// <summary>
-        /// Creates and records a new expense transaction.
+        /// Calculate the total transaction amount.
         /// </summary>
-        /// <param name="amount">Expense amount</param>
-        /// <param name="date">Date of expense</param>
-        /// <param name="category">Category of expense</param>
-        /// <returns>Status of expense added in repository</returns>
-        public bool AddNewExpense(decimal amount, DateOnly date, string? category);
-
-        /// <summary>
-        /// Calculates the total sum of all recorded income transactions
-        /// </summary>
-        /// <returns>Total income from all source</returns>
-        public (decimal, bool) GetTotalIncome();
-
-        /// <summary>
-        /// Calculates the total sum of all recorded expense transactions.
-        /// </summary>
-        /// <returns>Total expense from all source</returns>
-        public (decimal, bool) GetTotalExpense();
+        /// <typeparam name="T">Transaction type</typeparam>
+        /// <returns>Tuple containing of total amount and boolean value indicating whether the calculation is success or not</returns>
+        public (decimal, bool) GetTotalTransactionAmount<T>()
+            where T : Transaction;
 
         /// <summary>
         /// Calculates the remaining net balance by subtracting total expenses from total income.
@@ -73,7 +61,7 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         public string[] GetIncomeSource();
 
         /// <summary>
-        /// Checks if a transaction exists and returns it if found.
+        /// Checks whether a transaction exists and returns it if found.
         /// </summary>
         /// <param name="id">The unique identifier of the transaction.</param>
         /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
