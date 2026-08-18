@@ -13,17 +13,22 @@
         /// <summary>
         /// Option to add, view, or modify income transactions.
         /// </summary>
-        ManageIncome = 2,
+        ManageIncome,
 
         /// <summary>
         /// Option to add, view, or modify expense transactions.
         /// </summary>
-        ManageExpense = 3,
+        ManageExpense,
+
+        /// <summary>
+        /// Option to create backup.
+        /// </summary>
+        BackUpRepository,
 
         /// <summary>
         /// Option to gracefully close and exit the application.
         /// </summary>
-        Exit = 4,
+        Exit,
     }
 
     /// <summary>

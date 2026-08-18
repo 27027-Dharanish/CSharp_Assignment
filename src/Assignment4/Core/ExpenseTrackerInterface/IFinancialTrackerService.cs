@@ -84,5 +84,13 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// </summary>
         /// <returns>No.of transaction occurred</returns>
         public int GetIncomeCount();
+
+        /// <summary>
+        /// Retrieves a filtered list of transactions.
+        /// </summary>
+        /// <typeparam name="T">The specific type of transaction</typeparam>
+        /// <returns>The filtered transactions matching the requested type.</returns>
+        public List<T> GetFilteredTransaction<T>()
+            where T : Transaction;
     }
 }

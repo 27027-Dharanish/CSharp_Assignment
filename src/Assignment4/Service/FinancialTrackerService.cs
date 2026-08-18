@@ -1,4 +1,5 @@
-﻿using Assignment4.Core.ExpenseTrackerInterface;
+﻿using System.Diagnostics;
+using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
 
 namespace Assignment4.Service
@@ -34,15 +35,14 @@ namespace Assignment4.Service
 
             if (isIncome)
             {
-                this._transactionIdCounter++;
-                Income newIncome = new (this._transactionIdCounter, amount, date);
+                Income newIncome = new (this.GetTransactionId(), amount, date);
                 newIncome.Source = context;
                 return this._financialRepository.AddNewTransaction(newIncome);
             }
             else
             {
                 this._transactionIdCounter++;
-                Expense newExpense = new (this._transactionIdCounter, amount, date);
+                Expense newExpense = new (this.GetTransactionId(), amount, date);
                 newExpense.Category = context;
                 return this._financialRepository.AddNewTransaction(newExpense);
             }
@@ -130,6 +130,31 @@ namespace Assignment4.Service
         public int GetExpenseCount()
         {
             return this._financialRepository.FilterTransaction<Expense>().Count;
+        }
+
+        /// <summary>
+        /// Retrieves a filtered list of transactions.
+        /// </summary>
+        /// <typeparam name="T">The specific type of transaction</typeparam>
+        /// <returns>The filtered transactions matching the requested type.</returns>
+        public List<T> GetFilteredTransaction<T>()
+            where T : Transaction
+        {
+            return this._financialRepository.FilterTransaction<T>();
+        }
+
+        private int GetTransactionId()
+        {
+            do
+            {
+                this._transactionIdCounter++;
+                Transaction? matchedTransaction = this._financialRepository.SearchTransactionUsingId(this._transactionIdCounter);
+                if (matchedTransaction == null)
+                {
+                    return this._transactionIdCounter;
+                }
+            }
+            while (true);
         }
     }
 }

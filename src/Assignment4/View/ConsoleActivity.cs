@@ -122,11 +122,12 @@ namespace Assignment4.View
         public static void PrintIncomeInConsole(List<Transaction> transactions)
         {
             _incomeTable.Rows.Clear();
+            int i = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Income income)
                 {
-                    _incomeTable.AddRow(income.Id, income.Amount, income.TransactionDate, income.Source);
+                    _incomeTable.AddRow(++i, income.Amount, income.TransactionDate, income.Source);
                 }
             }
 
@@ -141,11 +142,12 @@ namespace Assignment4.View
         public static void PrintExpenseInConsole(List<Transaction> transactions)
         {
             _expenseTable.Rows.Clear();
+            int i = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Expense expense)
                 {
-                    _expenseTable.AddRow(expense.Id, expense.Amount, expense.TransactionDate, expense.Category);
+                    _expenseTable.AddRow(++i, expense.Amount, expense.TransactionDate, expense.Category);
                 }
             }
 

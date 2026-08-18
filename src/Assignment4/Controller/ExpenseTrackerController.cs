@@ -1,5 +1,6 @@
 ﻿using Assignment4.Core.ExpenseTrackerInterface;
 using Assignment4.Core.Model;
+using Assignment4.FileHelper;
 using Assignment4.View;
 
 namespace Assignment4.Controller
@@ -9,7 +10,7 @@ namespace Assignment4.Controller
     /// </summary>
     public class ExpenseTrackerController
     {
-        private readonly string[] _financialMenu = { "View Summary", "Manage Income", "Manage Expense", "Exit" };
+        private readonly string[] _financialMenu = { "View Summary", "Manage Income", "Manage Expense", "BackUp Repository", "Exit" };
         private readonly string[] _incomeMenu = { "Add New Income", "View All Income", "Edit Income", "Delete Income", "Exit" };
         private readonly string[] _expenseMenu = { "Add New Expense", "View All Expense", "Edit Expense", "Delete Expense", "Exit" };
         private readonly IFinancialTrackerService _financialTrackerService;
@@ -31,10 +32,11 @@ namespace Assignment4.Controller
         public delegate string? GetSourceOrCategory(out bool result);
 
         /// <summary>
-        /// Starts the execution flow for the expense tracker.
+        /// Starts the execution flow for the finance tracker.
         /// </summary>
         public void StartExpenseTracker()
         {
+            Logger.WriteLog("Info", "Finance tracker started");
             this.ShowExpenseTrackerMenu();
         }
 
@@ -46,7 +48,8 @@ namespace Assignment4.Controller
             FinancialOption userChoice;
             do
             {
-                ConsoleActivity.ShowFinancialTrackerMenu("EXPENSE TRACKER MENU", this._financialMenu);
+                Logger.WriteLog("Info", "Showing finance tracker menu");
+                ConsoleActivity.ShowFinancialTrackerMenu("FINANCE TRACKER MENU", this._financialMenu);
                 string? menuChoice = ConsoleActivity.GetInputFromUser("option");
                 int userInput;
                 int.TryParse(menuChoice, out userInput);
@@ -62,10 +65,14 @@ namespace Assignment4.Controller
                     case FinancialOption.ManageExpense:
                         this.HandleManageExpense();
                         break;
+                    case FinancialOption.BackUpRepository:
+                        this.HandleBackup();
+                        break;
                     case FinancialOption.Exit:
                         ConsoleActivity.ExitApplication();
                         break;
                     default:
+                        Logger.WriteLog("Warn", "Invalid choice entered");
                         ConsoleActivity.PrintInvalidMessage("Invalid choice!!");
                         break;
                 }
@@ -78,6 +85,7 @@ namespace Assignment4.Controller
             TransactionOperation userChoice;
             do
             {
+                Logger.WriteLog("Info", "Showing income menu");
                 ConsoleActivity.ShowFinancialTrackerMenu("MANAGE INCOME", this._incomeMenu);
                 string? menuChoice = ConsoleActivity.GetInputFromUser("option");
                 int.TryParse(menuChoice, out int userInput);
@@ -100,6 +108,7 @@ namespace Assignment4.Controller
                         // This case is just to escape from the default being executing.
                         break;
                     default:
+                        Logger.WriteLog("Warn", "Invalid choice entered");
                         ConsoleActivity.PrintInvalidMessage("Invalid choice!!");
                         break;
                 }
@@ -112,6 +121,7 @@ namespace Assignment4.Controller
             TransactionOperation userChoice;
             do
             {
+                Logger.WriteLog("Info", "Showing expense menu");
                 ConsoleActivity.ShowFinancialTrackerMenu("MANAGE EXPENSE", this._expenseMenu);
                 string? menuChoice = ConsoleActivity.GetInputFromUser("option");
                 int.TryParse(menuChoice, out int userChoiceInput);
@@ -134,6 +144,7 @@ namespace Assignment4.Controller
                         // This case is just to escape from the default being executing.
                         break;
                     default:
+                        Logger.WriteLog("Warn", "Invalid choice entered");
                         ConsoleActivity.PrintInvalidMessage("Invalid choice!!");
                         break;
                 }
@@ -143,21 +154,25 @@ namespace Assignment4.Controller
 
         private void ExecuteAddNewTransaction(string? inputLabel, string? headerMessage, GetSourceOrCategory getSourceOrCategory, Func<decimal, DateOnly, string?, bool, bool> addNewTransaction, FinancialOption transactionType)
         {
+            Logger.WriteLog("Info", "Execute add new transaction");
             (bool isValidAmount, decimal amount) = InputValidatorHelper.GetAmountWithRetry(headerMessage, inputLabel);
             if (!isValidAmount)
             {
+                Logger.WriteLog("Warn", "Failed to get amount");
                 return;
             }
 
             (bool isValidTransactionDate, DateOnly transactionDate) = InputValidatorHelper.GetTransactionDateWithRetry(headerMessage);
             if (!isValidTransactionDate)
             {
+                Logger.WriteLog("Warn", "Failed to get transaction date");
                 return;
             }
 
             string? sourceOrCategory = getSourceOrCategory(out bool isValidSourceOrCategory);
             if (!isValidSourceOrCategory)
             {
+                Logger.WriteLog("Warn", "Failed to get transaction context");
                 return;
             }
 
@@ -171,11 +186,19 @@ namespace Assignment4.Controller
                 isIncome = false;
             }
 
+            ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
+            ConsoleActivity.PrintEmptyLine();
+            Logger.WriteLog("Info", "Transaction adding requested");
             if (addNewTransaction(amount, transactionDate, sourceOrCategory, isIncome))
             {
-                ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
-                ConsoleActivity.PrintEmptyLine();
+                Logger.WriteLog("Success", "Transaction added");
                 ConsoleActivity.PrintInConsole(inputLabel + " added successfully!!");
+                ConsoleActivity.WaitInConsole();
+            }
+            else
+            {
+                Logger.WriteLog("Warn", "Transaction failed");
+                ConsoleActivity.PrintInConsole(inputLabel + " failed!!");
                 ConsoleActivity.WaitInConsole();
             }
         }
@@ -189,13 +212,17 @@ namespace Assignment4.Controller
                 return;
             }
 
+            Logger.WriteLog("Info", "Show all transaction");
             ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
             List<Transaction> transaction = getTransaction();
             printTransaction(transaction);
         }
 
         private void ExecuteDeleteTransaction<T>(string? deleteLabel, string? headerMessage, Func<int> getTransactionCount)
+            where T : Transaction
         {
+            List<T> transactions = this._financialTrackerService.GetFilteredTransaction<T>();
+            Logger.WriteLog("Info", "Execute delete transaction");
             ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
             if (getTransactionCount() < 1)
             {
@@ -206,25 +233,37 @@ namespace Assignment4.Controller
             (bool isValidId, int transactionId) = InputValidatorHelper.GetTransactionIdWithRetry(headerMessage);
             if (!isValidId)
             {
+                Logger.WriteLog("Warn", "Failed to get id for deletion");
                 return;
             }
 
-            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(transactionId);
-            if (!isTransactionExist || transaction is not T)
+            if (transactionId <= 0 || transactionId > transactions.Count)
             {
+                Logger.WriteLog("Warn", "Transaction not exist");
+                ConsoleActivity.PrintInvalidMessage("Transaction Id not exist!!");
+                return;
+            }
+
+            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(transactions[transactionId - 1].Id);
+            if (!isTransactionExist)
+            {
+                Logger.WriteLog("Warn", "Transaction not exist");
                 ConsoleActivity.PrintInvalidMessage("Transaction Id not exist!!");
                 return;
             }
             else if (transaction != null)
             {
+                Logger.WriteLog("Info", "Transaction deletion requested");
                 if (this._financialTrackerService.DeleteTransaction(transaction.Id))
                 {
+                    Logger.WriteLog("Success", "Transaction deleted");
                     ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
                     ConsoleActivity.PrintInConsole(deleteLabel + " deleted successfully!!");
                     ConsoleActivity.WaitInConsole();
                 }
                 else
                 {
+                    Logger.WriteLog("Warn", "Failed to delete transaction");
                     ConsoleActivity.ShowFinancialTrackerHeader(headerMessage);
                     ConsoleActivity.PrintInvalidMessage(deleteLabel + " deletion failed!!");
                 }
@@ -234,6 +273,8 @@ namespace Assignment4.Controller
         private void ExecuteEditTransaction<T>(string? inputLabel, string? header, Func<int> getTransactionCount)
             where T : Transaction
         {
+            List<T> transactions = this._financialTrackerService.GetFilteredTransaction<T>();
+            Logger.WriteLog("Info", "Execute edit transaction");
             ConsoleActivity.ShowFinancialTrackerHeader(header);
             if (getTransactionCount() < 1)
             {
@@ -244,17 +285,27 @@ namespace Assignment4.Controller
             (bool isValidId, int transactionId) = InputValidatorHelper.GetTransactionIdWithRetry(header);
             if (!isValidId)
             {
+                Logger.WriteLog("Warn", "Failed to get transaction id");
                 return;
             }
 
-            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(transactionId);
+            if (transactionId <= 0 || transactionId > transactions.Count)
+            {
+                Logger.WriteLog("Warn", "Transaction not exist");
+                ConsoleActivity.PrintInvalidMessage("Transaction Id not exist!!");
+                return;
+            }
+
+            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(transactions[transactionId - 1].Id);
             if (!isTransactionExist || transaction is not T)
             {
+                Logger.WriteLog("Warn", "Transaction id not exist");
                 ConsoleActivity.PrintInvalidMessage("Transaction Id not exist!!");
                 return;
             }
             else if (transaction != null)
             {
+                Logger.WriteLog("Info", "Transaction editing requested");
                 TransactionField userChoice;
                 ConsoleActivity.ShowFinancialTrackerHeader(header);
                 ConsoleActivity.PrintInConsole($"{inputLabel} before editing :");
@@ -322,6 +373,7 @@ namespace Assignment4.Controller
                     }
                     else
                     {
+                        Logger.WriteLog("Warn", "Invalid choice entered");
                         ConsoleActivity.PrintInvalidMessage("Enter a valid choice!!");
                         return;
                     }
@@ -330,6 +382,7 @@ namespace Assignment4.Controller
                     (bool isTransactionUpdated, Transaction? updatedTransaction) = this._financialTrackerService.GetTransactionIfExist(transactionId);
                     if (isTransactionUpdated && updatedTransaction != null)
                     {
+                        Logger.WriteLog("Info", "Transaction editing requested");
                         ConsoleActivity.ShowFinancialTrackerHeader(header);
                         ConsoleActivity.PrintInConsole($"{inputLabel} edited successfully!!");
                         ConsoleActivity.PrintEmptyLine();
@@ -340,6 +393,7 @@ namespace Assignment4.Controller
                 }
                 else
                 {
+                    Logger.WriteLog("Warn", "Invalid choice entered");
                     ConsoleActivity.PrintInvalidMessage("Enter a valid choice!!");
                     return;
                 }
@@ -348,12 +402,14 @@ namespace Assignment4.Controller
 
         private string? GetExpenseCategory(out bool isValidCategory)
         {
+            Logger.WriteLog("Info", "Get expense category");
             bool isIncome = false;
             ConsoleActivity.ShowFinancialTrackerHeader("ADD NEW EXPENSE");
             string[] expenseCategoryList = this._financialTrackerService.GetExpenseCategories();
             (bool isValidExpenseCategory, string? categorySelected) = InputValidatorHelper.GetSourceOrCategory("ADD NEW EXPENSE", expenseCategoryList, isIncome);
             if (!isValidExpenseCategory)
             {
+                Logger.WriteLog("Warn", "Failed to get expense category");
                 isValidCategory = false;
                 return default;
             }
@@ -364,12 +420,14 @@ namespace Assignment4.Controller
 
         private string? GetIncomeSource(out bool isValidSource)
         {
+            Logger.WriteLog("Info", "Get income source");
             bool isIncome = true;
             ConsoleActivity.ShowFinancialTrackerHeader("ADD NEW INCOME");
             string[] incomeSourceList = this._financialTrackerService.GetIncomeSource();
             (bool isValidIncomeSource, string? sourceSelected) = InputValidatorHelper.GetSourceOrCategory("ADD NEW INCOME", incomeSourceList, isIncome);
             if (!isValidIncomeSource)
             {
+                Logger.WriteLog("Warn", "Failed to get income source");
                 isValidSource = false;
                 return default;
             }
@@ -378,8 +436,26 @@ namespace Assignment4.Controller
             return sourceSelected;
         }
 
+        private void HandleBackup()
+        {
+            Logger.WriteLog("Info", "File backup");
+            ConsoleActivity.ShowFinancialTrackerHeader("BACKUP FINANCIAL REPOSITORY");
+            BackUpFile backup = new BackUpFile();
+            if (backup.CreateBackUp())
+            {
+                ConsoleActivity.PrintInConsole("File Backup created successfully!");
+            }
+            else
+            {
+                ConsoleActivity.PrintInConsole("No file exist for backup");
+            }
+
+            ConsoleActivity.WaitInConsole();
+        }
+
         private void HandleViewSummary()
         {
+            Logger.WriteLog("Info", "Showing transaction summary");
             ConsoleActivity.ShowFinancialTrackerHeader("INCOME-EXPENSE SUMMARY");
             (decimal totalIncome, bool isIncomePresent) = this._financialTrackerService.GetTotalTransactionAmount<Income>();
             if (!isIncomePresent)
