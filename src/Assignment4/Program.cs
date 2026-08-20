@@ -1,9 +1,9 @@
-﻿using Assignment4.Controller;
-using Assignment4.Core.ExpenseTrackerInterface;
-using Assignment4.Repository;
-using Assignment4.Service;
+﻿using FinanceTracker.Controller;
+using FinanceTracker.Core.ExpenseTrackerInterface;
+using FinanceTracker.Repository;
+using FinanceTracker.Service;
 
-namespace Assignments
+namespace FinanceTracker
 {
     /// <summary>
     /// Represents the main entry point for the expense tracker and handles initial setup.
@@ -11,14 +11,14 @@ namespace Assignments
     public class Program
     {
         /// <summary>
-        /// Start the expense tracker controller.
+        /// Start the expense tracker application.
         /// </summary>
         public static void Main()
         {
             IFinancialTrackerRepository repository = new FileFinanceRepository();
             IFinancialTrackerService service = new FinancialTrackerService(repository);
             ExpenseTrackerController financialController = new ExpenseTrackerController(service);
-            financialController.StartExpenseTracker();
+            financialController.Start();
         }
     }
 }

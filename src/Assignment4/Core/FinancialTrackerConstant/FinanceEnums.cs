@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Core.Model
+﻿namespace FinanceTracker.Core.FinancialTrackerConstant
 {
     /// <summary>
     /// Specifies the financial option available in expense tracker.
@@ -6,33 +6,28 @@
     public enum FinancialOption
     {
         /// <summary>
-        /// Option to view the overall financial summary and total balance.
+        /// Option to view the summary.
         /// </summary>
-        ViewSummary = 1,
+        Summary = 1,
 
         /// <summary>
-        /// Option to add, view, or modify income transactions.
+        /// Option to add, view, or modify income.
         /// </summary>
-        ManageIncome,
+        Income,
 
         /// <summary>
         /// Option to add, view, or modify expense transactions.
         /// </summary>
-        ManageExpense,
+        Expense,
 
         /// <summary>
-        /// Option to create backup.
-        /// </summary>
-        BackUpRepository,
-
-        /// <summary>
-        /// Option to gracefully close and exit the application.
+        /// Option to close and exit the application.
         /// </summary>
         Exit,
     }
 
     /// <summary>
-    /// Specifies the target fields of a transaction that can be edited.
+    /// Specifies the fields of a transaction.
     /// </summary>
     public enum TransactionField
     {
@@ -58,28 +53,28 @@
     public enum TransactionOperation
     {
         /// <summary>
-        /// Indicates a new transaction should be created and added.
+        /// Indicates a new transaction should be added.
         /// </summary>
-        AddNewTransaction = 1,
+        Add = 1,
 
         /// <summary>
         /// Indicates an existing transaction's details should be displayed.
         /// </summary>
-        ViewTransaction,
+        View,
 
         /// <summary>
         /// Indicates an existing transaction's details should be modified.
         /// </summary>
-        EditTransaction,
+        Edit,
 
         /// <summary>
         /// Indicates an existing transaction should be removed.
         /// </summary>
-        DeleteTransaction,
+        Delete,
 
         /// <summary>
-        /// Option to gracefully close and exit the application.
+        /// Option to go back to main menu.
         /// </summary>
-        Exit,
+        Back,
     }
 }
