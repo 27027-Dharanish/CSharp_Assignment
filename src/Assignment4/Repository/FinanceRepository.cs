@@ -1,7 +1,7 @@
-﻿using Assignment4.Core.ExpenseTrackerInterface;
-using Assignment4.Core.Model;
+﻿using FinanceTracker.Core.ExpenseTrackerInterface;
+using FinanceTracker.Core.Model;
 
-namespace Assignment4.Repository
+namespace FinanceTracker.Repository
 {
     /// <summary>
     /// Provides a centralized data repository for storing, retrieving expense info entities.
@@ -19,16 +19,9 @@ namespace Assignment4.Repository
         }
 
         /// <inheritdoc />
-        public bool AddNewTransaction(Transaction transaction)
+        public void AddNewTransaction(Transaction transaction)
         {
-            int previousTransactionCount = this.GetTransactionCount();
             this._financeTracker.Add(transaction);
-            if (previousTransactionCount == this.GetTransactionCount())
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <inheritdoc />
@@ -38,38 +31,33 @@ namespace Assignment4.Repository
         }
 
         /// <inheritdoc />
-        public Transaction? SearchTransactionUsingId(int id, bool isReturnCopy = true)
+        public Transaction? GetTransactionCopyUsingId(int id)
         {
-            Transaction? matchedTransaction = this._financeTracker.Find(transaction => transaction != null && transaction.Id == id);
+            Transaction? matchedTransaction = this.SearchTransactionUsingId(id);
             if (matchedTransaction == null)
             {
                 return null;
             }
-            else if (isReturnCopy)
-            {
-                return this.CreateDuplicateTransaction(matchedTransaction);
-            }
 
-            return matchedTransaction;
+            return matchedTransaction.CloneTransaction();
         }
 
         /// <inheritdoc />
         public bool DeleteTransactionById(int id)
         {
-            Transaction? transactionToBeDeleted = this.SearchTransactionUsingId(id, false);
+            Transaction? transactionToBeDeleted = this.SearchTransactionUsingId(id);
             if (transactionToBeDeleted == null)
             {
                 return false;
             }
 
-            this._financeTracker.Remove(transactionToBeDeleted);
-            return true;
+            return this._financeTracker.Remove(transactionToBeDeleted);
         }
 
         /// <inheritdoc />
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
-            Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId, false);
+            Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId);
             if (matchedTransaction is Income income)
             {
                 income.Amount = newAmount;
@@ -89,7 +77,7 @@ namespace Assignment4.Repository
         }
 
         /// <inheritdoc />
-        public List<T> FilterTransaction<T>()
+        public int GetFilteredTransactionCount<T>()
             where T : Transaction
         {
             List<T> filteredTransaction = new List<T>();
@@ -102,30 +90,18 @@ namespace Assignment4.Repository
                 }
             }
 
-            return filteredTransaction;
+            return filteredTransaction.Count();
         }
 
-        private Transaction? CreateDuplicateTransaction(Transaction transaction)
+        private Transaction? SearchTransactionUsingId(int id)
         {
-            if (transaction is Income income)
+            Transaction? matchedTransaction = this._financeTracker.Find(transaction => transaction.Id == id);
+            if (matchedTransaction == null)
             {
-                Income incomeCopy = new Income(income.Id, income.Amount, income.TransactionDate);
-                incomeCopy.Source = income.Source;
-                return incomeCopy;
-            }
-            else if (transaction is Expense expense)
-            {
-                Expense expenseCopy = new Expense(expense.Id, expense.Amount, expense.TransactionDate);
-                expenseCopy.Category = expense.Category;
-                return expenseCopy;
+                return null;
             }
 
-            return null;
-        }
-
-        private int GetTransactionCount()
-        {
-            return this._financeTracker.Count;
+            return matchedTransaction;
         }
     }
 }

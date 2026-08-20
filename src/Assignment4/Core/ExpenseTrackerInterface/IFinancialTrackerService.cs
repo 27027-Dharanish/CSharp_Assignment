@@ -1,6 +1,6 @@
-﻿using Assignment4.Core.Model;
+﻿using FinanceTracker.Core.Model;
 
-namespace Assignment4.Core.ExpenseTrackerInterface
+namespace FinanceTracker.Core.ExpenseTrackerInterface
 {
     /// <summary>
     /// Defines the business logic contract for the expense tracker..
@@ -15,74 +15,74 @@ namespace Assignment4.Core.ExpenseTrackerInterface
         /// <param name="context">Source of transaction</param>
         /// <param name="isIncome">True if transaction is income; Otherwise transaction is expense</param>
         /// <returns>Status of income added in repository</returns>
-        public bool AddNewTransaction(decimal amount, DateOnly date, string? context, bool isIncome);
+        public bool CreateNewTransaction(decimal amount, DateOnly date, string? context, bool isIncome);
 
         /// <summary>
         /// Calculate the total transaction amount.
         /// </summary>
-        /// <typeparam name="T">Transaction type</typeparam>
-        /// <returns>Tuple containing of total amount and boolean value indicating whether the calculation is success or not</returns>
+        /// <typeparam name="T">Transaction type.</typeparam>
+        /// <returns>Tuple containing of total amount and boolean value indicating whether the calculation is success or not.</returns>
         public (decimal, bool) GetTotalTransactionAmount<T>()
             where T : Transaction;
 
         /// <summary>
         /// Calculates the remaining net balance by subtracting total expenses from total income.
         /// </summary>
-        /// <returns>Remaining balance amount after all expense</returns>
+        /// <returns>Remaining balance amount after all expense.</returns>
         public decimal GetTotalBalanceAmount();
 
         /// <summary>
         /// Deletes a specific transaction record using its unique identifier.
         /// </summary>
-        /// <param name="id">Id of the transaction</param>
-        /// <returns>Status of transaction deletion</returns>
+        /// <param name="id">Id of the transaction.</param>
+        /// <returns>Status of transaction deletion.</returns>
         public bool DeleteTransaction(int id);
 
         /// <summary>
         ///  Retrieves a list of all recorded transactions from the repository layer.
         /// </summary>
-        /// <returns>Collection of transaction</returns>
+        /// <returns>Collection of transaction.</returns>
         public List<Transaction> GetAllTransaction();
 
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.
         /// </summary>
-        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
-        /// <param name="newAmount">New transaction amount</param>
-        /// <param name="newDate">New date</param>
-        /// <param name="newSourceOrCategory">New source or category</param>
-        /// <returns>Status of edit transaction</returns>
+        /// <param name="transactionId">Transaction id of transaction that needed to be edited.</param>
+        /// <param name="newAmount">New transaction amount.</param>
+        /// <param name="newDate">New date.</param>
+        /// <param name="newSourceOrCategory">New source or category.</param>
+        /// <returns>Status of edit transaction.</returns>
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
         /// Get the list of available income source.
         /// </summary>
-        /// <returns>Collection of income source</returns>
+        /// <returns>Collection of income source.</returns>
         public string[] GetIncomeSource();
 
         /// <summary>
         /// Checks whether a transaction exists and returns it if found.
         /// </summary>
         /// <param name="id">The unique identifier of the transaction.</param>
-        /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
+        /// <returns>A tuple containing a success status and the matched transaction data.</returns>
         public (bool, Transaction?) GetTransactionIfExist(int id);
 
         /// <summary>
         /// Get the list of available expense categories.
         /// </summary>
-        /// <returns>Collection of expense categories</returns>
+        /// <returns>Collection of expense categories.</returns>
         public string[] GetExpenseCategories();
 
         /// <summary>
         /// Get the expense count.
         /// </summary>
-        /// <returns>No.of transaction occurred</returns>
+        /// <returns>No.of transaction occurred.</returns>
         public int GetExpenseCount();
 
         /// <summary>
         /// Get the income count.
         /// </summary>
-        /// <returns>No.of transaction occurred</returns>
+        /// <returns>No.of transaction occurred.</returns>
         public int GetIncomeCount();
     }
 }

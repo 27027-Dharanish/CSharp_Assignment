@@ -1,4 +1,4 @@
-﻿namespace Assignment4.Core.Model
+﻿namespace FinanceTracker.Core.Model
 {
     /// <summary>
     /// Serves as the foundational entity for all financial records.
@@ -41,5 +41,11 @@
         /// A date representing the date on which transaction occurred.
         /// </value>
         public DateOnly TransactionDate { get; set; }
+
+        /// <summary>
+        /// Clone the transaction.
+        /// </summary>
+        /// <returns>Cloned transaction.</returns>
+        public abstract Transaction CloneTransaction();
     }
 }

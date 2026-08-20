@@ -1,23 +1,21 @@
-﻿using Assignment4.Core.ExpenseTrackerInterface;
-using Assignment4.Core.Model;
+﻿using FinanceTracker.Core.ExpenseTrackerInterface;
+using FinanceTracker.Core.FinancialTrackerConstant;
+using FinanceTracker.Core.Model;
 
-namespace Assignment4.Service
+namespace FinanceTracker.Service
 {
     /// <summary>
     /// Provides core business logic for managing transaction, processing transaction, and interacting with repository.
     /// </summary>
     public class FinancialTrackerService : IFinancialTrackerService
     {
-        private readonly string[] _incomeSources = { "Salary", "Freelance", "Investment", "Business", "Rental", "Pocket Money", "Others" };
-        private readonly string[] _expenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };
-
         private readonly IFinancialTrackerRepository _financialRepository;
         private int _transactionIdCounter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FinancialTrackerService"/> class.
         /// </summary>
-        /// <param name="repository">Repository for managing finance data</param>
+        /// <param name="repository">Repository for managing finance data.</param>
         public FinancialTrackerService(IFinancialTrackerRepository repository)
         {
             this._financialRepository = repository;
@@ -25,27 +23,26 @@ namespace Assignment4.Service
         }
 
         /// <inheritdoc />
-        public bool AddNewTransaction(decimal amount, DateOnly date, string? context, bool isIncome)
+        public bool CreateNewTransaction(decimal amount, DateOnly date, string? transactionType, bool isIncome)
         {
             if (amount == 0)
             {
                 return false;
             }
 
+            Transaction newTransaction;
+            this._transactionIdCounter++;
             if (isIncome)
             {
-                this._transactionIdCounter++;
-                Income newIncome = new (this._transactionIdCounter, amount, date);
-                newIncome.Source = context;
-                return this._financialRepository.AddNewTransaction(newIncome);
+                newTransaction = new Income(this._transactionIdCounter, amount, date, transactionType);
             }
             else
             {
-                this._transactionIdCounter++;
-                Expense newExpense = new (this._transactionIdCounter, amount, date);
-                newExpense.Category = context;
-                return this._financialRepository.AddNewTransaction(newExpense);
+                newTransaction = new Expense(this._transactionIdCounter, amount, date, transactionType);
             }
+
+            this._financialRepository.AddNewTransaction(newTransaction);
+            return true;
         }
 
         /// <inheritdoc />
@@ -99,19 +96,19 @@ namespace Assignment4.Service
         /// <inheritdoc />
         public string[] GetIncomeSource()
         {
-            return this._incomeSources;
+            return FinanceConstant.IncomeSources;
         }
 
         /// <inheritdoc />
         public string[] GetExpenseCategories()
         {
-            return this._expenseCategories;
+            return FinanceConstant.ExpenseCategories;
         }
 
         /// <inheritdoc />
         public (bool, Transaction?) GetTransactionIfExist(int id)
         {
-            Transaction? matchedTransaction = this._financialRepository.SearchTransactionUsingId(id);
+            Transaction? matchedTransaction = this._financialRepository.GetTransactionCopyUsingId(id);
             if (matchedTransaction != null)
             {
                 return (true, matchedTransaction);
@@ -123,13 +120,18 @@ namespace Assignment4.Service
         /// <inheritdoc />
         public int GetIncomeCount()
         {
-            return this._financialRepository.FilterTransaction<Income>().Count;
+            return this._financialRepository.GetFilteredTransactionCount<Income>();
         }
 
         /// <inheritdoc />
         public int GetExpenseCount()
         {
-            return this._financialRepository.FilterTransaction<Expense>().Count;
+            return this._financialRepository.GetFilteredTransactionCount<Expense>();
+        }
+
+        private void AddTransaction(Transaction transaction)
+        {
+            this._financialRepository.AddNewTransaction(transaction);
         }
     }
 }
