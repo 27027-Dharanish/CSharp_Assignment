@@ -161,7 +161,7 @@ namespace FinanceTracker.View
         public static void PrintTransaction(Transaction transaction)
         {
             PrintEmptyLine();
-            PrintInConsole($"Transaction Id: {transaction.Id}\nTransaction amount : {transaction.Amount}\nTransaction Date : {transaction.TransactionDate}");
+            PrintInConsole($"Transaction amount : {transaction.Amount}\nTransaction Date : {transaction.TransactionDate}");
             if (transaction is Income income)
             {
                 PrintInConsole("Transaction source : " + income.Source);

@@ -31,7 +31,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public Transaction? GetTransactionCopyUsingId(int id)
+        public Transaction? GetTransactionCopyUsingId(Guid id)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(id);
             if (matchedTransaction == null)
@@ -43,7 +43,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public bool DeleteTransactionById(int id)
+        public bool DeleteTransactionById(Guid id)
         {
             Transaction? transactionToBeDeleted = this.SearchTransactionUsingId(id);
             if (transactionToBeDeleted == null)
@@ -55,7 +55,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId);
             if (matchedTransaction is Income income)
@@ -77,7 +77,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public int GetFilteredTransactionCount<T>()
+        public List<T> FilterTransaction<T>()
             where T : Transaction
         {
             List<T> filteredTransaction = new List<T>();
@@ -90,10 +90,10 @@ namespace FinanceTracker.Repository
                 }
             }
 
-            return filteredTransaction.Count();
+            return filteredTransaction;
         }
 
-        private Transaction? SearchTransactionUsingId(int id)
+        private Transaction? SearchTransactionUsingId(Guid id)
         {
             Transaction? matchedTransaction = this._financeTracker.Find(transaction => transaction.Id == id);
             if (matchedTransaction == null)

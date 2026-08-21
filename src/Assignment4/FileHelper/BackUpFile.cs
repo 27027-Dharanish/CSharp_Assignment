@@ -1,15 +1,15 @@
-﻿using System.Runtime.CompilerServices;
-using Assignment4.Repository;
+﻿using System.Linq.Expressions;
+using FinanceTracker.Repository;
 
-namespace Assignment4.FileHelper
+namespace FinanceTracker.FileHelper
 {
     /// <summary>
-    /// BackUp the file repository
+    /// Handle creating backup copy of the financial data.
     /// </summary>
-    public class BackUpFile : FileFinanceRepository
+    public class BackUpFile
     {
         private static readonly string _backupPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "FinancialTracker_Backup.csv");
 
         /// <summary>
@@ -18,13 +18,27 @@ namespace Assignment4.FileHelper
         /// <returns>True if backup created; Otherwise false if no backup created</returns>
         public bool CreateBackUp()
         {
-            if (File.Exists(this.GetFileRepositoryName()))
+            try
             {
-                File.Copy(this.GetFileRepositoryName(), _backupPath, true);
-                return true;
+                string? sourcePath = FileFinanceRepository.FileRepositoryName;
+                if (File.Exists(sourcePath))
+                {
+                    File.Copy(FileFinanceRepository.FileRepositoryName, _backupPath, true);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-
-            return false;
+            catch (IOException)
+            {
+                return false;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
         }
     }
 }

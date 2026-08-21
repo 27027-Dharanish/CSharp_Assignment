@@ -36,7 +36,7 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// </summary>
         /// <param name="id">Id of the transaction.</param>
         /// <returns>Status of transaction deletion.</returns>
-        public bool DeleteTransaction(int id);
+        public bool DeleteTransaction(Guid id);
 
         /// <summary>
         ///  Retrieves a list of all recorded transactions from the repository layer.
@@ -52,7 +52,7 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <param name="newDate">New date.</param>
         /// <param name="newSourceOrCategory">New source or category.</param>
         /// <returns>Status of edit transaction.</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
         /// Get the list of available income source.
@@ -65,7 +65,7 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// </summary>
         /// <param name="id">The unique identifier of the transaction.</param>
         /// <returns>A tuple containing a success status and the matched transaction data.</returns>
-        public (bool, Transaction?) GetTransactionIfExist(int id);
+        public (bool, Transaction?) GetTransactionIfExist(Guid id);
 
         /// <summary>
         /// Get the list of available expense categories.

@@ -24,14 +24,14 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// </summary>
         /// <param name="id">Id of the transaction.</param>
         /// <returns>Copy of the transaction that matched with the id.</returns>
-        public Transaction? GetTransactionCopyUsingId(int id);
+        public Transaction? GetTransactionCopyUsingId(Guid id);
 
         /// <summary>
         /// Delete the transaction using the transaction id.
         /// </summary>
         /// <param name="id">Transaction id of transaction.</param>
         /// <returns>Status of transaction deletion.</returns>
-        public bool DeleteTransactionById(int id);
+        public bool DeleteTransactionById(Guid id);
 
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.
@@ -41,14 +41,14 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <param name="newDate">New date.</param>
         /// <param name="newSourceOrCategory">New source or category.</param>
         /// <returns>Status of edit transaction.</returns>
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
         /// Filter the transaction into income or expense.
         /// </summary>
         /// <typeparam name="T">Indicate the transaction type.</typeparam>
-        /// <returns>The count of the particular transaction.</returns>
-        public int GetFilteredTransactionCount<T>()
+        /// <returns>List of transaction of type T.</returns>
+        public List<T> FilterTransaction<T>()
             where T : Transaction;
     }
 }

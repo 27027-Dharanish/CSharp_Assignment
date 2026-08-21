@@ -1,22 +1,28 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Assignment4.FileHelper
+﻿namespace FinanceTracker.FileHelper
 {
     /// <summary>
     /// Handles application logging by writing messages to a log file.
     /// </summary>
-    public class Logger
+    public static class Logger
     {
-        private static readonly string _loggerFile = "FinancialTrackerLog.txt";
+        private static readonly string _loggerFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FinancialTrackerLog.txt");
 
         /// <summary>
-        /// Write the log in to file.
+        /// Write the information log in to file.
         /// </summary>
-        /// <param name="status">Status of the log</param>
-        /// <param name="message">Log message</param>
-        public static void WriteLog(string status, string message)
+        /// <param name="message">Log message.</param>
+        public static void LogInformation(string message)
         {
-            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [{status}] {message}\n");
+            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Info] {message}\n");
+        }
+
+        /// <summary>
+        /// Write the error log in the file.
+        /// </summary>
+        /// <param name="error">Error message.</param>
+        public static void LogError(string error)
+        {
+            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Warn] {error}\n");
         }
     }
 }

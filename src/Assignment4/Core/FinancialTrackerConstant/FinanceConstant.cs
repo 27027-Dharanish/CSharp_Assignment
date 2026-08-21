@@ -6,9 +6,19 @@
     public class FinanceConstant
     {
         /// <summary>
+        /// Specifies transaction ID cannot be found.
+        /// </summary>
+        public const string TransactionIdNotExistMessage = "Transaction Id not exist!!";
+
+        /// <summary>
+        /// Specifies invalid message.
+        /// </summary>
+        public const string InvalidChoiceMessage = "Invalid choice!!";
+
+        /// <summary>
         /// Financial tracker menu.
         /// </summary>
-        public static readonly string[] FinancialMenu = { "View Summary", "Manage Income", "Manage Expense", "Exit" };
+        public static readonly string[] FinancialMenu = { "View Summary", "Manage Income", "Manage Expense", "BackUp Repository", "Exit" };
 
         /// <summary>
         /// Financial tracker income menu.
@@ -28,6 +38,6 @@
         /// <summary>
         /// List of expense category available.
         /// </summary>
-        public static readonly string[] ExpenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };
+        public static readonly string[] ExpenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };        
     }
 }

@@ -10,7 +10,6 @@ namespace FinanceTracker.Service
     public class FinancialTrackerService : IFinancialTrackerService
     {
         private readonly IFinancialTrackerRepository _financialRepository;
-        private int _transactionIdCounter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FinancialTrackerService"/> class.
@@ -19,7 +18,6 @@ namespace FinanceTracker.Service
         public FinancialTrackerService(IFinancialTrackerRepository repository)
         {
             this._financialRepository = repository;
-            this._transactionIdCounter = 0;
         }
 
         /// <inheritdoc />
@@ -31,14 +29,13 @@ namespace FinanceTracker.Service
             }
 
             Transaction newTransaction;
-            this._transactionIdCounter++;
             if (isIncome)
             {
-                newTransaction = new Income(this._transactionIdCounter, amount, date, transactionType);
+                newTransaction = new Income(Guid.NewGuid(), amount, date, transactionType);
             }
             else
             {
-                newTransaction = new Expense(this._transactionIdCounter, amount, date, transactionType);
+                newTransaction = new Expense(Guid.NewGuid(), amount, date, transactionType);
             }
 
             this._financialRepository.AddNewTransaction(newTransaction);
@@ -82,13 +79,13 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public bool DeleteTransaction(int id)
+        public bool DeleteTransaction(Guid id)
         {
             return this._financialRepository.DeleteTransactionById(id);
         }
 
         /// <inheritdoc />
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
         }
@@ -106,7 +103,7 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public (bool, Transaction?) GetTransactionIfExist(int id)
+        public (bool, Transaction?) GetTransactionIfExist(Guid id)
         {
             Transaction? matchedTransaction = this._financialRepository.GetTransactionCopyUsingId(id);
             if (matchedTransaction != null)
@@ -120,43 +117,20 @@ namespace FinanceTracker.Service
         /// <inheritdoc />
         public int GetIncomeCount()
         {
-            return this._financialRepository.GetFilteredTransactionCount<Income>();
+            return this._financialRepository.FilterTransaction<Income>().Count;
         }
 
         /// <inheritdoc />
         public int GetExpenseCount()
         {
-            return this._financialRepository.GetFilteredTransactionCount<Expense>();
+            return this._financialRepository.FilterTransaction<Expense>().Count;
         }
 
-        private void AddTransaction(Transaction transaction)
-        {
-            this._financialRepository.AddNewTransaction(transaction);
-        }
-
-        /// <summary>
-        /// Retrieves a filtered list of transactions.
-        /// </summary>
-        /// <typeparam name="T">The specific type of transaction</typeparam>
-        /// <returns>The filtered transactions matching the requested type.</returns>
+        /// <inheritdoc />
         public List<T> GetFilteredTransaction<T>()
             where T : Transaction
         {
             return this._financialRepository.FilterTransaction<T>();
-        }
-
-        private int GetTransactionId()
-        {
-            do
-            {
-                this._transactionIdCounter++;
-                Transaction? matchedTransaction = this._financialRepository.SearchTransactionUsingId(this._transactionIdCounter);
-                if (matchedTransaction == null)
-                {
-                    return this._transactionIdCounter;
-                }
-            }
-            while (true);
         }
     }
 }
