@@ -64,7 +64,7 @@ namespace FinanceTracker.View
         /// <summary>
         /// Show the financial menu option available.
         /// </summary>
-        /// <param name="header">Menu header</param>
+        /// <param name="header">Menu header.</param>
         /// <param name="menuItem">List of menu item for transaction operation.</param>
         public static void ShowMenu(string header, string[] menuItem)
         {
