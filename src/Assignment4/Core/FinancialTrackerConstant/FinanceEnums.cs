@@ -128,5 +128,4 @@
         /// </summary>
         UseCurrentDate,
     }
-
 }
