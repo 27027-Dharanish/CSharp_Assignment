@@ -1,4 +1,5 @@
-﻿using FinanceTracker.Helper;
+﻿using FinanceTracker.Core.FinancialTrackerConstant;
+using FinanceTracker.Helper;
 using FinanceTracker.View;
 
 namespace FinanceTracker.FinanceTrackerHelper
@@ -22,15 +23,29 @@ namespace FinanceTracker.FinanceTrackerHelper
                 ConsoleActivity.ClearConsole();
                 ConsoleActivity.ShowHeader(header);
                 string? userAmount = ConsoleActivity.GetStringInput(label);
-                if (Validator.IsTransactionAmount(userAmount, out decimal transactionAmount))
+                ValidationStatus status = Validator.IsTransactionAmount(userAmount, out decimal transactionAmount);
+                switch (status)
                 {
-                    return (true, transactionAmount);
-                }
-                else
-                {
-                    maxUserAttempt--;
+                    case ValidationStatus.Success:
+                        return (true, transactionAmount);
+                    case ValidationStatus.NullOrWhiteSpace:
+                        ConsoleActivity.PrintInConsole("Amount cannot be null or contain white space!!");
+                        break;
+                    case ValidationStatus.Negative:
+                        ConsoleActivity.PrintInConsole("Amount cannot be negative!!");
+                        break;
+                    case ValidationStatus.Zero:
+                        ConsoleActivity.PrintInConsole("Amount cannot be Rs.0 ....");
+                        break;
+                    case ValidationStatus.NotDigit:
+                        ConsoleActivity.PrintInConsole("Amount must contain only digit!!");
+                        break;
+                    default:
+                        ConsoleActivity.PrintInConsole("Enter a valid amount");
+                        break;
                 }
 
+                maxUserAttempt--;
                 ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
@@ -53,15 +68,35 @@ namespace FinanceTracker.FinanceTrackerHelper
                 ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)\nOr Just press enter to add today's date");
                 ConsoleActivity.PrintEmptyLine();
                 string? userDate = ConsoleActivity.GetStringInput("Transaction date");
-                if (Validator.IsTransactionDate(userDate, out DateOnly transactionDate))
+                ValidationStatus status = Validator.IsTransactionDate(userDate, out DateOnly transactionDate);
+                switch (status)
                 {
-                    return (true, transactionDate);
-                }
-                else
-                {
-                    maxUserAttempt--;
+                    case ValidationStatus.Success:
+                        return (true, transactionDate);
+                    case ValidationStatus.NullOrWhiteSpace:
+                        ConsoleActivity.PrintInConsole("Date cannot be null or contain whitespace !!");
+                        break;
+                    case ValidationStatus.UseCurrentDate:
+                        ConsoleActivity.PrintInConsole($"Transaction date : {DateOnly.FromDateTime(DateTime.Today)}\nPress enter to confirm!!");
+                        if (ConsoleActivity.IsEmptyInput())
+                        {
+                            return (true, DateOnly.FromDateTime(DateTime.Today));
+                        }
+
+                        ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)");
+                        break;
+                    case ValidationStatus.FutureDate:
+                        ConsoleActivity.PrintInConsole("The transaction date cannot be in the future.");
+                        break;
+                    case ValidationStatus.DateFormat:
+                        ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)");
+                        break;
+                    default:
+                        ConsoleActivity.PrintInConsole("Enter a valid date!!");
+                        break;
                 }
 
+                maxUserAttempt--;
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
@@ -88,15 +123,23 @@ namespace FinanceTracker.FinanceTrackerHelper
                 ConsoleActivity.PrintInConsole(isIncome ? "Select the source of income:" : "Select the expense category:");
                 ConsoleActivity.PrintItems(predefinedList);
                 string? userChoiceInput = ConsoleActivity.GetStringInput($"option [1-{listLength}]");
-                if (Validator.IsTransactionTag(userChoiceInput, predefinedList, out string transactionTag))
+                ValidationStatus status = Validator.IsTransactionTag(userChoiceInput, predefinedList, out string transactionTag);
+                switch (status)
                 {
-                    return (true, transactionTag);
-                }
-                else
-                {
-                    maxUserAttempt--;
+                    case ValidationStatus.Success:
+                        return (true, transactionTag);
+                    case ValidationStatus.ExceededRange:
+                        ConsoleActivity.PrintInConsole($"Choice must be within range 1-{listLength}");
+                        break;
+                    case ValidationStatus.NotDigit:
+                        ConsoleActivity.PrintInConsole("Choice must be a number!!");
+                        break;
+                    default:
+                        ConsoleActivity.PrintInConsole("Enter a valid date!!");
+                        break;
                 }
 
+                maxUserAttempt--;
                 ConsoleActivity.PrintEmptyLine();
                 ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
@@ -118,15 +161,26 @@ namespace FinanceTracker.FinanceTrackerHelper
                 ConsoleActivity.ShowHeader(header);
                 ConsoleActivity.PrintEmptyLine();
                 string? userTransactionID = ConsoleActivity.GetStringInput("transaction ID");
-                if (Validator.IsTransactionId(userTransactionID, out int transactionID))
+                ValidationStatus status = Validator.IsTransactionId(userTransactionID, out int transactionID);
+                switch (status)
                 {
-                    return (true, transactionID);
-                }
-                else
-                {
-                    maxUserAttempt--;
+                    case ValidationStatus.Success:
+                        return (true, transactionID);
+                    case ValidationStatus.NullOrWhiteSpace:
+                        ConsoleActivity.PrintInConsole("Transaction id cannot be null or contain whitespace!!");
+                        break;
+                    case ValidationStatus.NotDigit:
+                        ConsoleActivity.PrintInConsole("Transaction ID must contain numbers only!!");
+                        break;
+                    case ValidationStatus.ExceededRange:
+                        ConsoleActivity.PrintInConsole("!!Transaction id exceeded the range " + int.MaxValue);
+                        break;
+                    default:
+                        ConsoleActivity.PrintInConsole("Enter a valid date!!");
+                        break;
                 }
 
+                maxUserAttempt--;
                 ConsoleActivity.PrintInConsole($"{maxUserAttempt} attempts remaining!!");
                 ConsoleActivity.WaitInConsole();
             }
@@ -143,7 +197,8 @@ namespace FinanceTracker.FinanceTrackerHelper
         public static bool GetUserChoice(string? userInput, out int userChoice)
         {
             userChoice = default;
-            if (Validator.IsChoice(userInput, out userChoice))
+            ValidationStatus status = Validator.IsChoice(userInput, out userChoice);
+            if (status == ValidationStatus.Success)
             {
                 return true;
             }

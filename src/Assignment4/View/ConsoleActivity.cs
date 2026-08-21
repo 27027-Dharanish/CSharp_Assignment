@@ -23,7 +23,7 @@ namespace FinanceTracker.View
         /// <summary>
         /// Prompts the user and reads their text input from the console.
         /// </summary>
-        /// <param name="label">Lebel that requested for input.</param>
+        /// <param name="label">Label that requested for input.</param>
         /// <returns>Text entered by the user.</returns>
         public static string? GetStringInput(string label)
         {
@@ -33,7 +33,7 @@ namespace FinanceTracker.View
         }
 
         /// <summary>
-        /// Wait in until user press any key in console.
+        /// Wait in the console until user presses any key.
         /// </summary>
         public static void WaitInConsole()
         {
@@ -45,7 +45,7 @@ namespace FinanceTracker.View
         /// <summary>
         /// Print invalid field warning in console.
         /// </summary>
-        /// <param name="content">Invalid message to be printed</param>
+        /// <param name="content">Invalid message to be printed.</param>
         public static void PrintInvalidMessage(string content)
         {
             PrintEmptyLine();
@@ -65,7 +65,7 @@ namespace FinanceTracker.View
         /// Show the financial menu option available.
         /// </summary>
         /// <param name="header">Menu header</param>
-        /// <param name="menuItem">List of menu item for transaction operation</param>
+        /// <param name="menuItem">List of menu item for transaction operation.</param>
         public static void ShowMenu(string header, string[] menuItem)
         {
             ShowHeader(header);
@@ -170,15 +170,6 @@ namespace FinanceTracker.View
             }
 
             PrintEmptyLine();
-        }
-
-        /// <summary>
-        /// Displays a menu allowing the user to select which field of a transaction they want to edit.
-        /// </summary>
-        /// <param name="transactionType">dynamic category name to show for option.</param>
-        public static void ShowTransactionEditMenu(string transactionType)
-        {
-            PrintInConsole($"\nChoose field to edit : \n 1. Amount\n 2. Transaction Date\n 3. {transactionType}\n");
         }
 
         /// <summary>

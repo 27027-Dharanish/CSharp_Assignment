@@ -84,5 +84,12 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// </summary>
         /// <returns>No.of transaction occurred.</returns>
         public int GetIncomeCount();
+
+        /// <summary>
+        /// Validate the amount given by user.
+        /// </summary>
+        /// <param name="amount">Transaction amount</param>
+        /// <returns>True if amount is valid; Otherwise false</returns>
+        public bool IsValidateAmount(decimal amount);
     }
 }

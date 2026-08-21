@@ -25,11 +25,6 @@ namespace FinanceTracker.Service
         /// <inheritdoc />
         public bool CreateNewTransaction(decimal amount, DateOnly date, string? transactionType, bool isIncome)
         {
-            if (amount == 0)
-            {
-                return false;
-            }
-
             Transaction newTransaction;
             this._transactionIdCounter++;
             if (isIncome)
@@ -129,9 +124,21 @@ namespace FinanceTracker.Service
             return this._financialRepository.GetFilteredTransactionCount<Expense>();
         }
 
-        private void AddTransaction(Transaction transaction)
+        /// <inheritdoc />
+        public bool IsValidateAmount(decimal amount)
         {
-            this._financialRepository.AddNewTransaction(transaction);
+            if (amount < 0)
+            {
+                return false;
+            }
+            else if (amount == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FinanceTracker.View;
+﻿using FinanceTracker.Core.FinancialTrackerConstant;
+using FinanceTracker.View;
 
 namespace FinanceTracker.Helper
 {
@@ -13,23 +14,25 @@ namespace FinanceTracker.Helper
         /// <param name="userTransactionId">The raw text typed by the user.</param>
         /// <param name="transactionId">The verified, usable number generated if the check passes.</param>
         /// <returns>True if the text is a valid id; otherwise, false.</returns>
-        public static bool IsTransactionId(string? userTransactionId, out int transactionId)
+        public static ValidationStatus IsTransactionId(string? userTransactionId, out int transactionId)
         {
             transactionId = default;
-            if (string.IsNullOrWhiteSpace(userTransactionId) || !userTransactionId.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(userTransactionId))
             {
-                ConsoleActivity.PrintInConsole("Transaction ID must contain numbers only!!");
-                return false;
+                return ValidationStatus.NullOrWhiteSpace;
+            }
+            else if (!userTransactionId.All(char.IsDigit))
+            {
+                return ValidationStatus.NotDigit;
             }
             else if (int.TryParse(userTransactionId, out int parsedTransactionID))
             {
                 transactionId = parsedTransactionID;
-                return true;
+                return ValidationStatus.Success;
             }
             else
             {
-                ConsoleActivity.PrintInConsole("!!Transaction id exceeded the range " + int.MaxValue);
-                return false;
+                return ValidationStatus.ExceededRange;
             }
         }
 
@@ -40,7 +43,7 @@ namespace FinanceTracker.Helper
         /// <param name="predefinedList">The list of available options.</param>
         /// <param name="transactionTag">The actual tag of the chosen option.</param>
         /// <returns>True if the selection is a valid within the list; otherwise, false.</returns>
-        public static bool IsTransactionTag(string? userChoiceInput, string[] predefinedList, out string transactionTag)
+        public static ValidationStatus IsTransactionTag(string? userChoiceInput, string[] predefinedList, out string transactionTag)
         {
             transactionTag = string.Empty;
             int listLength = predefinedList.Length;
@@ -49,18 +52,16 @@ namespace FinanceTracker.Helper
                 if (userChoice > 0 && userChoice <= listLength)
                 {
                     transactionTag = predefinedList[userChoice - 1];
-                    return true;
+                    return ValidationStatus.Success;
                 }
                 else
                 {
-                    ConsoleActivity.PrintInConsole($"Choice must be within range 1-{listLength}");
-                    return false;
+                    return ValidationStatus.ExceededRange;
                 }
             }
             else
             {
-                ConsoleActivity.PrintInConsole("Choice must be a number!!");
-                return false;
+                return ValidationStatus.NotDigit;
             }
         }
 
@@ -70,42 +71,31 @@ namespace FinanceTracker.Helper
         /// <param name="date">The raw date text typed by the user.</param>
         /// <param name="transactionDate">The verified, usable date.</param>
         /// <returns>True if the text matches a real, accepted date format; otherwise, false.</returns>
-        public static bool IsTransactionDate(string? date, out DateOnly transactionDate)
+        public static ValidationStatus IsTransactionDate(string? date, out DateOnly transactionDate)
         {
             transactionDate = default;
             if (date == null)
             {
-                ConsoleActivity.PrintInConsole("Date cannot be null!!");
-                return false;
+                return ValidationStatus.NullOrWhiteSpace;
             }
             else if (string.IsNullOrWhiteSpace(date))
             {
-                ConsoleActivity.PrintInConsole($"Transaction date : {DateOnly.FromDateTime(DateTime.Today)}\nPress enter to confirm!!");
-                if (ConsoleActivity.IsEmptyInput())
-                {
-                    transactionDate = DateOnly.FromDateTime(DateTime.Today);
-                    return true;
-                }
-
-                return false;
+                return ValidationStatus.UseCurrentDate;
             }
             else if (DateOnly.TryParse(date, out DateOnly userDate))
             {
                 if (userDate >= DateOnly.FromDateTime(DateTime.Today))
                 {
-                    ConsoleActivity.PrintInConsole("The transaction date cannot be in the future.");
-                    return false;
+                    return ValidationStatus.FutureDate;
                 }
                 else
                 {
-                    transactionDate = userDate;
-                    return true;
+                    return ValidationStatus.Success;
                 }
             }
             else
             {
-                ConsoleActivity.PrintInConsole("The transaction date must follow the format (DD-MM-YYYY or DD/MM/YYYY)");
-                return false;
+                return ValidationStatus.DateFormat;
             }
         }
 
@@ -115,36 +105,21 @@ namespace FinanceTracker.Helper
         /// <param name="userAmount">The raw text typed by the user.</param>
         /// <param name="transactionAmount">The verified, usable numeric amount.</param>
         /// <returns>True if the amount is a valid; otherwise, false.</returns>
-        public static bool IsTransactionAmount(string? userAmount, out decimal transactionAmount)
+        public static ValidationStatus IsTransactionAmount(string? userAmount, out decimal transactionAmount)
         {
             transactionAmount = default;
             if (string.IsNullOrWhiteSpace(userAmount))
             {
-                ConsoleActivity.PrintInConsole("Amount cannot be null or contain white space!!");
-                return false;
+                return ValidationStatus.NullOrWhiteSpace;
             }
             else if (decimal.TryParse(userAmount, out decimal amount))
             {
-                if (amount < 0)
-                {
-                    ConsoleActivity.PrintInConsole("Amount cannot be negative!!");
-                    return false;
-                }
-                else if (amount == 0)
-                {
-                    ConsoleActivity.PrintInConsole("Amount cannot be Rs.0 ....");
-                    return false;
-                }
-                else
-                {
-                    transactionAmount = amount;
-                    return true;
-                }
+                transactionAmount = amount;
+                return ValidationStatus.Success;
             }
             else
             {
-                ConsoleActivity.PrintInConsole("Amount must contain only digit!!");
-                return false;
+                return ValidationStatus.NotDigit;
             }
         }
 
@@ -154,20 +129,19 @@ namespace FinanceTracker.Helper
         /// <param name="choice">The raw choice text typed by the user.</param>
         /// <param name="userChoice">The verified, usable selection choice.</param>
         /// <returns>True if the text is a valid; otherwise, false.</returns>
-        public static bool IsChoice(string? choice, out int userChoice)
+        public static ValidationStatus IsChoice(string? choice, out int userChoice)
         {
             userChoice = default;
             if (string.IsNullOrWhiteSpace(choice))
             {
-                ConsoleActivity.PrintInConsole("Choice cannot be null or empty!!");
-                return false;
+                return ValidationStatus.NullOrWhiteSpace;
             }
             else if (int.TryParse(choice, out userChoice))
             {
-                return true;
+                return ValidationStatus.Success;
             }
 
-            return false;
+            return ValidationStatus.NotDigit;
         }
     }
 }
