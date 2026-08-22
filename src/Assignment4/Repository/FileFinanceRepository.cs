@@ -108,11 +108,6 @@ namespace FinanceTracker.Repository
             return filteredTransaction;
         }
 
-        private int GetTransactionCount()
-        {
-            return this._financeTracker.Count;
-        }
-
         private Transaction? SearchTransactionUsingId(Guid id)
         {
             Transaction? matchedTransaction = this._financeTracker.Find(transaction => transaction.Id == id);

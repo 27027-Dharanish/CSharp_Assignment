@@ -84,16 +84,16 @@ namespace FinanceTracker.Repository
             where T : Transaction
         {
             List<Transaction> transactions = this.GetAllTransaction();
-            int transactionCount = 0;
+            List<T> filteredTransaction = new List<T>();
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is T matchedTransaction)
                 {
-                    transactionCount++;
+                    filteredTransaction.Add(matchedTransaction);
                 }
             }
 
-            return transactionCount;
+            return filteredTransaction;
         }
 
         private Transaction? SearchTransactionUsingId(Guid id)

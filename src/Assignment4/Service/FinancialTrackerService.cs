@@ -126,6 +126,9 @@ namespace FinanceTracker.Service
             where T : Transaction
         {
             return this._financialRepository.FilterTransaction<T>();
+        }
+
+        /// <inheritdoc />
         public bool IsValidateAmount(decimal amount)
         {
             if (amount < 0)

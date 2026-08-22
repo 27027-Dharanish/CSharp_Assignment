@@ -38,6 +38,6 @@
         /// <summary>
         /// List of expense category available.
         /// </summary>
-        public static readonly string[] ExpenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };        
+        public static readonly string[] ExpenseCategories = { "Housing", "Groceries", "Transportation", "Healthcare", "Entertainment", "Insurance", "Food", "Shopping", "Others" };
     }
 }
