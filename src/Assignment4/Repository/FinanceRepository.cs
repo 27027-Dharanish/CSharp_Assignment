@@ -58,17 +58,20 @@ namespace FinanceTracker.Repository
         public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId);
+            if (matchedTransaction == null)
+            {
+                return false;
+            }
+
+            matchedTransaction.Amount = newAmount;
+            matchedTransaction.TransactionDate = newDate;
             if (matchedTransaction is Income income)
             {
-                income.Amount = newAmount;
-                income.TransactionDate = newDate;
                 income.Source = newSourceOrCategory;
                 return true;
             }
             else if (matchedTransaction is Expense expense)
             {
-                expense.Amount = newAmount;
-                expense.TransactionDate = newDate;
                 expense.Category = newSourceOrCategory;
                 return true;
             }
@@ -80,28 +83,22 @@ namespace FinanceTracker.Repository
         public List<T> FilterTransaction<T>()
             where T : Transaction
         {
-            List<T> filteredTransaction = new List<T>();
             List<Transaction> transactions = this.GetAllTransaction();
+            int transactionCount = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is T matchedTransaction)
                 {
-                    filteredTransaction.Add(matchedTransaction);
+                    transactionCount++;
                 }
             }
 
-            return filteredTransaction;
+            return transactionCount;
         }
 
         private Transaction? SearchTransactionUsingId(Guid id)
         {
-            Transaction? matchedTransaction = this._financeTracker.Find(transaction => transaction.Id == id);
-            if (matchedTransaction == null)
-            {
-                return null;
-            }
-
-            return matchedTransaction;
+            return this._financeTracker.Find(transaction => transaction.Id == id);
         }
     }
 }

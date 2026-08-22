@@ -82,4 +82,55 @@
         /// </summary>
         Back,
     }
+
+    /// <summary>
+    /// Specifies the reason why an input considered as invalid.
+    /// </summary>
+    public enum ValidationStatus
+    {
+        /// <summary>
+        /// The value contains characters that are not digits.
+        /// </summary>
+        NotDigit = 1,
+
+        /// <summary>
+        /// The value is null, empty, or consists only of whitespace.
+        /// </summary>
+        NullOrWhiteSpace,
+
+        /// <summary>
+        /// The value is outside the allowed minimum or maximum bounds.
+        /// </summary>
+        ExceededRange,
+
+        /// <summary>
+        /// The date provided is in the future but must be in the past or present.
+        /// </summary>
+        FutureDate,
+
+        /// <summary>
+        /// The date string does not match the required format.
+        /// </summary>
+        DateFormat,
+
+        /// <summary>
+        /// The numeric value is exactly zero.
+        /// </summary>
+        Zero,
+
+        /// <summary>
+        /// The numeric value is less than zero.
+        /// </summary>
+        Negative,
+
+        /// <summary>
+        /// The value is in correct format and passed validation.
+        /// </summary>
+        Success,
+
+        /// <summary>
+        /// The value representing to use current date.
+        /// </summary>
+        UseCurrentDate,
+    }
 }

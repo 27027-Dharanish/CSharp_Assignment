@@ -155,6 +155,12 @@ namespace FinanceTracker.Controller
                 return;
             }
 
+            if (!this._financialTrackerService.IsValidateAmount(amount))
+            {
+                ConsoleActivity.PrintInvalidMessage("Amount must be greater than 0..");
+                return;
+            }
+
             (bool isValidTransactionDate, DateOnly transactionDate) = InputGetter.GetTransactionDateWithRetry(headerMessage);
             if (!isValidTransactionDate)
             {
@@ -300,11 +306,11 @@ namespace FinanceTracker.Controller
                 ConsoleActivity.PrintEmptyLine();
                 if (typeof(T) == typeof(Income))
                 {
-                    ConsoleActivity.ShowTransactionEditMenu("source");
+                    ConsoleActivity.PrintInConsole($"\nChoose field to edit : \n 1. Amount\n 2. Transaction Date\n 3. Source\n");
                 }
                 else
                 {
-                    ConsoleActivity.ShowTransactionEditMenu("category");
+                    ConsoleActivity.PrintInConsole($"\nChoose field to edit : \n 1. Amount\n 2. Transaction Date\n 3. category\n");
                 }
 
                 string? userChoiceInput = ConsoleActivity.GetStringInput("option");
@@ -328,6 +334,12 @@ namespace FinanceTracker.Controller
                         (bool isValidAmount, newAmount) = InputGetter.GetAmountWithRetry(headerMessage, inputLabel);
                         if (!isValidAmount)
                         {
+                            return;
+                        }
+
+                        if (!this._financialTrackerService.IsValidateAmount(newAmount))
+                        {
+                            ConsoleActivity.PrintInvalidMessage("Amount must be greater than 0..");
                             return;
                         }
                     }

@@ -92,5 +92,10 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <returns>The filtered transactions matching the requested type.</returns>
         public List<T> GetFilteredTransaction<T>()
             where T : Transaction;
+        /// Validate the amount given by user.
+        /// </summary>
+        /// <param name="amount">Transaction amount</param>
+        /// <returns>True if amount is valid; Otherwise false</returns>
+        public bool IsValidateAmount(decimal amount);
     }
 }
