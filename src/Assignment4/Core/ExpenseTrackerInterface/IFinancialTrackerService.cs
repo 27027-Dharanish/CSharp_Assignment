@@ -20,57 +20,57 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <summary>
         /// Calculate the total transaction amount.
         /// </summary>
-        /// <typeparam name="T">Transaction type.</typeparam>
-        /// <returns>Tuple containing of total amount and boolean value indicating whether the calculation is success or not.</returns>
+        /// <typeparam name="T">Transaction type</typeparam>
+        /// <returns>Tuple containing of total amount and boolean value indicating whether the calculation is success or not</returns>
         public (decimal, bool) GetTotalTransactionAmount<T>()
             where T : Transaction;
 
         /// <summary>
         /// Calculates the remaining net balance by subtracting total expenses from total income.
         /// </summary>
-        /// <returns>Remaining balance amount after all expense.</returns>
+        /// <returns>Remaining balance amount after all expense</returns>
         public decimal GetTotalBalanceAmount();
 
         /// <summary>
         /// Deletes a specific transaction record using its unique identifier.
         /// </summary>
-        /// <param name="id">Id of the transaction.</param>
-        /// <returns>Status of transaction deletion.</returns>
+        /// <param name="id">Id of the transaction</param>
+        /// <returns>Status of transaction deletion</returns>
         public bool DeleteTransaction(Guid id);
 
         /// <summary>
         ///  Retrieves a list of all recorded transactions from the repository layer.
         /// </summary>
-        /// <returns>Collection of transaction.</returns>
+        /// <returns>Collection of transaction</returns>
         public List<Transaction> GetAllTransaction();
 
         /// <summary>
         /// Updates the financial properties of an existing transaction by its ID.
         /// </summary>
-        /// <param name="transactionId">Transaction id of transaction that needed to be edited.</param>
-        /// <param name="newAmount">New transaction amount.</param>
-        /// <param name="newDate">New date.</param>
-        /// <param name="newSourceOrCategory">New source or category.</param>
-        /// <returns>Status of edit transaction.</returns>
+        /// <param name="transactionId">Transaction id of transaction that needed to be edited</param>
+        /// <param name="newAmount">New transaction amount</param>
+        /// <param name="newDate">New date</param>
+        /// <param name="newSourceOrCategory">New source or category</param>
+        /// <returns>Status of edit transaction</returns>
         public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
         /// Checks whether a transaction exists and returns it if found.
         /// </summary>
         /// <param name="id">The unique identifier of the transaction.</param>
-        /// <returns>A tuple containing a success status and the matched transaction data.</returns>
+        /// <returns>A tuple containing a true/false success status and the matched transaction data (or null if not found)</returns>
         public (bool, Transaction?) GetTransactionIfExist(Guid id);
 
         /// <summary>
         /// Get the expense count.
         /// </summary>
-        /// <returns>Number of transaction occurred.</returns>
+        /// <returns>No.of transaction occurred</returns>
         public int GetExpenseCount();
 
         /// <summary>
         /// Get the income count.
         /// </summary>
-        /// <returns>Number of transaction occurred.</returns>
+        /// <returns>No.of transaction occurred</returns>
         public int GetIncomeCount();
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
             where T : Transaction;
 
         /// <summary>
-        /// Validate the amount given by user.
+        /// Check whether the amount is valid.
         /// </summary>
-        /// <param name="amount">Transaction amount</param>
-        /// <returns>True if amount is valid; Otherwise false</returns>
+        /// <param name="amount">Amount to be validated.</param>
+        /// <returns>True if amount is valid; Otherwise false.</returns>
         public bool IsValidateAmount(decimal amount);
     }
 }

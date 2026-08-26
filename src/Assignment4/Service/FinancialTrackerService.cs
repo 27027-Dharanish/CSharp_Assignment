@@ -82,7 +82,7 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public (bool, Transaction?) GetTransactionIfExist(int id)
+        public (bool, Transaction?) GetTransactionIfExist(Guid id)
         {
             Transaction? matchedTransaction = this._financialRepository.GetTransactionCopyUsingId(id);
             if (matchedTransaction != null)
