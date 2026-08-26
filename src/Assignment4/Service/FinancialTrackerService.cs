@@ -57,13 +57,9 @@ namespace FinanceTracker.Service
                 return (default, false);
             }
 
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is T matchedTransaction)
-                {
-                    totalAmount += matchedTransaction.Amount;
-                }
-            }
+            totalAmount = transactions
+                .Where(transaction => transaction is T)
+                .Sum(transaction => transaction.Amount);
 
             return (totalAmount, true);
         }
@@ -86,18 +82,6 @@ namespace FinanceTracker.Service
         public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
-        }
-
-        /// <inheritdoc />
-        public string[] GetIncomeSource()
-        {
-            return FinanceConstant.IncomeSources;
-        }
-
-        /// <inheritdoc />
-        public string[] GetExpenseCategories()
-        {
-            return FinanceConstant.ExpenseCategories;
         }
 
         /// <inheritdoc />

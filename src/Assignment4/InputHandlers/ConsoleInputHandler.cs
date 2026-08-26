@@ -7,7 +7,7 @@ namespace FinanceTracker.FinanceTrackerHelper
     /// <summary>
     /// Handles getting the inputs from the user.
     /// </summary>
-    public static class InputGetter
+    public static class ConsoleInputHandler
     {
         /// <summary>
         /// Get amount with retry attempts.

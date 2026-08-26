@@ -84,15 +84,8 @@ namespace FinanceTracker.Repository
             where T : Transaction
         {
             List<Transaction> transactions = this.GetAllTransaction();
-            int transactionCount = 0;
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is T matchedTransaction)
-                {
-                    transactionCount++;
-                }
-            }
-
+            int transactionCount = transactions
+                .Where(transaction => transaction is T).Count();
             return transactionCount;
         }
 
