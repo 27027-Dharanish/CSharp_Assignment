@@ -55,12 +55,6 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory);
 
         /// <summary>
-        /// Get the list of available income source.
-        /// </summary>
-        /// <returns>Collection of income source.</returns>
-        public string[] GetIncomeSource();
-
-        /// <summary>
         /// Checks whether a transaction exists and returns it if found.
         /// </summary>
         /// <param name="id">The unique identifier of the transaction.</param>
@@ -68,21 +62,15 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         public (bool, Transaction?) GetTransactionIfExist(Guid id);
 
         /// <summary>
-        /// Get the list of available expense categories.
-        /// </summary>
-        /// <returns>Collection of expense categories.</returns>
-        public string[] GetExpenseCategories();
-
-        /// <summary>
         /// Get the expense count.
         /// </summary>
-        /// <returns>No.of transaction occurred.</returns>
+        /// <returns>Number of transaction occurred.</returns>
         public int GetExpenseCount();
 
         /// <summary>
         /// Get the income count.
         /// </summary>
-        /// <returns>No.of transaction occurred.</returns>
+        /// <returns>Number of transaction occurred.</returns>
         public int GetIncomeCount();
 
         /// <summary>

@@ -54,13 +54,9 @@ namespace FinanceTracker.Service
                 return (default, false);
             }
 
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is T matchedTransaction)
-                {
-                    totalAmount += matchedTransaction.Amount;
-                }
-            }
+            totalAmount = transactions
+                .Where(transaction => transaction is T)
+                .Sum(transaction => transaction.Amount);
 
             return (totalAmount, true);
         }
@@ -86,19 +82,7 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public string[] GetIncomeSource()
-        {
-            return FinanceConstant.IncomeSources;
-        }
-
-        /// <inheritdoc />
-        public string[] GetExpenseCategories()
-        {
-            return FinanceConstant.ExpenseCategories;
-        }
-
-        /// <inheritdoc />
-        public (bool, Transaction?) GetTransactionIfExist(Guid id)
+        public (bool, Transaction?) GetTransactionIfExist(int id)
         {
             Transaction? matchedTransaction = this._financialRepository.GetTransactionCopyUsingId(id);
             if (matchedTransaction != null)
