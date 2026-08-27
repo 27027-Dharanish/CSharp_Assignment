@@ -8,6 +8,7 @@ using Assignment9.Core.Constant;
 using Assignment9.Core.Model;
 using Assignment9.Service;
 using Assignment9.View;
+using ConsoleTables;
 
 namespace Assignment9.Controller
 {
@@ -51,6 +52,9 @@ namespace Assignment9.Controller
                         break;
                     case LinqTask.Task4:
                         this.HandleTask4();
+                        break;
+                    case LinqTask.Task5:
+                        this.HandleTask5();
                         break;
                     default:
                         ConsoleActivity.PrintAndWait("Invalid input");
@@ -130,8 +134,11 @@ namespace Assignment9.Controller
 
         private void HandleTask5()
         {
-            ConsoleActivity.ShowHeader("Task 4");
-
+            List<Product> products = this._linqService.GetAllProduct();
+            QueryBuilder<Product> product = new QueryBuilder<Product>(products);
+            var res = product.Filter(x => x.Category == "Electronics").Sort(x => x.ProductPrice).Execute();
+            ConsoleActivity.PrintProduct(res);
+            ConsoleActivity.WaitInConsole();
         }
     }
 }
