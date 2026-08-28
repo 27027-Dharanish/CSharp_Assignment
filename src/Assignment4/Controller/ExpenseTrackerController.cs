@@ -37,38 +37,45 @@ namespace FinanceTracker.Controller
         /// </summary>
         public void Start()
         {
-            FinancialOption userChoice;
-            do
+            try
             {
-                Logger.LogInformation("Show menu : Finance tracker menu");
-                ConsoleActivity.ShowMenu("EXPENSE TRACKER MENU", FinanceConstant.FinancialMenu);
-                string? menuChoice = ConsoleActivity.GetStringInput("option");
-                ConsoleInputHandler.GetUserChoice(menuChoice, out int userInput);
-                userChoice = (FinancialOption)userInput;
-                switch (userChoice)
+                FinancialOption userChoice;
+                do
                 {
-                    case FinancialOption.Summary:
-                        this.ManageSummary();
-                        break;
-                    case FinancialOption.Income:
-                        this.ManageIncome();
-                        break;
-                    case FinancialOption.Expense:
-                        this.ManageExpense();
-                        break;
-                    case FinancialOption.BackUpRepository:
-                        this.HandleBackup();
-                        break;
-                    case FinancialOption.Exit:
-                        ConsoleActivity.ExitApplication();
-                        break;
-                    default:
-                        Logger.LogError("Invalid choice entered");
-                        ConsoleActivity.PrintInvalidMessage(FinanceConstant.InvalidChoiceMessage);
-                        break;
+                    Logger.LogInformation("Show menu : Finance tracker menu");
+                    ConsoleActivity.ShowMenu("EXPENSE TRACKER MENU", FinanceConstant.FinancialMenu);
+                    string? menuChoice = ConsoleActivity.GetStringInput("option");
+                    ConsoleInputHandler.GetUserChoice(menuChoice, out int userInput);
+                    userChoice = (FinancialOption)userInput;
+                    switch (userChoice)
+                    {
+                        case FinancialOption.Summary:
+                            this.ManageSummary();
+                            break;
+                        case FinancialOption.Income:
+                            this.ManageIncome();
+                            break;
+                        case FinancialOption.Expense:
+                            this.ManageExpense();
+                            break;
+                        case FinancialOption.BackUpRepository:
+                            this.HandleBackup();
+                            break;
+                        case FinancialOption.Exit:
+                            ConsoleActivity.ExitApplication();
+                            break;
+                        default:
+                            Logger.LogError("Invalid choice entered");
+                            ConsoleActivity.PrintInvalidMessage(FinanceConstant.InvalidChoiceMessage);
+                            break;
+                    }
                 }
+                while (userChoice != FinancialOption.Exit);
             }
-            while (userChoice != FinancialOption.Exit);
+            catch (Exception ex)
+            {
+                ConsoleActivity.PrintInConsole(ex.Message);
+            }
         }
 
         private void ManageIncome()
@@ -230,7 +237,13 @@ namespace FinanceTracker.Controller
             }
 
             this.MapId<T>();
-            if (!this._mapId.ContainsValue(this._mapId[transactionId]))
+            if (this._mapId.Count < transactionId)
+            {
+                Logger.LogError("Transaction not exist");
+                ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
+                return;
+            }
+            else if (!this._mapId.ContainsValue(this._mapId[transactionId]))
             {
                 Logger.LogError("Transaction not exist");
                 ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
@@ -282,7 +295,13 @@ namespace FinanceTracker.Controller
             }
 
             this.MapId<T>();
-            if (!this._mapId.ContainsValue(this._mapId[transactionId]))
+            if (this._mapId.Count < transactionId)
+            {
+                Logger.LogError("Transaction not exist");
+                ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
+                return;
+            }
+            else if (!this._mapId.ContainsValue(this._mapId[transactionId]))
             {
                 Logger.LogError("Transaction not exist");
                 ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);

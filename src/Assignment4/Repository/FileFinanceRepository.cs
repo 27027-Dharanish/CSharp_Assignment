@@ -44,7 +44,7 @@ namespace FinanceTracker.Repository
         /// <inheritdoc />
         public Transaction? GetTransactionCopyUsingId(Guid id)
         {
-            Transaction? matchedTransaction = this.SearchTransactionUsingId(id);
+            Transaction? matchedTransaction = this.SearchTransactionUsingIdFiles(id);
             if (matchedTransaction == null)
             {
                 return null;
@@ -119,73 +119,139 @@ namespace FinanceTracker.Repository
             return matchedTransaction;
         }
 
+        private Transaction? SearchTransactionUsingIdFiles(Guid id)
+        {
+            try
+            {
+                if (!File.Exists(FileRepositoryName))
+                {
+                    return default;
+                }
+
+                string[] lines = File.ReadAllLines(FileRepositoryName);
+                string[] context;
+                foreach (string line in lines)
+                {
+                    context = line.Split(",");
+                    if (context.Length != 5)
+                    {
+                        continue;
+                    }
+
+                    Guid.TryParse(context[0], out Guid transactionId);
+                    if (id != transactionId)
+                    {
+                        continue;
+                    }
+
+                    decimal.TryParse(context[1], out decimal transactionAmount);
+                    DateOnly.TryParse(context[2], out DateOnly transactionDate);
+                    if (context[4] == "Income")
+                    {
+                        return new Income(transactionId, transactionAmount, transactionDate, context[3]);
+                    }
+                    else if (context[4] == "Expense")
+                    {
+                        return new Expense(transactionId, transactionAmount, transactionDate, context[3]);
+                    }
+                }
+
+                return default;
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+        }
+
         private void WriteFinanceRecord(List<Transaction> transactions)
         {
-            string[] financialRecord = new string[transactions.Count];
-            int counter = 0;
-            foreach (Transaction transaction in transactions)
+            try
             {
-                if (transaction is Income income)
+                string[] financialRecord = new string[transactions.Count];
+                int counter = 0;
+                foreach (Transaction transaction in transactions)
                 {
-                    financialRecord[counter] = $"{income.Id},{income.Amount},{income.TransactionDate},{income.Source},Income";
-                }
-                else if (transaction is Expense expense)
-                {
-                    financialRecord[counter] = $"{expense.Id},{expense.Amount},{expense.TransactionDate},{expense.Category},Expense";
+                    if (transaction is Income income)
+                    {
+                        financialRecord[counter] = $"{income.Id},{income.Amount},{income.TransactionDate},{income.Source},Income";
+                    }
+                    else if (transaction is Expense expense)
+                    {
+                        financialRecord[counter] = $"{expense.Id},{expense.Amount},{expense.TransactionDate},{expense.Category},Expense";
+                    }
+
+                    counter++;
                 }
 
-                counter++;
+                File.WriteAllLines(FileRepositoryName, financialRecord);
             }
-
-            File.WriteAllLines(FileRepositoryName, financialRecord);
+            catch (IOException)
+            {
+                throw;
+            }
         }
 
         private void AppendFinanceRecordInFile(Transaction transaction)
         {
-            if (transaction is Income income)
+            try
             {
-                File.AppendAllText(FileRepositoryName, $"{income.Id},{income.Amount},{income.TransactionDate},{income.Source},Income\n");
+                if (transaction is Income income)
+                {
+                    File.AppendAllText(FileRepositoryName, $"{income.Id},{income.Amount},{income.TransactionDate},{income.Source},Income\n");
+                }
+                else if (transaction is Expense expense)
+                {
+                    File.AppendAllText(FileRepositoryName, $"{expense.Id},{expense.Amount},{expense.TransactionDate},{expense.Category},Expense\n");
+                }
             }
-            else if (transaction is Expense expense)
+            catch (IOException)
             {
-                File.AppendAllText(FileRepositoryName, $"{expense.Id},{expense.Amount},{expense.TransactionDate},{expense.Category},Expense\n");
+                throw;
             }
         }
 
         private List<Transaction> ReadFinanceRecordFromFile()
         {
-            List<Transaction> transactionList = new List<Transaction>();
-            if (!File.Exists(FileRepositoryName))
+            try
             {
+                List<Transaction> transactionList = new List<Transaction>();
+                if (!File.Exists(FileRepositoryName))
+                {
+                    return transactionList;
+                }
+
+                string[] lines = File.ReadAllLines(FileRepositoryName);
+                string[] context;
+                foreach (string line in lines)
+                {
+                    context = line.Split(",");
+                    if (context.Length != 5)
+                    {
+                        continue;
+                    }
+
+                    Guid.TryParse(context[0], out Guid transactionId);
+                    decimal.TryParse(context[1], out decimal transactionAmount);
+                    DateOnly.TryParse(context[2], out DateOnly transactionDate);
+                    if (context[4] == "Income")
+                    {
+                        Income income = new Income(transactionId, transactionAmount, transactionDate, context[3]);
+                        transactionList.Add(income);
+                    }
+                    else if (context[4] == "Expense")
+                    {
+                        Expense expense = new Expense(transactionId, transactionAmount, transactionDate, context[3]);
+                        transactionList.Add(expense);
+                    }
+                }
+
                 return transactionList;
             }
-
-            string[] lines = File.ReadAllLines(FileRepositoryName);
-            string[] context;
-            foreach (string line in lines)
+            catch (IOException)
             {
-                context = line.Split(",");
-                if (context.Length != 5)
-                {
-                    continue;
-                }
-
-                Guid.TryParse(context[0], out Guid transactionId);
-                decimal.TryParse(context[1], out decimal transactionAmount);
-                DateOnly.TryParse(context[2], out DateOnly transactionDate);
-                if (context[4] == "Income")
-                {
-                    Income income = new Income(transactionId, transactionAmount, transactionDate, context[3]);
-                    transactionList.Add(income);
-                }
-                else if (context[4] == "Expense")
-                {
-                    Expense expense = new Expense(transactionId, transactionAmount, transactionDate, context[3]);
-                    transactionList.Add(expense);
-                }
+                throw;
             }
-
-            return transactionList;
         }
     }
 }

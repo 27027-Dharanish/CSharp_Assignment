@@ -23,7 +23,15 @@ namespace FinanceTracker.FileHelper
                 string? sourcePath = FileFinanceRepository.FileRepositoryName;
                 if (File.Exists(sourcePath))
                 {
+                    DateTime sourceFileLastEdit = File.GetLastWriteTimeUtc(sourcePath);
+                    DateTime backupFileLastEdit = File.GetLastWriteTimeUtc(sourcePath);
+                    if (backupFileLastEdit == sourceFileLastEdit)
+                    {
+                        return true;
+                    }
+
                     File.Copy(FileFinanceRepository.FileRepositoryName, _backupPath, true);
+                    File.SetLastWriteTimeUtc(sourcePath, File.GetLastWriteTimeUtc(_backupPath));
                     return true;
                 }
                 else
