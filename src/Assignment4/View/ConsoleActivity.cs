@@ -184,15 +184,5 @@ namespace FinanceTracker.View
             PrintEmptyLine();
             WaitInConsole();
         }
-
-        /// <summary>
-        /// Print the content and wait in console.
-        /// </summary>
-        /// <param name="content">The content to be printed.</param>
-        public static void PrintAndWait(string content)
-        {
-            PrintInConsole(content);
-            WaitInConsole();
-        }
     }
 }
