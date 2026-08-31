@@ -1,4 +1,8 @@
-﻿namespace Assignment9.Service;
+﻿using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
+
+namespace Assignment9.Service;
 
 /// <summary>
 /// Query builder class containing.
@@ -7,7 +11,7 @@
 public class QueryBuilder<T>
     where T : class
 {
-    private IEnumerable<T> _list;
+    private IQueryable<T> _list;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryBuilder{T}"/> class.
@@ -15,7 +19,7 @@ public class QueryBuilder<T>
     /// <param name="list">A list of elements.</param>
     public QueryBuilder(IEnumerable<T> list)
     {
-        this._list = list;
+        this._list = list.AsQueryable();
     }
 
     /// <summary>
@@ -23,7 +27,7 @@ public class QueryBuilder<T>
     /// </summary>
     /// <param name="predicate">Predicate</param>
     /// <returns>returns the predicate</returns>
-    public QueryBuilder<T> Filter(Func<T, bool> predicate)
+    public QueryBuilder<T> Filter(Expression<Func<T, bool>> predicate)
     {
         this._list = this._list.Where(predicate);
         return this;
@@ -35,10 +39,32 @@ public class QueryBuilder<T>
     /// <typeparam name="TKey">Type parameter</typeparam>
     /// <param name="keySelector">Key selector</param>
     /// <returns>A filtered result for sort</returns>
-    public QueryBuilder<T> Sort<TKey>(Func<T, TKey> keySelector)
+    public QueryBuilder<T> Sort<TKey>(Expression<Func<T, TKey>> keySelector)
     {
         this._list = this._list.OrderBy(keySelector);
         return this;
+    }
+
+    /// <summary>
+    /// Joins the current collection with another collection.
+    /// </summary>
+    /// <typeparam name="TInner">Type of the inner collection.</typeparam>
+    /// <typeparam name="TKey">Type of the join key.</typeparam>
+    /// <typeparam name="TResult">Type of the result.</typeparam>
+    /// <param name="inner">Collection to join.</param>
+    /// <param name="outerKey">Key selector for the current collection.</param>
+    /// <param name="innerKey">Key selector for the inner collection.</param>
+    /// <param name="resultSelector">Selects the result from matching records.</param>
+    /// <returns>Query builder with the joined data.</returns>
+    public QueryBuilder<TResult> Join<TInner, TKey, TResult>(
+        IEnumerable<TInner> inner,
+        Func<T, TKey> outerKey,
+        Func<TInner, TKey> innerKey,
+        Func<T, TInner, TResult> resultSelector)
+        where TResult : class
+    {
+        var result = this._list.Join(inner, outerKey, innerKey, resultSelector);
+        return new QueryBuilder<TResult>(result);
     }
 
     /// <summary>
@@ -48,5 +74,76 @@ public class QueryBuilder<T>
     public List<T> Execute()
     {
         return this._list.ToList();
+    }
+
+    /// <summary>
+    /// Custom string filter factory to handle operations like Contains, StartsWith, and EndsWith dynamically.
+    /// </summary>
+    /// <param name="propertyName">Property name to be filtered.</param>
+    /// <param name="operation">Operation to be performed.</param>
+    /// <param name="value">Value used to be done filter.</param>
+    /// <returns>Query builder with the filtered data.</returns>
+    public QueryBuilder<T> Filter(string propertyName, string operation, string value)
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(parameter, propertyName);
+        var constant = Expression.Constant(value);
+        Expression expression;
+        switch (operation)
+        {
+            case "Contains":
+                var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+                expression = Expression.Call(property, containsMethod!, constant);
+                break;
+            case "StartsWith":
+                var startWithMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
+                expression = Expression.Call(property, startWithMethod!, constant);
+                break;
+            case "EndsWith":
+                var endsWithMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
+                expression = Expression.Call(property, endsWithMethod!, constant);
+                break;
+            default:
+                throw new NotSupportedException($"Operation {operation} is not supported!!");
+        }
+
+        var lambda = Expression.Lambda<Func<T, bool>>(expression, parameter);
+        this._list = this._list.Where(lambda);
+        return this;
+    }
+
+    /// <summary>
+    /// Custom string filter factory to handle operations like greater than, less than and equal to dynamically.
+    /// </summary>
+    /// <typeparam name="TValue">Type of the value to be compared.</typeparam>
+    /// <param name="propertyName">Property name to be filtered.</param>
+    /// <param name="operation">Operation to be performed.</param>
+    /// <param name="value">Value used to be done filter.</param>
+    /// <returns>Query builder with the filtered data.</returns>
+    public QueryBuilder<T> Filter<TValue>(string propertyName, string operation, TValue value)
+        where TValue : IComparable
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(parameter, propertyName);
+        var constant = Expression.Constant(value);
+        Expression expression;
+        switch (operation)
+        {
+            case "GreaterThanOrEqualTo":
+                expression = Expression.GreaterThanOrEqual(property, constant);
+                break;
+            case "LessThanOrEqualTo":
+                expression = Expression.LessThanOrEqual(property, constant);
+                break;
+            case "Equal":
+                expression = Expression.Equal(property, constant);
+                break;
+            default:
+                throw new NotSupportedException($"Operation {operation} is not supported!!");
+        }
+
+        var lambda = Expression.Lambda<Func<T, bool>>(expression, parameter);
+        this._list = this._list.Where(lambda);
+        return this;
     }
 }

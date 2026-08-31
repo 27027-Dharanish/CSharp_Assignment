@@ -226,5 +226,35 @@ namespace Assignment9.View
                 PrintInConsole($"{number.Item1} + {number.Item2} = {target}");
             }
         }
+
+        /// <summary>
+        /// Print product and its supplier name.
+        /// </summary>
+        /// <param name="productAndSupplier">List of product and its supplier name.</param>
+        public static void PrintProductAndSupplierName(List<(string ProductName, string SupplierName)> productAndSupplier)
+        {
+            ConsoleTable productSupplierName = new ConsoleTable("Product name", "Supplier name");
+            foreach (var detail in productAndSupplier)
+            {
+                productSupplierName.AddRow(detail.ProductName, detail.SupplierName);
+            }
+
+            productSupplierName.Write();
+        }
+
+        /// <summary>
+        /// Print the supplier details in console.
+        /// </summary>
+        /// <param name="suppliers">List of supplier available.</param>
+        public static void PrintSupplierDetails(List<Supplier> suppliers)
+        {
+            ConsoleTable supplierTable = new ConsoleTable("Supplier Id", "SupplierName");
+            foreach (Supplier supplier in suppliers)
+            {
+                supplierTable.AddRow(supplier.SupplierId, supplier.SupplierName);
+            }
+
+            supplierTable.Write();
+        }
     }
 }

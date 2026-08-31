@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment9.Core.Model
+﻿namespace Assignment9.Core.Model
 {
     /// <summary>
     /// Serves as the foundational entity for all supplier record.

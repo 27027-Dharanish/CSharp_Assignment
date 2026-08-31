@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Assignment9.Core.Constant;
 using Assignment9.Core.Model;
 using Assignment9.Service;
 using Assignment9.View;
-using ConsoleTables;
 
 namespace Assignment9.Controller
 {
@@ -138,6 +132,20 @@ namespace Assignment9.Controller
             QueryBuilder<Product> product = new QueryBuilder<Product>(products);
             var res = product.Filter(x => x.Category == "Electronics").Sort(x => x.ProductPrice).Execute();
             ConsoleActivity.PrintProduct(res);
+            ConsoleActivity.PrintInConsole("Product and its supplier name : ");
+            List<(string ProductName, string SupplierName)> productAndSupplier = this._linqService.GetProductSupplierMappingDetails();
+            ConsoleActivity.PrintProductAndSupplierName(productAndSupplier);
+            ConsoleActivity.PrintEmptyLine();
+            ConsoleActivity.PrintInConsole("Filter the product : ");
+            ConsoleActivity.PrintInConsole("Supplier name Start with t : ");
+            List<Supplier> suppliers = this._linqService.GetSupplierDetails();
+            QueryBuilder<Supplier> supplier = new QueryBuilder<Supplier>(suppliers);
+            List<Supplier> supplierNameStartWithT = supplier.Filter("SupplierName", "StartsWith", "T").Execute();
+            ConsoleActivity.PrintSupplierDetails(supplierNameStartWithT);
+            ConsoleActivity.PrintEmptyLine();
+            ConsoleActivity.PrintInConsole("List of product which price greater than or equal to $250 : ");
+            List<Product> productPriceGreaterThan250 = product.Filter<decimal>("ProductPrice", "GreaterThanOrEqualTo", 250).Execute();
+            ConsoleActivity.PrintProduct(productPriceGreaterThan250);
             ConsoleActivity.WaitInConsole();
         }
     }

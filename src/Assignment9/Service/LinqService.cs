@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment9.Core.Model;
+﻿using Assignment9.Core.Model;
 using Assignment9.Repository;
 
 namespace Assignment9.Service
@@ -91,6 +86,15 @@ namespace Assignment9.Service
         }
 
         /// <summary>
+        /// Get the details for suppliers available.
+        /// </summary>
+        /// <returns>List of suppliers.</returns>
+        public List<Supplier> GetSupplierDetails()
+        {
+            return this._repository.GetSuppliers();
+        }
+
+        /// <summary>
         /// Get the array of numbers.
         /// </summary>
         /// <returns>The array of numbers.</returns>
@@ -161,6 +165,30 @@ namespace Assignment9.Service
             return numbers.SelectMany((num1, index1) => numbers
             .Where((num2, index2) => index2 > index1 && num1 + num2 == target)
             .Select(num2 => (num1, num2))).Distinct().ToArray();
+        }
+
+        /// <summary>
+        /// Get the product name and the supplier name for it.
+        /// </summary>
+        /// <returns>List of product name and its supplier.</returns>
+        public List<(string ProductName, string SupplierName)> GetProductSupplierMappingDetails()
+        {
+            List<Product> products = this.GetAllProduct();
+            List<Supplier> suppliers = this.GetSupplierDetails();
+            QueryBuilder<Product> product = new QueryBuilder<Product>(products);
+            var joinedBuilder = product.Join(
+                suppliers,
+                product => product.SupplierId,
+                supplier => supplier.SupplierId,
+                (product, supplier) => new
+                {
+                    ProductName = product.ProductName,
+                    SupplierName = supplier.SupplierName,
+                })
+                .Sort(product => product.ProductName);
+            return joinedBuilder.Execute()
+                .Select(item => (item.ProductName, item.SupplierName))
+                .ToList();
         }
     }
 }

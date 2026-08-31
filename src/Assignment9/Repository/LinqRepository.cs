@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment9.Core.Model;
+﻿using Assignment9.Core.Model;
 
 namespace Assignment9.Repository
 {
