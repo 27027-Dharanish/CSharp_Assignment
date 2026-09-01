@@ -6,7 +6,6 @@
     public class FinanceConstant
     {
         /// <summary>
-<<<<<<< HEAD
         /// Specifies transaction ID cannot be found.
         /// </summary>
         public const string TransactionIdNotExistMessage = "Transaction Id not exist!!";
@@ -20,11 +19,6 @@
         /// Financial tracker menu.
         /// </summary>
         public static readonly string[] FinancialMenu = { "View Summary", "Manage Income", "Manage Expense", "BackUp Repository", "Exit" };
-=======
-        /// Financial tracker menu.
-        /// </summary>
-        public static readonly string[] FinancialMenu = { "View Summary", "Manage Income", "Manage Expense", "Exit" };
->>>>>>> d45c4699122e01de26e5539e8481d22f2e2cdb3d
 
         /// <summary>
         /// Financial tracker income menu.

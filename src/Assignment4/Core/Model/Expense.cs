@@ -12,11 +12,7 @@
         /// <param name="amount">IAmount of the transaction.</param>
         /// <param name="date">Transaction date.</param>
         /// <param name="category">Category of the expense.</param>
-<<<<<<< HEAD
         public Expense(Guid id, decimal amount, DateOnly date, string? category)
-=======
-        public Expense(int id, decimal amount, DateOnly date, string? category)
->>>>>>> d45c4699122e01de26e5539e8481d22f2e2cdb3d
             : base(id, amount, date)
         {
             this.Category = category;
