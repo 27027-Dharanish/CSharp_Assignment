@@ -11,7 +11,11 @@
         /// <param name="id">Id for the transaction</param>
         /// <param name="amount">IAmount of the transaction</param>
         /// <param name="date">Transaction date</param>
+<<<<<<< HEAD
         public Transaction(Guid id, decimal amount, DateOnly date)
+=======
+        public Transaction(int id, decimal amount, DateOnly date)
+>>>>>>> d45c4699122e01de26e5539e8481d22f2e2cdb3d
         {
             this.Id = id;
             this.Amount = amount;
@@ -24,7 +28,11 @@
         /// <value>
         /// An integer representing unique value for a transaction.
         /// </value>
+<<<<<<< HEAD
         public Guid Id { get; init; }
+=======
+        public int Id { get; init; }
+>>>>>>> d45c4699122e01de26e5539e8481d22f2e2cdb3d
 
         /// <summary>
         /// Gets or sets the amount for the expense.

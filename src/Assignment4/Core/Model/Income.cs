@@ -12,7 +12,11 @@
         /// <param name="amount">IAmount of the transaction.</param>
         /// <param name="date">Transaction date.</param>
         /// <param name="source">Source of income.</param>
+<<<<<<< HEAD
         public Income(Guid id, decimal amount, DateOnly date, string? source)
+=======
+        public Income(int id, decimal amount, DateOnly date, string? source)
+>>>>>>> d45c4699122e01de26e5539e8481d22f2e2cdb3d
             : base(id, amount, date)
         {
             this.Source = source;
