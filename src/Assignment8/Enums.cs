@@ -1,38 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment4
+﻿namespace Assignment4
 {
     /// <summary>
-    /// error handle enum
+    /// Constant for switch between task for error handling.
     /// </summary>
     public enum ErrorHandleTask
     {
         /// <summary>
-        /// Understanding and Using try/catch/finally blocks.
+        /// Specifies task 1.
         /// </summary>
         Task1 = 1,
 
         /// <summary>
-        /// Catching and Throwing Different Types of Exceptions.
+        /// Specifies task 2.
         /// </summary>
         Task2,
 
         /// <summary>
-        /// Defining and Using Custom Exception Classes.
+        /// Specifies task 3.
         /// </summary>
         Task3,
 
         /// <summary>
-        /// Handling Global Unhandled Exceptions.
+        /// Specifies task 4.
         /// </summary>
         Task4,
 
         /// <summary>
-        /// Using and global exception handler console application.
+        /// Specifies task 5.
         /// </summary>
         Task5,
 

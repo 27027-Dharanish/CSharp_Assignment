@@ -1,7 +1,7 @@
 ﻿namespace Assignment4
 {
     /// <summary>
-    /// Exception
+    /// Custom exception for invalid user input.
     /// </summary>
     public class InvalidUserInputException : Exception
     {

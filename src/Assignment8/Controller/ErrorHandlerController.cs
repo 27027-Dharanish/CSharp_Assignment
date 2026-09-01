@@ -142,7 +142,7 @@ public class ErrorHandlerController
             }
             else
             {
-                throw new InvalidUserInputException("Invalid user input exception.");
+                throw new InvalidUserInputException("Exception : Invalid user input.");
             }
         }
         catch (InvalidUserInputException ex)
@@ -155,7 +155,7 @@ public class ErrorHandlerController
         }
         finally
         {
-            ConsoleActivity.PrintAndWaitInConsole("Task 1 executed successfully!!");
+            ConsoleActivity.PrintAndWaitInConsole("Task 3 executed successfully!!");
         }
     }
 
