@@ -3,7 +3,7 @@
     /// <summary>
     /// Finance tracker constant.
     /// </summary>
-    public class FinanceConstant
+    public static class FinanceConstant
     {
         /// <summary>
         /// Specifies transaction ID cannot be found.

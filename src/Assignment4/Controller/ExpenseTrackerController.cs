@@ -8,12 +8,12 @@ using FinanceTracker.View;
 namespace FinanceTracker.Controller
 {
     /// <summary>
-    /// Handles the logic for managing and tracking user expenses.
+    /// Handles the logic for managing and tracking user financial records.
     /// </summary>
     public class ExpenseTrackerController
     {
         private readonly IFinancialTrackerService _financialTrackerService;
-        private readonly Dictionary<int, Guid> _mapId;
+        private readonly Dictionary<int, Guid> _transactionIdMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTrackerController"/> class.
@@ -22,7 +22,7 @@ namespace FinanceTracker.Controller
         public ExpenseTrackerController(IFinancialTrackerService service)
         {
             this._financialTrackerService = service;
-            this._mapId = new Dictionary<int, Guid>();
+            this._transactionIdMap = new Dictionary<int, Guid>();
         }
 
         /// <summary>
@@ -72,9 +72,17 @@ namespace FinanceTracker.Controller
                 }
                 while (userChoice != FinancialOption.Exit);
             }
+            catch (KeyNotFoundException ex)
+            {
+                ConsoleActivity.PrintInvalidMessage("Exception raised : " + ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                ConsoleActivity.PrintInvalidMessage("Exception raised : " + ex.Message);
+            }
             catch (Exception ex)
             {
-                ConsoleActivity.PrintInConsole(ex.Message);
+                ConsoleActivity.PrintInvalidMessage(ex.Message);
             }
         }
 
@@ -94,13 +102,13 @@ namespace FinanceTracker.Controller
                         this.AddTransaction(this.GetIncomeSource, true);
                         break;
                     case TransactionOperation.View:
-                        this.ViewTransaction(this._financialTrackerService.GetIncomeCount, ConsoleActivity.PrintIncome, true);
+                        this.ViewTransaction<Income>(ConsoleActivity.PrintIncome, true);
                         break;
                     case TransactionOperation.Edit:
-                        this.EditTransaction<Income>(this._financialTrackerService.GetIncomeCount, true);
+                        this.EditTransaction<Income>(true);
                         break;
                     case TransactionOperation.Delete:
-                        this.DeleteTransaction<Income>(this._financialTrackerService.GetIncomeCount, true);
+                        this.DeleteTransaction<Income>(true);
                         break;
                     case TransactionOperation.Back:
                         ConsoleActivity.PrintInConsole("Back to main menu!");
@@ -130,13 +138,13 @@ namespace FinanceTracker.Controller
                         this.AddTransaction(this.GetExpenseCategory, false);
                         break;
                     case TransactionOperation.View:
-                        this.ViewTransaction(this._financialTrackerService.GetExpenseCount, ConsoleActivity.PrintExpense, false);
+                        this.ViewTransaction<Expense>(ConsoleActivity.PrintExpense, false);
                         break;
                     case TransactionOperation.Edit:
-                        this.EditTransaction<Expense>(this._financialTrackerService.GetExpenseCount, false);
+                        this.EditTransaction<Expense>(false);
                         break;
                     case TransactionOperation.Delete:
-                        this.DeleteTransaction<Expense>(this._financialTrackerService.GetExpenseCount, false);
+                        this.DeleteTransaction<Expense>(false);
                         break;
                     case TransactionOperation.Back:
                         ConsoleActivity.PrintInConsole("Back to main menu!");
@@ -198,13 +206,14 @@ namespace FinanceTracker.Controller
             }
         }
 
-        private void ViewTransaction(Func<int> getTransactionCount, Action<List<Transaction>> printTransaction, bool isIncome)
+        private void ViewTransaction<T>(Action<List<Transaction>> printTransaction, bool isIncome)
+            where T : Transaction
         {
             Logger.LogInformation("Initiating view transaction");
             string inputLabel = isIncome ? "Income" : "Expense";
             string headerMessage = isIncome ? "VIEW ALL INCOME" : "VIEW ALL EXPENSE";
             ConsoleActivity.ShowHeader(headerMessage);
-            if (getTransactionCount() < 1)
+            if (this._financialTrackerService.GetTransactionCount<T>() < 1)
             {
                 ConsoleActivity.PrintInvalidMessage("No transaction made until now!!\nAdd some transaction to perform operation!!!");
                 return;
@@ -216,14 +225,14 @@ namespace FinanceTracker.Controller
             printTransaction(transaction);
         }
 
-        private void DeleteTransaction<T>(Func<int> getTransactionCount, bool isIncome)
+        private void DeleteTransaction<T>(bool isIncome)
             where T : Transaction
         {
             Logger.LogInformation("Initiating delete transaction");
             string deleteLabel = isIncome ? "Income" : "Expense";
             string headerMessage = isIncome ? "DELETE INCOME" : "DELETE EXPENSE";
             ConsoleActivity.ShowHeader(headerMessage);
-            if (getTransactionCount() < 1)
+            if (this._financialTrackerService.GetTransactionCount<T>() < 1)
             {
                 ConsoleActivity.PrintInvalidMessage("No transaction made until now!!\nAdd some transaction to perform operation!!!");
                 return;
@@ -236,21 +245,15 @@ namespace FinanceTracker.Controller
                 return;
             }
 
-            this.MapId<T>();
-            if (this._mapId.Count < transactionId)
-            {
-                Logger.LogError("Transaction not exist");
-                ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
-                return;
-            }
-            else if (!this._mapId.ContainsValue(this._mapId[transactionId]))
+            this.UpdateMapId<T>();
+            if (this._transactionIdMap.Count < transactionId || transactionId <= 0)
             {
                 Logger.LogError("Transaction not exist");
                 ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
                 return;
             }
 
-            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(this._mapId[transactionId]);
+            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(this._transactionIdMap[transactionId]);
             if (!isTransactionExist)
             {
                 Logger.LogError(FinanceConstant.TransactionIdNotExistMessage);
@@ -274,14 +277,14 @@ namespace FinanceTracker.Controller
             }
         }
 
-        private void EditTransaction<T>(Func<int> getTransactionCount, bool isIncome)
+        private void EditTransaction<T>(bool isIncome)
             where T : Transaction
         {
             Logger.LogInformation("Execute edit transaction");
             string inputLabel = isIncome ? "Income" : "Expense";
             string headerMessage = isIncome ? "EDIT INCOME" : "EDIT EXPENSE";
             ConsoleActivity.ShowHeader(headerMessage);
-            if (getTransactionCount() < 1)
+            if (this._financialTrackerService.GetTransactionCount<T>() < 1)
             {
                 ConsoleActivity.PrintInvalidMessage("No transaction made until now!!\nAdd some transaction to perform operation!!!");
                 return;
@@ -294,21 +297,15 @@ namespace FinanceTracker.Controller
                 return;
             }
 
-            this.MapId<T>();
-            if (this._mapId.Count < transactionId)
-            {
-                Logger.LogError("Transaction not exist");
-                ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
-                return;
-            }
-            else if (!this._mapId.ContainsValue(this._mapId[transactionId]))
+            this.UpdateMapId<T>();
+            if (this._transactionIdMap.Count < transactionId || transactionId <= 0)
             {
                 Logger.LogError("Transaction not exist");
                 ConsoleActivity.PrintInvalidMessage(FinanceConstant.TransactionIdNotExistMessage);
                 return;
             }
 
-            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(this._mapId[transactionId]);
+            (bool isTransactionExist, Transaction? transaction) = this._financialTrackerService.GetTransactionIfExist(this._transactionIdMap[transactionId]);
             if (!isTransactionExist || transaction is not T)
             {
                 Logger.LogError(FinanceConstant.TransactionIdNotExistMessage);
@@ -397,7 +394,7 @@ namespace FinanceTracker.Controller
                     }
 
                     this._financialTrackerService.EditTransactionById(matchedTransaction.Id, newAmount, newDate, context);
-                    (bool isTransactionUpdated, Transaction? updatedTransaction) = this._financialTrackerService.GetTransactionIfExist(this._mapId[transactionId]);
+                    (bool isTransactionUpdated, Transaction? updatedTransaction) = this._financialTrackerService.GetTransactionIfExist(this._transactionIdMap[transactionId]);
                     if (isTransactionUpdated && updatedTransaction != null)
                     {
                         ConsoleActivity.ShowHeader(headerMessage);
@@ -453,8 +450,7 @@ namespace FinanceTracker.Controller
         {
             Logger.LogInformation("Initiating file backup");
             ConsoleActivity.ShowHeader("BACKUP FINANCIAL REPOSITORY");
-            BackUpFile backup = new BackUpFile();
-            if (backup.CreateBackUp())
+            if (FileBackupService.CreateBackUp())
             {
                 ConsoleActivity.PrintInConsole("File backup created successfully!");
             }
@@ -498,14 +494,15 @@ namespace FinanceTracker.Controller
             ConsoleActivity.WaitInConsole();
         }
 
-        private void MapId<T>()
+        private void UpdateMapId<T>()
             where T : Transaction
         {
+            this._transactionIdMap.Clear();
             List<T> transactions = this._financialTrackerService.GetFilteredTransaction<T>();
-            int i = 0;
+            int counter = 0;
             foreach (T transaction in transactions)
             {
-                this._mapId[++i] = transaction.Id;
+                this._transactionIdMap[++counter] = transaction.Id;
             }
         }
     }

@@ -5,7 +5,9 @@
     /// </summary>
     public static class Logger
     {
-        private static readonly string _loggerFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FinancialTrackerLog.txt");
+        private static readonly string _loggerFile = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "FinancialTrackerLog.txt");
 
         /// <summary>
         /// Write the information log in to file.
@@ -13,7 +15,7 @@
         /// <param name="message">Log message.</param>
         public static void LogInformation(string message)
         {
-            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Info] {message}\n");
+            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Info] {message}{Environment.NewLine}");
         }
 
         /// <summary>
@@ -22,7 +24,7 @@
         /// <param name="error">Error message.</param>
         public static void LogError(string error)
         {
-            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Warn] {error}\n");
+            File.AppendAllText(_loggerFile, $"{DateTime.Now} - [Error] {error}{Environment.NewLine}");
         }
     }
 }

@@ -22,7 +22,7 @@
         /// Gets the unique identifier for the transaction
         /// </summary>
         /// <value>
-        /// An integer representing unique value for a transaction.
+        /// A <see cref="Guid"/> representing the globally unique value for a transaction.
         /// </value>
         public Guid Id { get; init; }
 
@@ -30,7 +30,7 @@
         /// Gets or sets the amount for the expense.
         /// </summary>
         /// <value>
-        /// A decimal representing amount for the expense.
+        /// A <see cref="decimal"/> representing amount for the expense.
         /// </value>
         public decimal Amount { get; set; }
 
@@ -38,7 +38,7 @@
         /// Gets or sets the date on which transaction held.
         /// </summary>
         /// <value>
-        /// A date representing the date on which transaction occurred.
+        /// A <see cref="DateOnly"/> representing the date on which transaction occurred.
         /// </value>
         public DateOnly TransactionDate { get; set; }
 

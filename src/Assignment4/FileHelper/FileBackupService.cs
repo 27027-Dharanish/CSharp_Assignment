@@ -1,37 +1,36 @@
-﻿using System.Linq.Expressions;
-using FinanceTracker.Repository;
+﻿using FinanceTracker.Repository;
 
 namespace FinanceTracker.FileHelper
 {
     /// <summary>
     /// Handle creating backup copy of the financial data.
     /// </summary>
-    public class BackUpFile
+    public static class FileBackupService
     {
         private static readonly string _backupPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "FinancialTracker_Backup.csv");
 
         /// <summary>
-        /// Create a backfile on target path.
+        /// Creates a backup for the repository data on target path.
         /// </summary>
         /// <returns>True if backup created; Otherwise false if no backup created</returns>
-        public bool CreateBackUp()
+        public static bool CreateBackUp()
         {
             try
             {
-                string? sourcePath = FileFinanceRepository.FileRepositoryName;
+                string? sourcePath = FileFinanceRepository.FileRepositoryPath;
                 if (File.Exists(sourcePath))
                 {
                     DateTime sourceFileLastEdit = File.GetLastWriteTimeUtc(sourcePath);
-                    DateTime backupFileLastEdit = File.GetLastWriteTimeUtc(sourcePath);
+                    DateTime backupFileLastEdit = File.GetLastWriteTimeUtc(_backupPath);
                     if (backupFileLastEdit == sourceFileLastEdit)
                     {
                         return true;
                     }
 
-                    File.Copy(FileFinanceRepository.FileRepositoryName, _backupPath, true);
-                    File.SetLastWriteTimeUtc(sourcePath, File.GetLastWriteTimeUtc(_backupPath));
+                    File.Copy(FileFinanceRepository.FileName, _backupPath, true);
+                    File.SetLastWriteTimeUtc(_backupPath, File.GetLastWriteTimeUtc(sourcePath));
                     return true;
                 }
                 else

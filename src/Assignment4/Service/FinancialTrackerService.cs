@@ -94,15 +94,10 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public int GetIncomeCount()
+        public int GetTransactionCount<T>()
+            where T : Transaction
         {
-            return this._financialRepository.FilterTransaction<Income>().Count;
-        }
-
-        /// <inheritdoc />
-        public int GetExpenseCount()
-        {
-            return this._financialRepository.FilterTransaction<Expense>().Count;
+            return this.GetFilteredTransaction<T>().Count;
         }
 
         /// <inheritdoc />

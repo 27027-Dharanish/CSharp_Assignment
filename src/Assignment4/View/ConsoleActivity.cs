@@ -121,12 +121,12 @@ namespace FinanceTracker.View
         public static void PrintIncome(List<Transaction> transactions)
         {
             _incomeTable.Rows.Clear();
-            int i = 0;
+            int rowCount = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Income income)
                 {
-                    _incomeTable.AddRow(++i, income.Amount, income.TransactionDate, income.Source);
+                    _incomeTable.AddRow(++rowCount, income.Amount, income.TransactionDate, income.Source);
                 }
             }
 
@@ -141,12 +141,12 @@ namespace FinanceTracker.View
         public static void PrintExpense(List<Transaction> transactions)
         {
             _expenseTable.Rows.Clear();
-            int i = 0;
+            int rowCount = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Expense expense)
                 {
-                    _expenseTable.AddRow(++i, expense.Amount, expense.TransactionDate, expense.Category);
+                    _expenseTable.AddRow(++rowCount, expense.Amount, expense.TransactionDate, expense.Category);
                 }
             }
 

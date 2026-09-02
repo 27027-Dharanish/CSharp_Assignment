@@ -64,14 +64,10 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <summary>
         /// Get the expense count.
         /// </summary>
+        /// <typeparam name="T">Transaction type</typeparam>
         /// <returns>No.of transaction occurred</returns>
-        public int GetExpenseCount();
-
-        /// <summary>
-        /// Get the income count.
-        /// </summary>
-        /// <returns>No.of transaction occurred</returns>
-        public int GetIncomeCount();
+        public int GetTransactionCount<T>()
+            where T : Transaction;
 
         /// <summary>
         /// Retrieves a filtered list of transactions.
