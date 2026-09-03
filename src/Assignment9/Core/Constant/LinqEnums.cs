@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assignment9.Core.Constant
+﻿namespace Assignment9.Core.Constant
 {
     /// <summary>
     /// Specifies the linq task available.
@@ -40,5 +34,41 @@ namespace Assignment9.Core.Constant
         /// Option to exit from application.
         /// </summary>
         Exit,
+    }
+
+    /// <summary>
+    /// The option available in the filter.
+    /// </summary>
+    public enum FilterOption
+    {
+        /// <summary>
+        /// Option to select contains operation.
+        /// </summary>
+        Contains = 1,
+
+        /// <summary>
+        /// Option to select starts with operation.
+        /// </summary>
+        StartsWith,
+
+        /// <summary>
+        /// Option to select ends with operation.
+        /// </summary>
+        EndsWith,
+
+        /// <summary>
+        /// Option to select greater than or equal to operation.
+        /// </summary>
+        GreaterThanOrEqualTo,
+
+        /// <summary>
+        /// Option to select less than or equal to operation.
+        /// </summary>
+        LessThanOrEqualTo,
+
+        /// <summary>
+        /// Option to select equal to operation.
+        /// </summary>
+        Equal,
     }
 }

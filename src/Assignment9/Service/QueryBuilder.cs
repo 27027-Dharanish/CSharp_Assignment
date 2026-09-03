@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Net.Http.Headers;
+﻿using System.Linq.Expressions;
+using Assignment9.Core.Constant;
 
 namespace Assignment9.Service;
 
@@ -83,7 +82,7 @@ public class QueryBuilder<T>
     /// <param name="operation">Operation to be performed.</param>
     /// <param name="value">Value used to be done filter.</param>
     /// <returns>Query builder with the filtered data.</returns>
-    public QueryBuilder<T> Filter(string propertyName, string operation, string value)
+    public QueryBuilder<T> Filter(string propertyName, FilterOption operation, string value)
     {
         var parameter = Expression.Parameter(typeof(T), "x");
         var property = Expression.Property(parameter, propertyName);
@@ -91,15 +90,15 @@ public class QueryBuilder<T>
         Expression expression;
         switch (operation)
         {
-            case "Contains":
+            case FilterOption.Contains:
                 var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
                 expression = Expression.Call(property, containsMethod!, constant);
                 break;
-            case "StartsWith":
+            case FilterOption.StartsWith:
                 var startWithMethod = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
                 expression = Expression.Call(property, startWithMethod!, constant);
                 break;
-            case "EndsWith":
+            case FilterOption.EndsWith:
                 var endsWithMethod = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
                 expression = Expression.Call(property, endsWithMethod!, constant);
                 break;
@@ -120,7 +119,7 @@ public class QueryBuilder<T>
     /// <param name="operation">Operation to be performed.</param>
     /// <param name="value">Value used to be done filter.</param>
     /// <returns>Query builder with the filtered data.</returns>
-    public QueryBuilder<T> Filter<TValue>(string propertyName, string operation, TValue value)
+    public QueryBuilder<T> Filter<TValue>(string propertyName, FilterOption operation, TValue value)
         where TValue : IComparable
     {
         var parameter = Expression.Parameter(typeof(T), "x");
@@ -129,13 +128,13 @@ public class QueryBuilder<T>
         Expression expression;
         switch (operation)
         {
-            case "GreaterThanOrEqualTo":
+            case FilterOption.GreaterThanOrEqualTo:
                 expression = Expression.GreaterThanOrEqual(property, constant);
                 break;
-            case "LessThanOrEqualTo":
+            case FilterOption.LessThanOrEqualTo:
                 expression = Expression.LessThanOrEqual(property, constant);
                 break;
-            case "Equal":
+            case FilterOption.Equal:
                 expression = Expression.Equal(property, constant);
                 break;
             default:

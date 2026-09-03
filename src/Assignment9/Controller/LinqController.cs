@@ -140,11 +140,11 @@ namespace Assignment9.Controller
             ConsoleActivity.PrintInConsole("Supplier name Start with t : ");
             List<Supplier> suppliers = this._linqService.GetSupplierDetails();
             QueryBuilder<Supplier> supplier = new QueryBuilder<Supplier>(suppliers);
-            List<Supplier> supplierNameStartWithT = supplier.Filter("SupplierName", "StartsWith", "T").Execute();
+            List<Supplier> supplierNameStartWithT = supplier.Filter("SupplierName", FilterOption.StartsWith, "T").Execute();
             ConsoleActivity.PrintSupplierDetails(supplierNameStartWithT);
             ConsoleActivity.PrintEmptyLine();
             ConsoleActivity.PrintInConsole("List of product which price greater than or equal to $250 : ");
-            List<Product> productPriceGreaterThan250 = product.Filter<decimal>("ProductPrice", "GreaterThanOrEqualTo", 250).Execute();
+            List<Product> productPriceGreaterThan250 = product.Filter<decimal>("ProductPrice", FilterOption.GreaterThanOrEqualTo, 250).Execute();
             ConsoleActivity.PrintProduct(productPriceGreaterThan250);
             ConsoleActivity.WaitInConsole();
         }
