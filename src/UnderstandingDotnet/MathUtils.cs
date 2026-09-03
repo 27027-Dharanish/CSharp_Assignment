@@ -11,10 +11,7 @@
         /// <param name="x">First integer number.</param>
         /// <param name="y">Second integer number.</param>
         /// <returns>Addition result.</returns>
-        public int Add(int x, int y)
-        {
-            return x + y;
-        }
+        public int Add(int x, int y) => x + y;
 
         /// <summary>
         /// Subtract two integer numbers.
@@ -22,10 +19,7 @@
         /// <param name="x">First integer number.</param>
         /// <param name="y">Second integer number.</param>
         /// <returns>Subtraction result.</returns>
-        public int Subtract(int x, int y)
-        {
-            return x - y;
-        }
+        public int Subtract(int x, int y) => x - y;
 
         /// <summary>
         /// Multiply two integer numbers.
@@ -33,10 +27,7 @@
         /// <param name="x">First integer number.</param>
         /// <param name="y">Second integer number.</param>
         /// <returns>Multiplication result.</returns>
-        public int Multiply(int x, int y)
-        {
-            return x * y;
-        }
+        public int Multiply(int x, int y) => x * y;
 
         /// <summary>
         /// Divide two integer numbers.
@@ -44,9 +35,6 @@
         /// <param name="x">First integer number.</param>
         /// <param name="y">Second integer number.</param>
         /// <returns>Division result.</returns>
-        public int Divide(int x, int y)
-        {
-            return x / y;
-        }
+        public double Divide(int x, int y) => x / y;
     }
 }

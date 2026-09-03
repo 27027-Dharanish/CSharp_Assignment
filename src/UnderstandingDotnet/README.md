@@ -55,6 +55,7 @@ Systems running the Common Language Runtime (CLR) include a machine-wide central
 * **Definition:** Variables that store the actual data values directly within their own memory slot.
 * **Memory Allocation:** Stored inside **Stack memory**.
 * **Behavior:** When assigned to a new variable, the underlying value is copied completely. Most primitive data types in C# operate as value types.
+* **Stack:** Stack stores value type data, one stack is created per thread.
 * **Example:**
   ```csharp
   int a = 10;
@@ -65,6 +66,7 @@ Systems running the Common Language Runtime (CLR) include a machine-wide central
 * **Definition:** Variables that store a memory address pointer pointing to where the data is actually held.
 * **Types Included:** Classes and interfaces in C#.
 * **Behavior:** When assigned to a new variable, they share the exact same memory reference instead of copying the underlying data. Modifying data through one variable immediately reflects in the other.
+* **Heap:** Heap store reference of a object, one heap is created per application. All thread share same heap.
 
 ---
 

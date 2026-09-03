@@ -8,7 +8,6 @@
         /// <summary>
         /// Main entry point of the program and start the controller.
         /// </summary>
-
         public static void Main()
         {
             MathUtils math = new MathUtils();
@@ -18,8 +17,8 @@
             ConsoleActivity.PrintInConsole("Calculator result : ");
             ConsoleActivity.PrintInConsole($"Addition : {number1} + {number2} = {math.Add(number1, number2)}");
             ConsoleActivity.PrintInConsole($"Subtraction : {number1} - {number2} = {math.Subtract(number1, number2)}");
-            ConsoleActivity.PrintInConsole($"Multiplication : {number1} * {number2} = {math.Add(number1, number2)}");
-            ConsoleActivity.PrintInConsole($"Addition : {number1} + {number2} = {math.Add(number1, number2)}");
+            ConsoleActivity.PrintInConsole($"Multiplication : {number1} * {number2} = {math.Multiply(number1, number2)}");
+            ConsoleActivity.PrintInConsole($"Division : {number1} + {number2} = {math.Divide(number1, number2)}");
         }
     }
 }
