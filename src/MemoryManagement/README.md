@@ -1,7 +1,5 @@
 # Task 1 -> Value and Reference Types
 
-## ?? Key Learnings & Concepts
-
 ### 1. Value Types (Stored on the Stack)
 * **The Copy Behavior:** When you pass a value type (e.g., an integer or a struct) into a method, C# does not give the method access to the original variable. Instead, it makes a **complete, independent copy** of the value.
 * **Isolation:** Because the method works purely on a copy, any modifications made inside that method stay inside that method. The original variable in your main code remains completely safe, isolated, and unchanged.
@@ -30,7 +28,10 @@
 * **Heap Profiling:** In a tool like Visual Studio Diagnostic Tools, the large array method will generate a distinct visual **"sawtooth" step up** on the Process Memory graph.
 * **Stack Profiling:** The local variables method will show a completely **flat line** on the Managed Heap graph, because Stack allocations do not register as Heap inflation.
 
+### Observation : 
 ![App Screenshot](ReadmeImages/DiagonasticForHeapAndStack.png)
+
+* Here the heap size is shown during the process execution.
 
 # Task 3 -> Learning: Garbage Collection and Performance Impact
 ### 1. The Allocation Spike (Managed Heap)
@@ -45,5 +46,10 @@
 * **Memory vs. CPU:** While triggering `GC.Collect()` successfully drops your application's memory footprint back to its baseline, it introduces a severe **CPU performance hit**. 
 * **The Latency Cost:** Frequent manual collections introduce stuttering, micro-freezes, and increased latency. In real-world applications, letting the .NET runtime handle garbage collection automatically is vastly more efficient than forcing it manually.
 
+### Observation : 
+
+#### Code :
 ![App Screenshot](ReadmeImages/GC_Collector_Code.png)
+
+#### Diagnostic data after using GC :
 ![App Screenshot](ReadmeImages/DiagonasticForGC.png)

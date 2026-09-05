@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MemoryManagement.View
-{ 
+{
     /// <summary>
     /// Handles user interaction activities by managing standard input and output via the console.
     /// </summary>
