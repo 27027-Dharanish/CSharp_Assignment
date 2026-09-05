@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MemoryManagement.View
+﻿namespace MemoryManagement.View
 {
     /// <summary>
     /// Handles user interaction activities by managing standard input and output via the console.
