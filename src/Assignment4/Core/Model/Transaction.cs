@@ -11,7 +11,7 @@
         /// <param name="id">Id for the transaction</param>
         /// <param name="amount">IAmount of the transaction</param>
         /// <param name="date">Transaction date</param>
-        public Transaction(int id, decimal amount, DateOnly date)
+        public Transaction(Guid id, decimal amount, DateOnly date)
         {
             this.Id = id;
             this.Amount = amount;
@@ -22,15 +22,15 @@
         /// Gets the unique identifier for the transaction
         /// </summary>
         /// <value>
-        /// An integer representing unique value for a transaction.
+        /// A <see cref="Guid"/> representing the globally unique value for a transaction.
         /// </value>
-        public int Id { get; init; }
+        public Guid Id { get; init; }
 
         /// <summary>
         /// Gets or sets the amount for the expense.
         /// </summary>
         /// <value>
-        /// A decimal representing amount for the expense.
+        /// A <see cref="decimal"/> representing amount for the expense.
         /// </value>
         public decimal Amount { get; set; }
 
@@ -38,7 +38,7 @@
         /// Gets or sets the date on which transaction held.
         /// </summary>
         /// <value>
-        /// A date representing the date on which transaction occurred.
+        /// A <see cref="DateOnly"/> representing the date on which transaction occurred.
         /// </value>
         public DateOnly TransactionDate { get; set; }
 

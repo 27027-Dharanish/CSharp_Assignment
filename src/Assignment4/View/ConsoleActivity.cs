@@ -121,11 +121,12 @@ namespace FinanceTracker.View
         public static void PrintIncome(List<Transaction> transactions)
         {
             _incomeTable.Rows.Clear();
+            int rowCount = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Income income)
                 {
-                    _incomeTable.AddRow(income.Id, income.Amount, income.TransactionDate, income.Source);
+                    _incomeTable.AddRow(++rowCount, income.Amount, income.TransactionDate, income.Source);
                 }
             }
 
@@ -140,11 +141,12 @@ namespace FinanceTracker.View
         public static void PrintExpense(List<Transaction> transactions)
         {
             _expenseTable.Rows.Clear();
+            int rowCount = 0;
             foreach (Transaction transaction in transactions)
             {
                 if (transaction is Expense expense)
                 {
-                    _expenseTable.AddRow(expense.Id, expense.Amount, expense.TransactionDate, expense.Category);
+                    _expenseTable.AddRow(++rowCount, expense.Amount, expense.TransactionDate, expense.Category);
                 }
             }
 
@@ -159,7 +161,7 @@ namespace FinanceTracker.View
         public static void PrintTransaction(Transaction transaction)
         {
             PrintEmptyLine();
-            PrintInConsole($"Transaction Id: {transaction.Id}\nTransaction amount : {transaction.Amount}\nTransaction Date : {transaction.TransactionDate}");
+            PrintInConsole($"Transaction amount : {transaction.Amount}\nTransaction Date : {transaction.TransactionDate}");
             if (transaction is Income income)
             {
                 PrintInConsole("Transaction source : " + income.Source);
