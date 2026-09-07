@@ -25,8 +25,6 @@ namespace MemoryOptimization
                 count++;
                 Thread.Sleep(10);
             }
-
-            this._memAlloc.Clear();
         }
     }
 }

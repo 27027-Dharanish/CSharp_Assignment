@@ -17,7 +17,7 @@ While this step successfully breaks the strong references to the individual inte
 
 The profiling workflow below validates this behavior using memory snapshots captured during execution:
 
-![Snapshot 1](Docs/Screenshot-1.png)
+![Snapshot 1](./Docs/Screenshot-1.png)
 
 * **Snapshot ID-1:** Captured as a baseline marker before the `MemoryEater` allocation logic begins execution.
 * **Snapshot ID-2:** Captured directly after the execution of the `MemoryEater` allocation loop, showing the expected peak heap utilization.
@@ -45,7 +45,7 @@ this._memAlloc.TrimExcess();
 
 The execution steps below map how the heap memory recovers through each stage of the optimized lifecycle:
 
-![Snapshot 2](Docs/Screenshot-2.png)
+![Snapshot 2](./Docs/Screenshot-2.png)
 
 * **Snapshot ID-1:** Baseline snapshot state prior to triggering any allocation.
 * **Snapshot ID-2:** Peak memory overhead state representing all integer chunks loaded concurrently.
@@ -70,7 +70,7 @@ Here is a simple look at how memory behaved before and after our fix:
 
 ---
 
-### Why Did This Change Happen? (In Simple Terms)
+### Why Did This Change Happen? 
 
 To understand why our optimization worked, think of a `List` in C# like a **bookshelf**:
 

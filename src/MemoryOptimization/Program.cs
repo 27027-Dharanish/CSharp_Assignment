@@ -12,9 +12,8 @@ namespace Assignments
         /// </summary>
         public static void Main()
         {
-            // MemoryEater me = new MemoryEater();
-            // me.Allocate();
-
+            MemoryEater me = new MemoryEater();
+            me.Allocate();
             OptimizedMemoryEater optimized = new OptimizedMemoryEater();
             optimized.Allocate();
         }
