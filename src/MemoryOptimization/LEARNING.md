@@ -82,3 +82,25 @@ To understand why our optimization worked, think of a `List` in C# like a **book
 ### What We Learned From the Visual Studio Profiler
 * **Code can look clean but still waste memory:** Even if code compiles and runs perfectly without errors, it can silently hold onto memory behind the scenes.
 * **Profilers show the invisible:** The Visual Studio profiling tool helps us peek inside the computer's memory to see exactly *where* bytes are being wasted so we can write faster, lighter applications.
+
+### Diagnostic Verification (Task 3)
+
+![Snapshot 3](./Docs/Screenshot-3.png)
+
+* **Heap Memory Variance:** The snapshots capture the exact changes in managed heap usage at each stage of the lifecycle.
+* **Peak Allocation (ID-2):** We can clearly see memory usage spike to **601 KB** while the loop is actively allocating the integer arrays.
+* **Memory Reduction (ID-3 & ID-4):** After optimization, the memory successfully drops from **601 KB down to 561 KB**, confirming that the unused reference buffers were discarded and reclaimed.
+
+
+## Task 4 - Reflection & Key Learnings
+
+This assignment helped me understand how C# manages memory and how the **Garbage Collector (GC)** works. I learned that objects stay in memory as long as something is pointing to them. Even though C# handles memory automatically, developers still need to be careful not to hold onto unnecessary data.
+
+### Challenges & Observations
+The most challenging but interesting part was analyzing the **memory snapshots**. It was eye-opening to watch the heap memory spike up as arrays were added to the list. Comparing the snapshots before and after the fix helped me clearly see when objects were active and when they were finally ready to be cleaned up.
+
+### Key Takeaways
+* **Reference Lifecycles:** In the `MemoryEater` example, I saw how clearing a list breaks the connection to the arrays so the GC can reclaim that space. 
+* **Clear() vs Null:** I learned that `Clear()` keeps the list structure ready to reuse, while setting it to `null` destroys the list container entirely.
+* **Tooling Value:** This task showed me how valuable Visual Studio's **Diagnostic Tools** are for finding hidden memory waste and proving that an optimization actually worked.
+
