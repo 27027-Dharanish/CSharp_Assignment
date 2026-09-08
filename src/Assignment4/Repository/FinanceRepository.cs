@@ -31,7 +31,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public Transaction? GetTransactionCopyUsingId(int id)
+        public Transaction? GetTransactionCopyUsingId(Guid id)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(id);
             if (matchedTransaction == null)
@@ -43,7 +43,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public bool DeleteTransactionById(int id)
+        public bool DeleteTransactionById(Guid id)
         {
             Transaction? transactionToBeDeleted = this.SearchTransactionUsingId(id);
             if (transactionToBeDeleted == null)
@@ -55,7 +55,7 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             Transaction? matchedTransaction = this.SearchTransactionUsingId(transactionId);
             if (matchedTransaction == null)
@@ -80,16 +80,23 @@ namespace FinanceTracker.Repository
         }
 
         /// <inheritdoc />
-        public int GetFilteredTransactionCount<T>()
+        public List<T> FilterTransaction<T>()
             where T : Transaction
         {
             List<Transaction> transactions = this.GetAllTransaction();
-            int transactionCount = transactions
-                .Where(transaction => transaction is T).Count();
-            return transactionCount;
+            List<T> filteredTransaction = new List<T>();
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction is T matchedTransaction)
+                {
+                    filteredTransaction.Add(matchedTransaction);
+                }
+            }
+
+            return filteredTransaction;
         }
 
-        private Transaction? SearchTransactionUsingId(int id)
+        private Transaction? SearchTransactionUsingId(Guid id)
         {
             return this._financeTracker.Find(transaction => transaction.Id == id);
         }

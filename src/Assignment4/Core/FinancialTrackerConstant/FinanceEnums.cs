@@ -21,6 +21,11 @@
         Expense,
 
         /// <summary>
+        /// Option to create backup for file repository.
+        /// </summary>
+        BackUpRepository,
+
+        /// <summary>
         /// Option to close and exit the application.
         /// </summary>
         Exit,

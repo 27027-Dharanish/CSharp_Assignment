@@ -1,5 +1,4 @@
 ﻿using FinanceTracker.Core.ExpenseTrackerInterface;
-using FinanceTracker.Core.FinancialTrackerConstant;
 using FinanceTracker.Core.Model;
 
 namespace FinanceTracker.Service
@@ -10,7 +9,6 @@ namespace FinanceTracker.Service
     public class FinancialTrackerService : IFinancialTrackerService
     {
         private readonly IFinancialTrackerRepository _financialRepository;
-        private int _transactionIdCounter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FinancialTrackerService"/> class.
@@ -19,21 +17,19 @@ namespace FinanceTracker.Service
         public FinancialTrackerService(IFinancialTrackerRepository repository)
         {
             this._financialRepository = repository;
-            this._transactionIdCounter = 0;
         }
 
         /// <inheritdoc />
         public bool CreateNewTransaction(decimal amount, DateOnly date, string? transactionType, bool isIncome)
         {
             Transaction newTransaction;
-            this._transactionIdCounter++;
             if (isIncome)
             {
-                newTransaction = new Income(this._transactionIdCounter, amount, date, transactionType);
+                newTransaction = new Income(Guid.NewGuid(), amount, date, transactionType);
             }
             else
             {
-                newTransaction = new Expense(this._transactionIdCounter, amount, date, transactionType);
+                newTransaction = new Expense(Guid.NewGuid(), amount, date, transactionType);
             }
 
             this._financialRepository.AddNewTransaction(newTransaction);
@@ -73,19 +69,19 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public bool DeleteTransaction(int id)
+        public bool DeleteTransaction(Guid id)
         {
             return this._financialRepository.DeleteTransactionById(id);
         }
 
         /// <inheritdoc />
-        public bool EditTransactionById(int transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
+        public bool EditTransactionById(Guid transactionId, decimal newAmount, DateOnly newDate, string? newSourceOrCategory)
         {
             return this._financialRepository.EditTransactionById(transactionId, newAmount, newDate, newSourceOrCategory);
         }
 
         /// <inheritdoc />
-        public (bool, Transaction?) GetTransactionIfExist(int id)
+        public (bool, Transaction?) GetTransactionIfExist(Guid id)
         {
             Transaction? matchedTransaction = this._financialRepository.GetTransactionCopyUsingId(id);
             if (matchedTransaction != null)
@@ -97,15 +93,17 @@ namespace FinanceTracker.Service
         }
 
         /// <inheritdoc />
-        public int GetIncomeCount()
+        public int GetTransactionCount<T>()
+            where T : Transaction
         {
-            return this._financialRepository.GetFilteredTransactionCount<Income>();
+            return this.GetFilteredTransaction<T>().Count;
         }
 
         /// <inheritdoc />
-        public int GetExpenseCount()
+        public List<T> GetFilteredTransaction<T>()
+            where T : Transaction
         {
-            return this._financialRepository.GetFilteredTransactionCount<Expense>();
+            return this._financialRepository.FilterTransaction<T>();
         }
 
         /// <inheritdoc />
