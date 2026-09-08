@@ -22,14 +22,14 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <summary>
         /// Search transaction using transaction id and return copy of it if necessary.
         /// </summary>
-        /// <param name="id">Id of the transaction.</param>
+        /// <param name="id">Guid of the transaction.</param>
         /// <returns>Copy of the transaction that matched with the id.</returns>
         public Transaction? GetTransactionCopyUsingId(Guid id);
 
         /// <summary>
         /// Delete the transaction using the transaction id.
         /// </summary>
-        /// <param name="id">Transaction id of transaction.</param>
+        /// <param name="id">Guid of the transaction.</param>
         /// <returns>Status of transaction deletion.</returns>
         public bool DeleteTransactionById(Guid id);
 

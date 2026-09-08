@@ -8,8 +8,8 @@ namespace FinanceTracker.View
     /// </summary>
     public static class ConsoleActivity
     {
-        private static ConsoleTable _incomeTable = new ConsoleTable("Transaction ID", "Amount", "Transaction Date", "Source");
-        private static ConsoleTable _expenseTable = new ConsoleTable("Transaction ID", "Amount", "Transaction Date", "Category");
+        private static ConsoleTable _incomeTable = new ConsoleTable("S.NO", "Amount", "Transaction Date", "Source");
+        private static ConsoleTable _expenseTable = new ConsoleTable("S.NO", "Amount", "Transaction Date", "Category");
 
         /// <summary>
         /// Print the given content in the console.

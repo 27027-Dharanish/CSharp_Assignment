@@ -20,7 +20,11 @@ namespace FinanceTracker.FileHelper
             try
             {
                 string? sourcePath = FileFinanceRepository.FileRepositoryPath;
-                if (File.Exists(sourcePath))
+                if (string.IsNullOrEmpty(sourcePath) || !File.Exists(sourcePath))
+                {
+                    return false;
+                }
+                else if (File.Exists(sourcePath))
                 {
                     DateTime sourceFileLastEdit = File.GetLastWriteTimeUtc(sourcePath);
                     DateTime backupFileLastEdit = File.GetLastWriteTimeUtc(_backupPath);
@@ -28,22 +32,20 @@ namespace FinanceTracker.FileHelper
                     {
                         return true;
                     }
+                }
 
-                    File.Copy(FileFinanceRepository.FileName, _backupPath, true);
-                    File.SetLastWriteTimeUtc(_backupPath, File.GetLastWriteTimeUtc(sourcePath));
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                File.Copy(sourcePath, _backupPath, true);
+                File.SetLastWriteTimeUtc(_backupPath, File.GetLastWriteTimeUtc(sourcePath));
+                return true;
             }
             catch (IOException)
             {
+                Logger.LogError("IO exception is raised");
                 return false;
             }
             catch (UnauthorizedAccessException)
             {
+                Logger.LogError("Unauthorized access exception is raised");
                 return false;
             }
         }

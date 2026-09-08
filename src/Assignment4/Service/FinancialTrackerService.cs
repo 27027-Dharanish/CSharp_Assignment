@@ -1,5 +1,4 @@
 ﻿using FinanceTracker.Core.ExpenseTrackerInterface;
-using FinanceTracker.Core.FinancialTrackerConstant;
 using FinanceTracker.Core.Model;
 
 namespace FinanceTracker.Service

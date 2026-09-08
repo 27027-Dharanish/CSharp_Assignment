@@ -34,7 +34,7 @@ namespace FinanceTracker.Core.ExpenseTrackerInterface
         /// <summary>
         /// Deletes a specific transaction record using its unique identifier.
         /// </summary>
-        /// <param name="id">Id of the transaction</param>
+        /// <param name="id">Guid of the transaction</param>
         /// <returns>Status of transaction deletion</returns>
         public bool DeleteTransaction(Guid id);
 

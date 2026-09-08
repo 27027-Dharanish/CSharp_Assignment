@@ -115,7 +115,7 @@ namespace FinanceTracker.Repository
         {
             try
             {
-                if (!File.Exists(FileName))
+                if (!File.Exists(FileRepositoryPath))
                 {
                     return default;
                 }
