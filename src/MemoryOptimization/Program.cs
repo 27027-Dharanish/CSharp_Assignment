@@ -6,7 +6,7 @@
     public class Program
     {
         /// <summary>
-        /// Creates instances of both standard and optimized memory consumers and triggers their respective memory allocation routines.
+        /// Creates instances of optimized memory consumers and triggers their respective memory allocation routines.
         /// </summary>
         public static void Main()
         {
