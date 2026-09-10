@@ -31,7 +31,7 @@ namespace Collections
             ConsoleActivity.PrintEmptyLine();
             ConsoleActivity.PrintInConsole("The first person in the queue : " + this._queue.Dequeue());
             ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Person in queue are : ");
+            ConsoleActivity.PrintInConsole("Person in queue after removing first person : ");
             foreach (string person in this._queue)
             {
                 ConsoleActivity.PrintInConsole(person);
