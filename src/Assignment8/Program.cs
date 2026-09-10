@@ -1,6 +1,6 @@
 ﻿using Assignment4.controller;
 
-namespace Assignments
+namespace MemoryOptimization
 {
     /// <summary>
     /// Represents the main entry point for the error handler.

@@ -3,7 +3,7 @@ using Assignment1.Controller;
 using Assignment1.Persistence;
 using Assignment1.Services;
 
-namespace Assignments
+namespace MemoryOptimization
 {
     /// <summary>
     /// Console Based Contact Manager.

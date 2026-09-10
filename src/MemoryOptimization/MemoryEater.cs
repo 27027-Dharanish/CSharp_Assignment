@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MemoryOptimization
+﻿namespace MemoryOptimization
 {
     /// <summary>
     /// Demonstrates memory allocation and release for memory usage analysis.
@@ -18,11 +12,9 @@ namespace MemoryOptimization
         /// </summary>
         public void Allocate()
         {
-            int count = 0;
-            while (count < 10)
+            while (true)
             {
                 this._memAlloc.Add(new int[1000]);
-                count++;
                 Thread.Sleep(10);
             }
         }

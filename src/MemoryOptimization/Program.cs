@@ -1,6 +1,4 @@
-﻿using MemoryOptimization;
-
-namespace Assignments
+﻿namespace MemoryOptimization
 {
     /// <summary>
     /// Serves as the entry point for the memory management understanding assignment.
@@ -8,14 +6,19 @@ namespace Assignments
     public class Program
     {
         /// <summary>
-        /// Creates a MemoryEater instance and starts the memory.
+        /// Creates instances of both standard and optimized memory consumers and triggers their respective memory allocation routines.
         /// </summary>
         public static void Main()
         {
-            MemoryEater me = new MemoryEater();
-            me.Allocate();
-            OptimizedMemoryEater optimized = new OptimizedMemoryEater();
-            optimized.Allocate();
+            Console.WriteLine("---- Starting Testing ----");
+            Console.WriteLine();
+            Console.WriteLine("Testing optimized memory eater : ");
+            using (OptimizedMemoryEater memoryModifier = new OptimizedMemoryEater())
+            {
+                memoryModifier.Allocate();
+            }
+
+            Console.ReadKey();
         }
     }
 }
