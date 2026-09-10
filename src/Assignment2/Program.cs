@@ -1,6 +1,6 @@
 ﻿using Assignment2.Controller;
 
-namespace MemoryOptimization
+namespace Assignments
 {
     /// <summary>
     /// Represents the main entry point for the application and handles initial setup.

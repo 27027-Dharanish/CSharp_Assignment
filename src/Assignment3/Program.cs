@@ -1,7 +1,7 @@
 ﻿using Assignment_3.Controller;
 using Assignment_3.Service;
 
-namespace MemoryOptimization
+namespace Assignments
 {
     /// <summary>
     /// Represents the main entry point for the application and handles initial setup.
