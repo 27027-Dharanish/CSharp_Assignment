@@ -3,36 +3,66 @@
 namespace Collections
 {
     /// <summary>
-    /// Handle task related to list and perform operation related to it.
+    /// Handles tasks related to a generic list and performs operations on it.
     /// </summary>
-    public class TaskList
+    /// <typeparam name="T">The type of element in the list.</typeparam>
+    public class TaskList<T>
     {
-        private List<string> _books = new List<string>();
+        private List<T> _books = new List<T>();
 
         /// <summary>
-        /// Handle list of operation available in list.
+        /// Add new book in the list.
         /// </summary>
-        public void HandleListOperation()
+        /// <param name="book">Book item to be added.</param>
+        public void AddNewBook(T book)
         {
-            ConsoleActivity.ShowHeader("Task 1 - List");
-            ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Adding new books");
-            this._books.Add("Atomic Habit");
-            this._books.Add("Rich Dad Poor Dad");
-            this._books.Add("Money");
-            this._books.Add("Akbar");
-            this._books.Add("History of India");
-            ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Removing atomic habits from the list :");
-            this._books.Remove("Atomic Habit");
-            ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Does list of books contain Rich Dad Poor Dad : " + this._books.Contains("Rich Dad Poor Dad"));
-            ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("Display all element in the list :");
-            int i = 1;
-            foreach (string book in this._books)
+            this._books.Add(book);
+            ConsoleActivity.PrintAndWait($"{book} added successfully!");
+        }
+
+        /// <summary>
+        /// Remove the book from the list.
+        /// </summary>
+        /// <param name="book">The book that needed to be removed.</param>
+        public void RemoveBook(T book)
+        {
+            if (this._books.Remove(book))
             {
-                ConsoleActivity.PrintInConsole($"{i++}.{book}");
+                ConsoleActivity.PrintAndWait($"{book} removed successfully!");
+                return;
+            }
+
+            ConsoleActivity.PrintAndWait("No such book exist in list!");
+        }
+
+        /// <summary>
+        /// Check whether the book exist in the list or not.
+        /// </summary>
+        /// <param name="book">The book that needed to be checked.</param>
+        public void CheckIfBookExist(T book)
+        {
+            if (this._books.Contains(book))
+            {
+                ConsoleActivity.PrintAndWait($"The {book} exist in the list.");
+                return;
+            }
+
+            ConsoleActivity.PrintAndWait($"No such book exist with the name {book} in the list");
+        }
+
+        /// <summary>
+        /// Display books present in the list.
+        /// </summary>
+        public void DisplayAllBooks()
+        {
+            if (this._books.Count > 0)
+            {
+                ConsoleActivity.PrintInConsole("Books present in list :");
+                int i = 1;
+                foreach (T book in this._books)
+                {
+                    ConsoleActivity.PrintInConsole($"{i++}.{book}");
+                }
             }
 
             ConsoleActivity.WaitInConsole();

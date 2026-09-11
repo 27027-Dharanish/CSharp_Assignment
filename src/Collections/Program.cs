@@ -1,4 +1,5 @@
 ﻿using Collections;
+using Collections.Controller;
 using Collections.View;
 
 namespace Assignments
@@ -13,14 +14,8 @@ namespace Assignments
         /// </summary>
         public static void Main()
         {
-            TaskList list = new TaskList();
-            list.HandleListOperation();
-            Stack stack = new Stack();
-            stack.HandleStackOperation();
-            Queue queue = new Queue();
-            queue.ExecuteQueueOperation();
-            Dictionary dictionary = new Dictionary();
-            dictionary.HandleDictionaryOperation();
+            Controller controller = new Controller();
+            controller.HandleCollections();
         }
     }
 }
