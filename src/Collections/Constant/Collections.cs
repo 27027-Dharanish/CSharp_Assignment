@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Collections.Constant
+﻿namespace Collections.Constant
 {
     /// <summary>
     /// Holds the constant available to manage the menu options.
@@ -30,6 +24,11 @@ namespace Collections.Constant
         /// Specifies dictionary operation.
         /// </summary>
         DictionaryOperation,
+
+        /// <summary>
+        /// Specifies generic collection operation.
+        /// </summary>
+        GenericCollection,
 
         /// <summary>
         /// Exit from the application.

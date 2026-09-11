@@ -16,7 +16,7 @@ namespace Collections.Controller
             MenuOptions userChoice;
             do
             {
-                ConsoleActivity.ShowMenu("Collections", new string[] { "List", "Stack", "Queue", "Dictionary", "Exit" });
+                ConsoleActivity.ShowMenu("Collections", new string[] { "List", "Stack", "Queue", "Dictionary", "Generic Collection", "Exit" });
                 userChoice = (MenuOptions)ConsoleActivity.GetIntegerInput("choice");
                 switch (userChoice)
                 {
@@ -32,6 +32,9 @@ namespace Collections.Controller
                     case MenuOptions.DictionaryOperation:
                         this.HandleDictionaryOperation();
                         break;
+                    case MenuOptions.GenericCollection:
+                        GenericCollection.Operation();
+                        break;
                     case MenuOptions.Exit:
                         ConsoleActivity.ExitApplication();
                         break;
@@ -45,7 +48,7 @@ namespace Collections.Controller
 
         private void HandleListTask()
         {
-            TaskList<string> books = new TaskList<string>();
+            CustomList<string> books = new CustomList<string>();
             ListOperation userChoice;
             do
             {

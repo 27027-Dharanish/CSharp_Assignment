@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Collections.View;
+﻿using Collections.View;
 
 namespace Collections
 {

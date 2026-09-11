@@ -6,7 +6,7 @@ namespace Collections
     /// Handles tasks related to a generic list and performs operations on it.
     /// </summary>
     /// <typeparam name="T">The type of element in the list.</typeparam>
-    public class TaskList<T>
+    public class CustomList<T>
     {
         private List<T> _books = new List<T>();
 
