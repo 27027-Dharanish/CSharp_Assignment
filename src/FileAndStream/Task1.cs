@@ -109,18 +109,18 @@ namespace FileAndStream
         public void ConvertUpperCase()
         {
             ConsoleActivity.ShowHeader("Convert file content to uppercase");
-            ConsoleActivity.PrintInConsole("Processing data into uppercase...");
+            ConsoleActivity.PrintInConsole("Processing data into uppercase. It may take some time...");
             Stopwatch stopwatch = new Stopwatch();
             try
             {
                 stopwatch.Start();
-                using (FileStream fs = File.Open(this._fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (FileStream originalFile = File.Open(this._fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (FileStream processedFile = File.Open(this._fileNameContainUpperCaseContent, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-                using (BufferedStream bs = new BufferedStream(fs, 64 * 1024))
-                using (BufferedStream b = new BufferedStream(processedFile, 64 * 1024))
+                using (BufferedStream originalBufferedReader = new BufferedStream(originalFile, 64 * 1024))
+                using (BufferedStream processedBufferWriter = new BufferedStream(processedFile, 64 * 1024))
                 {
                     byte[] buffer = new byte[64 * 1024];
-                    while (bs.Read(buffer, 0, buffer.Length) > 0)
+                    while (originalBufferedReader.Read(buffer, 0, buffer.Length) > 0)
                     {
                         string? content = Encoding.UTF8.GetString(buffer);
                         buffer = Encoding.UTF8.GetBytes(content.ToUpper());
@@ -128,13 +128,13 @@ namespace FileAndStream
                         {
                             memoryStream.Write(buffer, 0, buffer.Length);
                             memoryStream.Position = 0;
-                            memoryStream.CopyTo(b);
+                            memoryStream.CopyTo(processedBufferWriter);
                         }
                     }
                 }
 
                 stopwatch.Stop();
-                ConsoleActivity.PrintAndWait("Completed reading in file\nTime taken to read the content of the file is : " + stopwatch.ElapsedMilliseconds + " ms");
+                ConsoleActivity.PrintAndWait("Completed processing the file\nTime taken to convert all the content of the file to uppercase is : " + stopwatch.ElapsedMilliseconds + " ms");
             }
             catch (OutOfMemoryException ex)
             {

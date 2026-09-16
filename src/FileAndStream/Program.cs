@@ -2,15 +2,18 @@
 
 namespace Assignments
 {
-    internal class Program
+    /// <summary>
+    /// main.
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Main entry point.
+        /// </summary>
+        public static void Main()
         {
-            Task1 task1 = new Task1();
-            task1.GenerateOneGBFile();
-            task1.ReadFileUsingFileStream();
-            task1.ReadFileUsingBufferedStream();
-            task1.ConvertUpperCase();
+            Controller controller = new Controller();
+            controller.Start();
         }
     }
 }
