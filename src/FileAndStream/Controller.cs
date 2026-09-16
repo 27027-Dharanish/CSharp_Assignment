@@ -31,8 +31,7 @@ namespace FileAndStream
                         task.HandleTask3();
                         break;
                     case MenuItems.Task4:
-                        ThreadSafeLogger log = new ThreadSafeLogger();
-                        log.LogError("Error logged");
+                        ThreadSafeLogger.LogError("Error logged");
                         ConsoleActivity.PrintAndWait("Error logged successfully..");
                         break;
                     case MenuItems.Exit:

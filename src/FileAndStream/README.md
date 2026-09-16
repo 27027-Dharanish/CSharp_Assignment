@@ -1,4 +1,4 @@
-# Task 3 -> File Handling and Memory Efficiency
+﻿# Task 3 -> File Handling and Memory Efficiency
  
 ## Objective
  
@@ -18,13 +18,13 @@ Instead of converting the entire MemoryStream into a new byte array, we can use 
 ### Modified Flow
  
 String
-   ?
+   ↓
 MemoryStream
-   ?
+   ↓
 CopyTo()
-   ?
+   ↓
 FileStream
-   ?
+   ↓
 File
  
 ## Example
@@ -87,42 +87,12 @@ lock (_lock)
 }
 ```
 
-## Logger Class
-
-```csharp
-using System;
-using System.IO;
-
-namespace LoggingSystem
-{
-    public class ThreadSafeLogger
-    {
-        private const string LogFileName = "ErrorLog.txt";
- 
-        // Shared lock object
-        private static readonly object _lock = new object();
- 
-        public void LogError(string message)
-        {
-            string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {message}{Environment.NewLine}";
- 
-            // Allow only one thread to write at a time
-            lock (_lock)
-            {
-                File.AppendAllText(LogFileName, logMessage);
-            }
-        }
-    }
-}
-```
 
 ### Example Usage
 ```csharp
-ThreadSafeLogger logger = new ThreadSafeLogger();
- 
-logger.LogError("Database connection failed");
-logger.LogError("Invalid user input");
-logger.LogError("File not found");
+ThreadSafeLogger.LogError("Database connection failed");
+ThreadSafeLogger.LogError("Invalid user input");
+ThreadSafeLogger.LogError("File not found");
 ```
 
 ***
@@ -148,11 +118,6 @@ private static readonly object _lock;
 ```csharp
 File.AppendAllText(LogFileName, logMessage);
 ```
-It directly appends the new message to the end of the file. We do not need an intermediary `MemoryStream`.
-
-* **Old Flow:** `Error Message` \(\rightarrow\) `MemoryStream` \(\rightarrow\) `File`
-* **New Flow:** `Error Message` \(\rightarrow\) `File.AppendAllText()` \(\rightarrow\) `ErrorLog.txt`
-
 This avoids unnecessary byte array conversions and memory allocations in RAM.
 
 ***
@@ -161,13 +126,13 @@ This avoids unnecessary byte array conversions and memory allocations in RAM.
 
 ```text
 Multiple Users
-      ?
+      ↓
    LogError()
-      ?
+      ↓
      lock
-      ?
+      ↓
 One thread at a time
-      ?
+      ↓
 ErrorLog.txt
 ```
 
