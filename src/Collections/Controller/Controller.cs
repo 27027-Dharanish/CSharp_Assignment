@@ -57,16 +57,16 @@ namespace Collections.Controller
                 switch (userChoice)
                 {
                     case ListOperation.Add:
-                        books.AddNewBook(ConsoleActivity.GetStringInput("book name") ?? string.Empty);
+                        books.AddItem(ConsoleActivity.GetStringInput("book name") ?? string.Empty);
                         break;
                     case ListOperation.Remove:
-                        books.RemoveBook(ConsoleActivity.GetStringInput("book name to be removed") ?? string.Empty);
+                        books.RemoveItem(ConsoleActivity.GetStringInput("book name to be removed") ?? string.Empty);
                         break;
                     case ListOperation.CheckExists:
-                        books.CheckIfBookExist(ConsoleActivity.GetStringInput("book name to be checked") ?? string.Empty);
+                        books.CheckIfItemExist(ConsoleActivity.GetStringInput("book name to be checked") ?? string.Empty);
                         break;
                     case ListOperation.Display:
-                        books.DisplayAllBooks();
+                        books.Display();
                         break;
                     case ListOperation.Exit:
                         break;
@@ -143,15 +143,16 @@ namespace Collections.Controller
                             break;
                         }
 
-                        string valueInput = ConsoleActivity.GetStringInput("student ID (Value)") ?? "0";
+                        string valueInput = ConsoleActivity.GetStringInput("student grade (Value)") ?? "0";
                         if (int.TryParse(valueInput, out int studentId))
                         {
                             studentRecords.AddRecord(keyInput, studentId);
                         }
                         else
                         {
-                            ConsoleActivity.PrintAndWait("Invalid ID. It must be a valid number!");
+                            ConsoleActivity.PrintAndWait("Invalid grade. It must be a valid number!");
                         }
+
                         break;
 
                     case DictionaryOperation.RemoveItem:

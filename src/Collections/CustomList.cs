@@ -5,7 +5,10 @@ namespace Collections
     /// <summary>
     /// Handles tasks related to a generic list and performs operations on it.
     /// </summary>
-    /// <typeparam name="T">The type of element in the list.</typeparam>
+    /// <typeparam name="T">The type of element in the list. **Note:** This type should override <see cref="object.ToString()"/> to achieve the expected string output.</typeparam>
+    /// <remarks>
+    /// For this class to produce the expected formatting and display results, the type argument passed to <typeparamref name="T"/> must provide a custom implementation of <see cref="object.ToString()"/>.
+    /// </remarks>
     public class CustomList<T>
     {
         private List<T> _books = new List<T>();
@@ -14,7 +17,7 @@ namespace Collections
         /// Add new book in the list.
         /// </summary>
         /// <param name="book">Book item to be added.</param>
-        public void AddNewBook(T book)
+        public void AddItem(T book)
         {
             this._books.Add(book);
             ConsoleActivity.PrintAndWait($"{book} added successfully!");
@@ -24,7 +27,7 @@ namespace Collections
         /// Remove the book from the list.
         /// </summary>
         /// <param name="book">The book that needed to be removed.</param>
-        public void RemoveBook(T book)
+        public void RemoveItem(T book)
         {
             if (this._books.Remove(book))
             {
@@ -39,7 +42,7 @@ namespace Collections
         /// Check whether the book exist in the list or not.
         /// </summary>
         /// <param name="book">The book that needed to be checked.</param>
-        public void CheckIfBookExist(T book)
+        public void CheckIfItemExist(T book)
         {
             if (this._books.Contains(book))
             {
@@ -53,9 +56,13 @@ namespace Collections
         /// <summary>
         /// Display books present in the list.
         /// </summary>
-        public void DisplayAllBooks()
+        public void Display()
         {
-            if (this._books.Count > 0)
+            if (this._books.Count == 0)
+            {
+                ConsoleActivity.PrintAndWait("No books present in the list.");
+            }
+            else
             {
                 ConsoleActivity.PrintInConsole("Books present in list :");
                 int i = 1;
