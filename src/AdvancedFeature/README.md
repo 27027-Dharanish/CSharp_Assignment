@@ -4,43 +4,6 @@ This task demonstrates how to create a simple notification system using the **Pu
 
 ---
 
-## 🔍 Line-by-Line Explanation
-
-### `public class Task1`
-This is the main root class that wraps our execution logic and houses our nested `Notifier` system.
-
-### `public void NotificationService()`
-This acts as the entry point or driver workflow for our task.
-* **`Notifier notifier = new Notifier();`**  
-  Creates a new instance of the publisher object (`Notifier`) so we can access its events.
-* **`notifier.OnAction += DisplayMessage;`**  
-  Uses the `+=` operator to register (subscribe) our local `DisplayMessage` method to the event.
-* **`notifier.PerformAction("...");`**  
-  Asks the notifier to run its action, which internally triggers the announcement broadcast.
-* **`notifier.OnAction -= DisplayMessage;`**  
-  Uses the `-=` operator to safely unregister (unsubscribe) our method from the event, ensuring clean memory management.
-
-### `private void DisplayMessage(string message)`
-This is our **Subscriber Handler**. It must perfectly match the delegate's signature (accepting exactly one `string` and returning `void`). Inside, it takes the incoming notification string and prints it using `Console.WriteLine`.
-
-### `public class Notifier`
-This is the **Publisher Class**. It contains the mechanism for declaring the communication rules and firing the alerts.
-
-### `public delegate void Notify(string message);`
-This defines the **Delegate**. Think of it as a formal contract or blueprint. It states: *"Any method that wants to hold hands with our system must accept one string and return nothing (void)."*
-
-### `public event Notify? OnAction;`
-This defines the **Event**. It acts as a guard dog around our delegate type. The `?` means it starts off as `null` because when the system turns on, no one has subscribed to it yet.
-
-### `public void PerformAction(string message)`
-This is a standard helper method used to trigger the event securely from inside the publisher.
-* **`if (OnAction != null)`**  
-  Crucial safety check! If you try to fire an event when zero methods are subscribed, your app will crash with a `NullReferenceException`. This ensures someone is listening first.
-* **`OnAction(message);`**  
-  Fires the event, sending the string payload zooming down the pipeline to every attached subscriber.
-
----
-
 ## How It Works (The Real-World Analogy)
 
 Think of this pattern like a **YouTube Channel** subscription setup:

@@ -39,17 +39,6 @@ namespace AdvancedFeature.View
         }
 
         /// <summary>
-        /// Print invalid field warning in console.
-        /// </summary>
-        /// <param name="content">Invalid message to be printed.</param>
-        public static void PrintInvalidMessage(string content)
-        {
-            PrintEmptyLine();
-            PrintInConsole(content);
-            WaitInConsole();
-        }
-
-        /// <summary>
         /// Print empty line in console.
         /// </summary>
         public static void PrintEmptyLine()
@@ -103,19 +92,6 @@ namespace AdvancedFeature.View
         }
 
         /// <summary>
-        /// Exit from the expense tracker application.
-        /// </summary>
-        public static void ExitApplication()
-        {
-            ClearConsole();
-            PrintInConsole(new string('=', 70));
-            PrintInConsole("          Thank you for using the application");
-            PrintInConsole(new string('=', 70));
-            PrintEmptyLine();
-            WaitInConsole();
-        }
-
-        /// <summary>
         /// Get integer value input from user.
         /// </summary>
         /// <param name="label">label of the input field.</param>
@@ -135,15 +111,6 @@ namespace AdvancedFeature.View
         {
             PrintInConsole(content);
             WaitInConsole();
-        }
-
-        /// <summary>
-        /// Display the product in the table format.
-        /// </summary>
-        /// <param name="products">List of product to be printed.</param>
-        public static void DisplayProduct(List<Product> products)
-        {
-            
         }
     }
 }

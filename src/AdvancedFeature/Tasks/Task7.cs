@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AdvancedFeature.Core.Model;
+﻿using AdvancedFeature.Core.Model;
 using AdvancedFeature.View;
 
 namespace AdvancedFeature.Tasks

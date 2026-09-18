@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AdvancedFeature.View;
+﻿using AdvancedFeature.View;
 
 namespace AdvancedFeature.Tasks
 {
