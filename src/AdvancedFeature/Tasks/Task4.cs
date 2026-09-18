@@ -17,7 +17,7 @@ namespace AdvancedFeature.Tasks
             ConsoleActivity.PrintEmptyLine();
             List<int> numbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             ConsoleActivity.PrintInConsole($"The original list element are : {string.Join(", ", numbers)}");
-            var evenNumbers = () => numbers.Where(number => number % 2 == 0);
+            var evenNumbers = numbers.Where(number => number % 2 == 0);
             ConsoleActivity.PrintInConsole($"The even number present in the list are : {string.Join(", ", evenNumbers)}");
             var oddNumbers = numbers.Where(number => number % 2 != 0);
             var squaredOddNumbers = oddNumbers.Select(number =>

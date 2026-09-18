@@ -1,4 +1,4 @@
-﻿# Task 1: Understanding and Implementing Events and Delegates in C#
+﻿# Task 1 -> Understanding and Implementing Events and Delegates in C#
 
 This task demonstrates how to create a simple notification system using the **Publisher-Subscriber pattern**. It showcases how a class can trigger an alert and securely broadcast messages to other parts of an application.
 
@@ -59,7 +59,7 @@ Think of this pattern like a **YouTube Channel** subscription setup:
 
 ---
 
-# Task 2 - Type System: `var` vs `dynamic`
+# Task 2 -> Type System: `var` vs `dynamic`
 ## Overview
 
 Understanding when types are resolved is critical for writing robust C# code. While both keywords allow you to declare variables without explicitly naming the type, they handle type enforcement completely differently.
@@ -81,7 +81,7 @@ Understanding when types are resolved is critical for writing robust C# code. Wh
 
 ---
 
-# Task 3 - Sorting an Array Using Anonymous Methods
+# Task 3 -> Sorting an Array Using Anonymous Methods
 
 This task demonstrates how to use an **anonymous method** to customize the behavior of the built-in `Array.Sort` method to sort an array of integers in ascending order.
 
@@ -112,117 +112,14 @@ Inside the anonymous method body, we use C#'s `CompareTo` tool:
   While anonymous methods (`delegate(int x, int y) { ... }`) were introduced early in C# to pass inline code, modern C# code heavily favors ultra-short **Lambda Expressions** (like `(x, y) => x.CompareTo(y)`) to accomplish the exact same goal with even fewer characters!
 
 ---
-# Task 5: Advanced Use of Delegates for Sorting
+# Task 5 -> Advanced Use of Delegates for Sorting
 
 This task demonstrates how to use a custom **Delegate** to decouple sorting rules from the sorting engine. By passing different methods into the same execution loop, we can sort a list of complex objects dynamically by Name, Category, or Price.
 
 ---
 
-## 💻 Code Implementation
 
-```csharp
-using System;
-using System.Collections.Generic;
-
-namespace AdvancedFeature.Tasks
-{
-    /// <summary>
-    /// Represents a commercial item with distinct properties.
-    /// </summary>
-    public class Product
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
-        public double Price { get; set; }
-
-        public override string ToString()
-        {
-            return $"Name: {Name,-12} | Category: {Category,-10} | Price: ${Price:F2}";
-        }
-    }
-
-    /// <summary>
-    /// Demonstrates advanced delegate manipulation for flexible sorting routines.
-    /// </summary>
-    public class Task5
-    {
-        // 1. Declare the custom sorting delegate contract
-        public delegate int SortDelegate(Product p1, Product p2);
-
-        /// <summary>
-        /// Entry driver method to configure and run the complex sorting operations.
-        /// </summary>
-        public void ExecuteAdvancedSorting()
-        {
-            // 2. Initialize a list of Product objects
-            List<Product> products = new List<Product>
-            {
-                new Product { Name = "Laptop", Category = "Electronics", Price = 1200.50 },
-                new Product { Name = "Coffee Maker", Category = "Appliances", Price = 89.99 },
-                new Product { Name = "Smartphone", Category = "Electronics", Price = 799.00 },
-                new Product { Name = "Blender", Category = "Appliances", Price = 45.50 },
-                new Product { Name = "Desk Chair", Category = "Furniture", Price = 150.00 }
-            };
-
-            // 3. Create instances of SortDelegate pointing to different comparison strategies
-            SortDelegate nameSorter = new SortDelegate(SortByName);
-            SortDelegate categorySorter = new SortDelegate(SortByCategory);
-            SortDelegate priceSorter = new SortDelegate(SortByPrice);
-
-            // 4. Call SortAndDisplay three times, changing the sorting blueprint each time
-            Console.WriteLine("--- SORT BY NAME ---");
-            SortAndDisplay(products, nameSorter);
-
-            Console.WriteLine("\n--- SORT BY CATEGORY ---");
-            SortAndDisplay(products, categorySorter);
-
-            Console.WriteLine("\n--- SORT BY PRICE ---");
-            SortAndDisplay(products, priceSorter);
-        }
-
-        /// <summary>
-        /// A generic orchestrator that sorts a list using the provided rule logic and prints it.
-        /// </summary>
-        public void SortAndDisplay(List<Product> productList, SortDelegate sortingRule)
-        {
-            // Create a temporary copy to avoid mutating the original sequence order directly
-            List<Product> sortedList = new List<Product>(productList);
-
-            // Use built-in Comparison execution by converting our custom delegate signature inline
-            sortedList.Sort((x, y) => sortingRule(x, y));
-
-            // Output the formatted results to the terminal window
-            foreach (var product in sortedList)
-            {
-                Console.WriteLine(product);
-            }
-        }
-
-        // ==========================================
-        // COMPATIBLE TARGET METHODS FOR THE DELEGATE
-        // ==========================================
-
-        public static int SortByName(Product p1, Product p2)
-        {
-            return string.Compare(p1.Name, p2.Name, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static int SortByCategory(Product p1, Product p2)
-        {
-            return string.Compare(p1.Category, p2.Category, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static int SortByPrice(Product p1, Product p2)
-        {
-            return p1.Price.CompareTo(p2.Price);
-        }
-    }
-}
-```
-
----
-
-## 🔍 Line-by-Line Explanation
+##  Learning
 
 ### `public delegate int SortDelegate(Product p1, Product p2);`
 This defines our **Delegate blueprint**. It forces a contract: *"Any method that wants to act as a sorter here must take exactly two `Product` arguments and return an `int` (-1, 0, or 1)."*
@@ -240,29 +137,53 @@ These utility functions perform evaluations on individual object members:
 
 ---
 
-## 🚀 Expected Output
 
-When you run this application, the console displays the collection structured cleanly through three unique view states:
+# Task 6 -> Records Demonstration
 
-```text
---- SORT BY NAME ---
-Name: Blender      | Category: Appliances | Price: \$45.50
-Name: Coffee Maker | Category: Appliances | Price: \$89.99
-Name: Desk Chair   | Category: Furniture  | Price: \$150.00
-Name: Laptop       | Category: Electronics| Price: \$1200.50
-Name: Smartphone   | Category: Electronics| Price: \$799.00
+This project demonstrates the core characteristics of **Records** in C#, including concise declaration, value-based equality testing, immutability behaviors, non-destructive mutation via the `with` expression, and positional object deconstruction.
 
---- SORT BY CATEGORY ---
-Name: Coffee Maker | Category: Appliances | Price: \$89.99
-Name: Blender      | Category: Appliances | Price: \$45.50
-Name: Laptop       | Category: Electronics| Price: \$1200.50
-Name: Smartphone   | Category: Electronics| Price: \$799.00
-Name: Desk Chair   | Category: Furniture  | Price: \$150.00
+---
 
---- SORT BY PRICE ---
-Name: Blender      | Category: Appliances | Price: \$45.50
-Name: Coffee Maker | Category: Appliances | Price: \$89.99
-Name: Desk Chair   | Category: Furniture  | Price: \$150.00
-Name: Smartphone   | Category: Electronics| Price: \$799.00
-Name: Laptop       | Category: Electronics| Price: \$1200.50
+## Core Features Explained
+
+### 1. Positional Record Syntax
+`public record Book(string Title, string Author, string ISBN);`  
+By using this brief single-line syntax, the C# compiler automatically builds **init-only positional properties**, a constructor matching these arguments, a customized `ToString()` formatter, and built-in value-comparison engine properties under the hood.
+
+### 2. Value-Based Equality (`==`)
+In standard classes, `==` checks if two reference pointers point to the exact same physical memory block. With records, `==` evaluates the **actual content** inside the properties. Because `book1` and `book1Duplicate` contain identical property data strings, the check safely returns `True`.
+
+### 3. Absolute Immutability
+Attempting to directly write `book1.Title = "New Title";` throws a compile-time error: *`Property or indexer 'Book.Title' cannot be assigned to -- it is read only`*. This guarantees that once data enters the instance, it can never be altered by unpredictable runtime mutations.
+
+### 4. Non-Destructive Mutation (`with`)
+The `with` expression copies the entire original record structure into a brand new memory block while applying localized modifications cleanly in place. The original `book1` record is left completely untouched and pristine.
+
+### 5. Automatic Deconstruction
+Positional records natively bundle built-in deconstructors. Writing `var (title, author, isbn) = book;` implicitly dissects the `Book` record fields into standalone local variables mapped precisely to their initial construction positions.
+
+---
+
+# Task 7 -> Implementing Advanced Pattern Matching
+
+This task demonstrates the power of C# **Type Pattern Matching** inside a `switch` statement to safely inspect a generic base type hierarchy (`Shape`), identify the underlying derived concrete implementation, and extract properties cleanly inline.
+
+---
+
+## How Pattern Matching Works
+
+### 1. The Power of Type Patterns
+Historically, to process this you had to write tedious type-casting checks using old structural patterns:
+```csharp
+if (shape is Circle) { 
+    Circle c = (Circle)shape; // Messy double work!
+}
 ```
+With modern C# Type Pattern Matching (`case Circle c:`), the compiler performs a **two-in-one check**. It verifies if the `shape` variable is a `Circle`. If true, it safely unboxes it and casts it directly into a local variable named **`c`** which is instantly ready for use within that `case` scope block.
+
+### 2. Safeguarding against Nulls and Unknowns
+* **`case null:`** Explicitly checks if the object instance is completely unassigned. It intercepts the sequence early, bypassing execution to protect the application from throwing standard `NullReferenceExceptions`.
+* **`default:`** Acts as a global safety catchment net. If a developer introduces a new shape subclass later on (such as a `Pentagon`) but forgets to update this method, the code cleanly falls to `default` instead of failing unexpectedly.
+
+---
+
