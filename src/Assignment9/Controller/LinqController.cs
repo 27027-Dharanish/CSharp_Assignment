@@ -31,7 +31,7 @@ namespace Assignment9.Controller
             do
             {
                 ConsoleActivity.ShowHeader("LINQ TASK");
-                ConsoleActivity.PrintItems(LinqConstant.TaskList);
+                ConsoleActivity.PrintItems(new string[] { "Task 1", "Task 2", "Task 3", "Task 4", "Task 5", "Exit" });
                 userChoice = (LinqTask)ConsoleActivity.GetIntegerInput("option");
                 switch (userChoice)
                 {
@@ -49,6 +49,8 @@ namespace Assignment9.Controller
                         break;
                     case LinqTask.Task5:
                         this.HandleTask5();
+                        break;
+                    case LinqTask.Exit:
                         break;
                     default:
                         ConsoleActivity.PrintAndWait("Invalid input");
@@ -97,8 +99,8 @@ namespace Assignment9.Controller
             ConsoleActivity.PrintInConsole("2nd Largest element in the array is : " + this._linqService.GetSecondLargestNumber());
             ConsoleActivity.PrintEmptyLine();
             ConsoleActivity.PrintEmptyLine();
-            ConsoleActivity.PrintInConsole("All unique pairs of numbers in the array that add up to a specified target : ");
             int targetValue = ConsoleActivity.GetIntegerInput("target value");
+            ConsoleActivity.PrintInConsole("All unique pairs of numbers in the array that add up to a specified target : ");
             (int, int)[] pairNumbers = this._linqService.GetPairNumberMatchTarget(targetValue);
             if (pairNumbers.Length == 0)
             {
@@ -128,17 +130,17 @@ namespace Assignment9.Controller
 
         private void HandleTask5()
         {
-            List<Product> products = this._linqService.GetAllProduct();
+            IEnumerable<Product> products = this._linqService.GetAllProduct();
             QueryBuilder<Product> product = new QueryBuilder<Product>(products);
             var res = product.Filter(x => x.Category == "Electronics").Sort(x => x.ProductPrice).Execute();
             ConsoleActivity.PrintProduct(res);
             ConsoleActivity.PrintInConsole("Product and its supplier name : ");
-            List<(string ProductName, string SupplierName)> productAndSupplier = this._linqService.GetProductSupplierMappingDetails();
+            IEnumerable<(string ProductName, string SupplierName)> productAndSupplier = this._linqService.GetProductSupplierMappingDetails();
             ConsoleActivity.PrintProductAndSupplierName(productAndSupplier);
             ConsoleActivity.PrintEmptyLine();
             ConsoleActivity.PrintInConsole("Filter the product : ");
             ConsoleActivity.PrintInConsole("Supplier name Start with t : ");
-            List<Supplier> suppliers = this._linqService.GetSupplierDetails();
+            IEnumerable<Supplier> suppliers = this._linqService.GetSupplierDetails();
             QueryBuilder<Supplier> supplier = new QueryBuilder<Supplier>(suppliers);
             List<Supplier> supplierNameStartWithT = supplier.Filter("SupplierName", FilterOption.StartsWith, "T").Execute();
             ConsoleActivity.PrintSupplierDetails(supplierNameStartWithT);

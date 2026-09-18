@@ -145,7 +145,7 @@ namespace Assignment9.View
         /// Print the list of product in table format.
         /// </summary>
         /// <param name="products">List of product to be printed.</param>
-        public static void PrintProduct(List<Product> products)
+        public static void PrintProduct(IEnumerable<Product> products)
         {
             _productTable.Rows.Clear();
             int i = 0;
@@ -231,7 +231,7 @@ namespace Assignment9.View
         /// Print product and its supplier name.
         /// </summary>
         /// <param name="productAndSupplier">List of product and its supplier name.</param>
-        public static void PrintProductAndSupplierName(List<(string ProductName, string SupplierName)> productAndSupplier)
+        public static void PrintProductAndSupplierName(IEnumerable<(string ProductName, string SupplierName)> productAndSupplier)
         {
             ConsoleTable productSupplierName = new ConsoleTable("Product name", "Supplier name");
             foreach (var detail in productAndSupplier)
@@ -246,7 +246,7 @@ namespace Assignment9.View
         /// Print the supplier details in console.
         /// </summary>
         /// <param name="suppliers">List of supplier available.</param>
-        public static void PrintSupplierDetails(List<Supplier> suppliers)
+        public static void PrintSupplierDetails(IEnumerable<Supplier> suppliers)
         {
             ConsoleTable supplierTable = new ConsoleTable("Supplier Id", "SupplierName");
             foreach (Supplier supplier in suppliers)

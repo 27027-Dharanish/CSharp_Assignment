@@ -23,7 +23,7 @@ namespace Assignment9.Service
         /// Get the list of all product from the repository.
         /// </summary>
         /// <returns>List of product.</returns>
-        public List<Product> GetAllProduct()
+        public IEnumerable<Product> GetAllProduct()
         {
             return this._repository.GetProductList();
         }
@@ -35,7 +35,7 @@ namespace Assignment9.Service
         /// <returns>Tuple of name and price of the product</returns>
         public (string Name, decimal Price)[] GetProductUnderElectronics(out decimal averagePrice)
         {
-            List<Product> products = this._repository.GetProductList();
+            IEnumerable<Product> products = this._repository.GetProductList();
             var filteredProducts = products
                 .Where(product => product.Category == "Electronics")
                 .Where(product => product.ProductPrice >= 500)
@@ -53,7 +53,7 @@ namespace Assignment9.Service
         /// <returns>Filtered product category, count and its product details.</returns>
         public (string category, int count, string productName, decimal price)[] GroupProductByCategory()
         {
-            List<Product> products = this._repository.GetProductList();
+            IEnumerable<Product> products = this._repository.GetProductList();
             var filteredProduct = products
                 .GroupBy(product => product.Category)
                 .Select(group => (
@@ -71,8 +71,8 @@ namespace Assignment9.Service
         /// <returns>List of product and its supplier.</returns>
         public (int, string, string)[] MatchProductAndSupplier()
         {
-            List<Supplier> suppliers = this._repository.GetSuppliers();
-            List<Product> products = this._repository.GetProductList();
+            IEnumerable<Supplier> suppliers = this._repository.GetSuppliers();
+            IEnumerable<Product> products = this._repository.GetProductList();
             return products
                 .Join(
                     suppliers,
@@ -89,7 +89,7 @@ namespace Assignment9.Service
         /// Get the details for suppliers available.
         /// </summary>
         /// <returns>List of suppliers.</returns>
-        public List<Supplier> GetSupplierDetails()
+        public IEnumerable<Supplier> GetSupplierDetails()
         {
             return this._repository.GetSuppliers();
         }
@@ -121,9 +121,9 @@ namespace Assignment9.Service
         /// Get list of product of category books.
         /// </summary>
         /// <returns>List of product.</returns>
-        public List<Product> GetBookProducts()
+        public IEnumerable<Product> GetBookProducts()
         {
-            List<Product> products = this._repository.GetProductList();
+            IEnumerable<Product> products = this._repository.GetProductList();
             return products
                 .Where(product => product.Category == "Book")
                 .ToList();
@@ -133,9 +133,9 @@ namespace Assignment9.Service
         /// Sort the product by the price.
         /// </summary>
         /// <returns>List of sorted product.</returns>
-        public List<Product> SortBookByPrice()
+        public IEnumerable<Product> SortBookByPrice()
         {
-            List<Product> bookProduct = this.GetBookProducts();
+            IEnumerable<Product> bookProduct = this.GetBookProducts();
             return bookProduct
                 .OrderBy(product => product.ProductPrice)
                 .ToList();
@@ -145,9 +145,9 @@ namespace Assignment9.Service
         /// Get product under book category and sort by its price.
         /// </summary>
         /// <returns>List of product.</returns>
-        public List<Product> OptimizedSortBookByPrice()
+        public IEnumerable<Product> OptimizedSortBookByPrice()
         {
-            List<Product> products = this._repository.GetProductList();
+            IEnumerable<Product> products = this._repository.GetProductList();
             return products
                 .Where(product => product.Category == "Book")
                 .OrderBy(product => product.ProductPrice)
@@ -171,10 +171,10 @@ namespace Assignment9.Service
         /// Get the product name and the supplier name for it.
         /// </summary>
         /// <returns>List of product name and its supplier.</returns>
-        public List<(string ProductName, string SupplierName)> GetProductSupplierMappingDetails()
+        public IEnumerable<(string ProductName, string SupplierName)> GetProductSupplierMappingDetails()
         {
-            List<Product> products = this.GetAllProduct();
-            List<Supplier> suppliers = this.GetSupplierDetails();
+            IEnumerable<Product> products = this.GetAllProduct();
+            IEnumerable<Supplier> suppliers = this.GetSupplierDetails();
             QueryBuilder<Product> product = new QueryBuilder<Product>(products);
             var joinedBuilder = product.Join(
                 suppliers,

@@ -53,7 +53,7 @@ namespace Assignment9.Repository
         }
 
         /// <summary>
-        /// Get teh list of supplier available.
+        /// Get the list of supplier available.
         /// </summary>
         /// <returns>List of supplier.</returns>
         public List<Supplier> GetSuppliers()
