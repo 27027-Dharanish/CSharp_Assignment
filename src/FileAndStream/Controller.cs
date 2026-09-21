@@ -11,7 +11,8 @@ namespace FileAndStream
         /// <summary>
         /// Start the execution flow and switch between tasks.
         /// </summary>
-        public void Start()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.<returns>
+        public async Task Start()
         {
             MenuItems userInput;
             do
@@ -27,12 +28,11 @@ namespace FileAndStream
                         this.RunConcurrentProcessing();
                         break;
                     case MenuItems.Task3:
-                        Task3 task = new Task3();
+                        OptimizedFileProcessor task = new OptimizedFileProcessor();
                         task.HandleTask3();
                         break;
                     case MenuItems.Task4:
-                        ThreadSafeLogger.LogError("Error logged");
-                        ConsoleActivity.PrintAndWait("Error logged successfully..");
+                        await this.RunLogger();
                         break;
                     case MenuItems.Exit:
                         break;
@@ -52,7 +52,7 @@ namespace FileAndStream
             ConsoleActivity.ShowHeader("Task 2: Concurrent Async Processing");
             ConsoleActivity.PrintInConsole("Initializing parallel task execution wrapper...");
 
-            Task2 processor = new Task2();
+            FileProcessorAsync processor = new FileProcessorAsync();
             Stopwatch watch = new Stopwatch();
 
             watch.Start();
@@ -77,11 +77,36 @@ namespace FileAndStream
         /// </summary>
         public void RunSynchronousProcess()
         {
-            Task1 task = new Task1();
+            FileProcessor task = new FileProcessor();
             task.GenerateOneGBFile();
             task.ReadFileUsingFileStream();
             task.ReadFileUsingBufferedStream();
             task.ConvertUpperCase();
+        }
+
+        /// <summary>
+        /// Execute the logger operation with multiple user.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task RunLogger()
+        {
+            ConsoleActivity.ShowHeader("Multi-user log simulation...");
+            List<Task> userTasks = new List<Task>();
+            for (int i = 1; i <= 5; i++)
+            {
+                string userId = $"User_{i}";
+                Task userTask = Task.Run(() =>
+                {
+                    Console.WriteLine($"[Thread Active] {userId} is attempting to write a log...");
+                    ThreadSafeLogger.LogError($"{userId} - connection timeout.");
+                });
+
+                userTasks.Add(userTask);
+            }
+
+            await Task.WhenAll(userTasks);
+            Console.WriteLine("\nAll users finished logging!");
+            ConsoleActivity.WaitInConsole();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace FileAndStream
     /// <summary>
     /// Handle asynchronous version of read and write.
     /// </summary>
-    public class Task2
+    public class FileProcessorAsync
     {
         private readonly List<string> _fileNames = new List<string>
         {

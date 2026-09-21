@@ -1,12 +1,12 @@
-﻿using System.Text;
-using FileAndStream.View;
-
-namespace FileAndStream
+﻿namespace FileAndStream
 {
+    using System.Text;
+    using FileAndStream.View;
+
     /// <summary>
-    /// Handle task3 .
+    /// Handle file read and write using file stream.
     /// </summary>
-    public class Task3
+    public class OptimizedFileProcessor
     {
         /// <summary>
         /// Enhanced and modified version of task3.

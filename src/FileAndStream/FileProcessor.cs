@@ -1,15 +1,13 @@
 ﻿using System.Diagnostics;
-using System.Dynamic;
-using System.IO;
 using System.Text;
 using FileAndStream.View;
 
 namespace FileAndStream
 {
     /// <summary>
-    /// Handle task1 operations.
+    /// Handle file process like creating file, reading and writing using stream.
     /// </summary>
-    public class Task1
+    public class FileProcessor
     {
         private readonly string _fileName = "BigDataFile.txt";
         private readonly string _fileNameContainUpperCaseContent = "UpperCase";
