@@ -6,7 +6,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Implementing and demonstrating manipulation of records.
     /// </summary>
-    public class Task6
+    public class BookRecordDemo
     {
         /// <summary>
         /// Perform the task related to record manipulation with help of the Book model.

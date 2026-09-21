@@ -5,7 +5,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Understanding the use case of var and dynamic keyword.
     /// </summary>
-    public class Task2
+    public class VarAndDynamicDemo
     {
         /// <summary>
         /// Demonstrate the usage of var and dynamic with examples.

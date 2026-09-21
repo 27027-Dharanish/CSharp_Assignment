@@ -6,7 +6,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Implementing advanced patter matching.
     /// </summary>
-    public class Task7
+    public class PatternMatchingDemo
     {
         /// <summary>
         /// Handle pattern matching with the help of the shape and its derived class.

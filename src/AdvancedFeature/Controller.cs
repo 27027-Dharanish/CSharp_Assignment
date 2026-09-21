@@ -22,31 +22,31 @@ namespace AdvancedFeature
                 switch (userChoice)
                 {
                     case MenuItems.Task1:
-                        Task1 task1 = new Task1();
+                        NotifierDemo task1 = new NotifierDemo();
                         task1.NotificationService();
                         break;
                     case MenuItems.Task2:
-                        Task2 task2 = new Task2();
+                        VarAndDynamicDemo task2 = new VarAndDynamicDemo();
                         task2.DemonstrateVarAndDynamic();
                         break;
                     case MenuItems.Task3:
-                        Task3 task3 = new Task3();
+                        AnonymousMethodSortingDemo task3 = new AnonymousMethodSortingDemo();
                         task3.ExecuteSorting();
                         break;
                     case MenuItems.Task4:
-                        Task4 task4 = new Task4();
+                        LambdaDemo task4 = new LambdaDemo();
                         task4.ExecuteLambda();
                         break;
                     case MenuItems.Task5:
-                        Task5 task5 = new Task5();
+                        ProductSortingDemo task5 = new ProductSortingDemo();
                         task5.ExecuteAdvancedDelegate();
                         break;
                     case MenuItems.Task6:
-                        Task6 task6 = new Task6();
+                        BookRecordDemo task6 = new BookRecordDemo();
                         task6.ExecuteRecordManipulation();
                         break;
                     case MenuItems.Task7:
-                        Task7 task7 = new Task7();
+                        PatternMatchingDemo task7 = new PatternMatchingDemo();
                         task7.ExecutePatternMatching();
                         break;
                     case MenuItems.Exit:

@@ -3,9 +3,9 @@
 namespace AdvancedFeature.Tasks
 {
     /// <summary>
-    /// Understand and implement events and delegate.
+    /// Understand and implement events and delegate using notification.
     /// </summary>
-    public class Task1
+    public class NotifierDemo
     {
         /// <summary>
         /// Entry method to demonstrate the notification service using events and delegates.

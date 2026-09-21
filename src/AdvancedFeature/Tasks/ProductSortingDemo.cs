@@ -6,7 +6,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Demonstrates advanced use of custom delegates to control sorting behavior dynamically over a Product collection.
     /// </summary>
-    public class Task5
+    public class ProductSortingDemo
     {
         private readonly List<Product> _products = new List<Product>()
         {

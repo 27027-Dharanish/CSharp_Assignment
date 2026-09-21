@@ -5,7 +5,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Understanding and using of lambda statement and expression.
     /// </summary>
-    public class Task4
+    public class LambdaDemo
     {
         /// <summary>
         /// Execute the operation using the lambda expressions and statements.

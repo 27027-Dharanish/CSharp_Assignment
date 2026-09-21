@@ -5,7 +5,7 @@ namespace AdvancedFeature.Tasks
     /// <summary>
     /// Understand and implement sorting with anonymous methods.
     /// </summary>
-    public class Task3
+    public class AnonymousMethodSortingDemo
     {
         /// <summary>
         /// Entry method to demonstrate sorting an array using an anonymous method.
