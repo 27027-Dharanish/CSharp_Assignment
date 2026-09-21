@@ -22,6 +22,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceTracker", "src\Assignment4\FinanceTracker.csproj", "{A6481421-E9CB-4244-AC45-18F4DD051210}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedFeature", "src\AdvancedFeature\AdvancedFeature.csproj", "{1A8E3FBA-BE38-4CD2-8F53-13FE17E7E00C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "src\Collections\Collections.csproj", "{5DA8C7B0-ABDB-4137-9B5D-108375F346E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +54,10 @@ Global
 		{1A8E3FBA-BE38-4CD2-8F53-13FE17E7E00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A8E3FBA-BE38-4CD2-8F53-13FE17E7E00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A8E3FBA-BE38-4CD2-8F53-13FE17E7E00C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA8C7B0-ABDB-4137-9B5D-108375F346E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA8C7B0-ABDB-4137-9B5D-108375F346E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA8C7B0-ABDB-4137-9B5D-108375F346E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA8C7B0-ABDB-4137-9B5D-108375F346E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +71,7 @@ Global
 		{BAAF3D67-5602-4228-9441-CD757E83F1F3} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{A6481421-E9CB-4244-AC45-18F4DD051210} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{1A8E3FBA-BE38-4CD2-8F53-13FE17E7E00C} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
+		{5DA8C7B0-ABDB-4137-9B5D-108375F346E4} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
