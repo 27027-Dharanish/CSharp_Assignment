@@ -32,19 +32,7 @@ For large amounts of data, this requires additional memory.
 ## Modified Approach
  
 Instead of converting the entire MemoryStream into a new byte array, we can use CopyTo().
- 
-### Modified Flow
- 
-String
-   ↓
-MemoryStream
-   ↓
-CopyTo()
-   ↓
-FileStream
-   ↓
-File
- 
+
 ## Example
  
 using (MemoryStream memoryStream = new MemoryStream())
@@ -137,22 +125,6 @@ private static readonly object _lock;
 File.AppendAllText(LogFileName, logMessage);
 ```
 This avoids unnecessary byte array conversions and memory allocations in RAM.
-
-***
-
-## Execution Flow
-
-```text
-Multiple Users
-      ↓
-   LogError()
-      ↓
-     lock
-      ↓
-One thread at a time
-      ↓
-ErrorLog.txt
-```
 
 ***
 
