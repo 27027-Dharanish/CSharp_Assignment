@@ -99,7 +99,7 @@ namespace AdvancedFeature.Tasks
             List<Product> temporaryList = new List<Product>(products);
             temporaryList.Sort((x, y) => sort(x, y));
             int i = 1;
-            foreach (var product in temporaryList)
+            foreach (Product product in temporaryList)
             {
                 ConsoleActivity.PrintInConsole($"{i++} . {product.ProductName} -- {product.Category} -- {product.Price}");
             }

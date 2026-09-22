@@ -16,11 +16,7 @@ namespace AdvancedFeature.Tasks
             ConsoleActivity.PrintEmptyLine();
             int[] numbers = { 56, 12, 89, 4, 42, 23 };
             ConsoleActivity.PrintInConsole("Original Array: " + string.Join(", ", numbers));
-            Array.Sort(numbers, delegate(int x, int y)
-            {
-                return x.CompareTo(y);
-            });
-
+            Array.Sort(numbers, (x, y) => x.CompareTo(y));
             ConsoleActivity.PrintAndWait("Sorted Array (Ascending): " + string.Join(", ", numbers));
         }
     }
