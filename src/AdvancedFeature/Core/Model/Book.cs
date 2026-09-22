@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdvancedFeature.Core.Model
+﻿namespace AdvancedFeature.Core.Model
 {
     /// <summary>
     /// Represents a book entity with title, author, and unique identification properties.

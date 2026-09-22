@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdvancedFeature.Core.Model
+﻿namespace AdvancedFeature.Core.Model
 {
     /// <summary>
     /// Derived class representing a circle geometry layout.
