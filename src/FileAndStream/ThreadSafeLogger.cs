@@ -20,5 +20,17 @@
                 File.AppendAllText(LogFileName, logMessage);
             }
         }
+
+        /// <summary>
+        /// The logging method so that each user's error is logged to a unique file.
+        /// </summary>
+        /// <param name="userId">The unique identifier for the user.</param>
+        /// <param name="message">Error message to be logged.</param>
+        public static void LogErrorIndependent(string userId, string message)
+        {
+            string userLogFile = $"ErrorLog_{userId}.txt";
+            string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - ERROR - {message}{Environment.NewLine}";
+            File.AppendAllText(userLogFile, logMessage);
+        }
     }
 }

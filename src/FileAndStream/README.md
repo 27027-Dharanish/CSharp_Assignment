@@ -1,20 +1,18 @@
-﻿# 1. File Streams
+﻿#  File Streams
 
 A **Stream** is an abstraction representing a sequence of bytes. Instead of loading an entire file or dataset into RAM all at once, streams allow you to read, write, and manipulate data sequentially, bit by bit.
-
 
 ### `System.IO.Stream` (The Base Class)
 This is the abstract foundation for all stream types in .NET. It defines core operational behaviors via properties and methods like `Read()`, `Write()`, `Seek()`, `Flush()`, and `Length`. It establishes a unified contract, ensuring that whether you are writing data to a physical file, a web endpoint, or a block of memory, the code interface remains identical.
 
-### `System.IO.MemoryStream` (In-Memory Buffer Stream)
 A `MemoryStream` encapsulates an internal, resizable byte array stored directly in system RAM. 
 * **Primary Use:** Acts as a fast, temporary storage buffer for binary or text data before it is transformed or routed elsewhere.
 * **Mechanism:** It avoids physical disk latency entirely. However, because it resides in RAM, storing massive files inside a `MemoryStream` will directly inflate your application's private memory consumption.
 
-### `System.IO.FileStream` (The Storage Pipeline)
 A `FileStream` creates a direct, active pipeline between your application code and a physical file located on the disk subsystem.
 * **Primary Use:** Reading from or writing bytes directly to permanent disk storage.
 
+ ---
 
 # Task 3 -> File Handling and Memory Efficiency
  

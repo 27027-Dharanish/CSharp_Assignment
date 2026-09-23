@@ -90,23 +90,46 @@ namespace FileAndStream
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task RunLogger()
         {
-            ConsoleActivity.ShowHeader("Multi-user log simulation...");
-            List<Task> userTasks = new List<Task>();
-            for (int i = 1; i <= 5; i++)
+            ConsoleActivity.ShowHeader("Multi-user log simulation");
+            int userCount = 20;
+            int logsPerUser = 15;
+            ConsoleActivity.PrintInConsole($"[Test 1] Starting initial shared logging system...");
+            Stopwatch stopWatch = Stopwatch.StartNew();
+            List<Task> sharedTasks = new List<Task>();
+            for (int i = 1; i <= userCount; i++)
             {
                 string userId = $"User_{i}";
-                Task userTask = Task.Run(() =>
+                sharedTasks.Add(Task.Run(() =>
                 {
-                    Console.WriteLine($"[Thread Active] {userId} is attempting to write a log...");
-                    ThreadSafeLogger.LogError($"{userId} - connection timeout.");
-                });
-
-                userTasks.Add(userTask);
+                    for (int j = 0; j < logsPerUser; j++)
+                    {
+                        ThreadSafeLogger.LogError($"{userId} - connection timeout.");
+                    }
+                }));
             }
 
-            await Task.WhenAll(userTasks);
-            Console.WriteLine("\nAll users finished logging!");
-            ConsoleActivity.WaitInConsole();
+            await Task.WhenAll(sharedTasks);
+            stopWatch.Stop();
+            ConsoleActivity.PrintInConsole($"[Result] Initial system finished in: {stopWatch.ElapsedMilliseconds} ms\n");
+            ConsoleActivity.PrintInConsole($"[Test 2] Starting improved independent file logging system...");
+            stopWatch.Reset();
+            stopWatch.Start();
+            List<Task> independentTasks = new List<Task>();
+            for (int i = 1; i <= userCount; i++)
+            {
+                string userId = $"User_{i}";
+                independentTasks.Add(Task.Run(() =>
+                {
+                    for (int j = 0; j < logsPerUser; j++)
+                    {
+                        ThreadSafeLogger.LogErrorIndependent(userId, $"{userId} - connection timeout.");
+                    }
+                }));
+            }
+
+            await Task.WhenAll(independentTasks);
+            stopWatch.Stop();
+            ConsoleActivity.PrintAndWait($"[Result] Improved system finished in: {stopWatch.ElapsedMilliseconds} ms\n");
         }
     }
 }

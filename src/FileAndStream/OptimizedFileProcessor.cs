@@ -1,8 +1,8 @@
-﻿namespace FileAndStream
-{
-    using System.Text;
-    using FileAndStream.View;
+﻿using System.Text;
+using FileAndStream.View;
 
+namespace FileAndStream
+{
     /// <summary>
     /// Handle file read and write using file stream.
     /// </summary>
