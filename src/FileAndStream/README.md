@@ -12,6 +12,11 @@ A `MemoryStream` encapsulates an internal, resizable byte array stored directly 
 A `FileStream` creates a direct, active pipeline between your application code and a physical file located on the disk subsystem.
 * **Primary Use:** Reading from or writing bytes directly to permanent disk storage.
 
+ A `BufferedStream` creates an intermediate memory buffer between your application code and another underlying data stream (like a `FileStream`).
+* **Primary Use:** Grouping frequent, small data transfers into fewer, larger blocks to minimize slow physical I/O or network system calls.
+
+
+
  ---
 
 # Task 3 -> File Handling and Memory Efficiency
