@@ -1,16 +1,10 @@
-﻿using ConsoleTables;
-using FinanceTracker.Core.Model;
-
-namespace FinanceTracker.View
+﻿namespace FileAndStream.View
 {
     /// <summary>
     /// Handles user interaction activities by managing standard input and output via the console.
     /// </summary>
     public static class ConsoleActivity
     {
-        private static ConsoleTable _incomeTable = new ConsoleTable("S.NO", "Amount", "Transaction Date", "Source");
-        private static ConsoleTable _expenseTable = new ConsoleTable("S.NO", "Amount", "Transaction Date", "Category");
-
         /// <summary>
         /// Print the given content in the console.
         /// </summary>
@@ -91,15 +85,7 @@ namespace FinanceTracker.View
         public static void ClearConsole()
         {
             Console.Clear();
-        }
-
-        /// <summary>
-        /// Prompts the user to press the Enter key to confirm an action.
-        /// </summary>
-        /// <returns>True if the user pressed Enter without typing text, otherwise false.</returns>
-        public static bool IsEmptyInput()
-        {
-            return Console.ReadLine() == string.Empty;
+            Console.Write("\x1b[3J");
         }
 
         /// <summary>
@@ -115,66 +101,6 @@ namespace FinanceTracker.View
         }
 
         /// <summary>
-        /// Prints a list of income transactions to the console in a clean, formatted table.
-        /// </summary>
-        /// <param name="transactions">The list of transaction records to display.</param>
-        public static void PrintIncome(List<Transaction> transactions)
-        {
-            _incomeTable.Rows.Clear();
-            int rowCount = 0;
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Income income)
-                {
-                    _incomeTable.AddRow(++rowCount, income.Amount, income.TransactionDate, income.Source);
-                }
-            }
-
-            _incomeTable.Write();
-            Console.ReadKey();
-        }
-
-        /// <summary>
-        /// Prints a list of expense transactions to the console in a clean, formatted table.
-        /// </summary>
-        /// <param name="transactions">The list of transaction records to display.</param>
-        public static void PrintExpense(List<Transaction> transactions)
-        {
-            _expenseTable.Rows.Clear();
-            int rowCount = 0;
-            foreach (Transaction transaction in transactions)
-            {
-                if (transaction is Expense expense)
-                {
-                    _expenseTable.AddRow(++rowCount, expense.Amount, expense.TransactionDate, expense.Category);
-                }
-            }
-
-            _expenseTable.Write();
-            Console.ReadKey();
-        }
-
-        /// <summary>
-        /// Print the transaction details in console.
-        /// </summary>
-        /// <param name="transaction">Transaction to be printed.</param>
-        public static void PrintTransaction(Transaction transaction)
-        {
-            PrintEmptyLine();
-            PrintInConsole($"Transaction amount : {transaction.Amount}\nTransaction Date : {transaction.TransactionDate}");
-            if (transaction is Income income)
-            {
-                PrintInConsole("Transaction source : " + income.Source);
-            }
-            else if (transaction is Expense expense)
-            {
-                PrintInConsole("Transaction category : " + expense.Category);
-            }
-
-            PrintEmptyLine();
-        }
-
-        /// <summary>
         /// Exit from the expense tracker application.
         /// </summary>
         public static void ExitApplication()
@@ -184,6 +110,28 @@ namespace FinanceTracker.View
             PrintInConsole("          Thank you for using the application");
             PrintInConsole(new string('=', 70));
             PrintEmptyLine();
+            WaitInConsole();
+        }
+
+        /// <summary>
+        /// Get integer value input from user.
+        /// </summary>
+        /// <param name="label">label of the input field.</param>
+        /// <returns>The prompted integer value.</returns>
+        public static int GetIntegerInput(string label)
+        {
+            string? userInput = GetStringInput(label);
+            int.TryParse(userInput, out int value);
+            return value;
+        }
+
+        /// <summary>
+        /// Print and wait in console.
+        /// </summary>
+        /// <param name="content">Content to be printed in console.</param>
+        public static void PrintAndWait(string content)
+        {
+            PrintInConsole(content);
             WaitInConsole();
         }
     }

@@ -15,7 +15,7 @@ namespace FinanceTracker
         /// </summary>
         public static void Main()
         {
-            IFinancialTrackerRepository repository = new FinanceRepository();
+            IFinancialTrackerRepository repository = new FileFinanceRepository();
             IFinancialTrackerService service = new FinancialTrackerService(repository);
             ExpenseTrackerController financialController = new ExpenseTrackerController(service);
             financialController.Start();
