@@ -115,7 +115,7 @@ namespace Assignments
             {
                 Console.WriteLine(note);
             }
-
+                
             Console.WriteLine();
         }
     }
