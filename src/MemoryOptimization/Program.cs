@@ -13,11 +13,9 @@
             Console.WriteLine("---- Starting Testing ----");
             Console.WriteLine();
             Console.WriteLine("Testing optimized memory eater : ");
-            using (OptimizedMemoryEater memoryModifier = new OptimizedMemoryEater())
-            {
-                memoryModifier.Allocate();
-            }
-
+            OptimizedMemoryEater memoryModifier = new OptimizedMemoryEater();
+            using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+            memoryModifier.Allocate(cts.Token);
             Console.ReadKey();
         }
     }

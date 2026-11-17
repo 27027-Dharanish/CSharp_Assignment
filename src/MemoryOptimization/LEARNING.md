@@ -1,5 +1,25 @@
 ﻿# Assignment 12 - Memory Optimization
 
+## Table of Contents
+
+- [Task 1: Memory Leak / Optimization Identification](#task-1-memory-leak--optimization-identification)
+  - [Problem Analysis](#problem-analysis)
+  - [Diagnostic Analysis (Task 1)](#diagnostic-analysis-task-1)
+- [Task 2: Code Optimization & Resolution](#task-2-code-optimization--resolution)
+  - [Solution Implementation](#solution-implementation)
+  - [Diagnostic Verification](#diagnostic-verification)
+- [Task 3: Memory Profiling & Analysis](#task-3-memory-profiling--analysis)
+  - [Objective](#objective)
+  - [Memory Usage Comparison: Quick Overview](#memory-usage-comparison-quick-overview)
+  - [Why Did This Change Happen?](#why-did-this-change-happen)
+  - [What We Learned From the Visual Studio Profiler](#what-we-learned-from-the-visual-studio-profiler)
+  - [Diagnostic Verification (Task 3)](#diagnostic-verification-task-3)
+  - [Brief explanation on each snapshot :](#brief-explanation-on-each-snapshot-)
+- [Task 4 - Reflection & Key Learnings](#task-4---reflection--key-learnings)
+  - [Challenges & Observations](#challenges--observations)
+  - [Key Takeaways](#key-takeaways)
+
+
 ## Task 1: Memory Leak / Optimization Identification
 
 This section focuses on identifying and analyzing a subtle memory retention behavior in C# when managing dynamic collections, specifically looking at how `List<T>` elements are cleared versus how its internal buffers behave on the managed heap.
