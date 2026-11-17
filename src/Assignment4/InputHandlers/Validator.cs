@@ -1,5 +1,4 @@
 ﻿using FinanceTracker.Core.FinancialTrackerConstant;
-using FinanceTracker.View;
 
 namespace FinanceTracker.Helper
 {
