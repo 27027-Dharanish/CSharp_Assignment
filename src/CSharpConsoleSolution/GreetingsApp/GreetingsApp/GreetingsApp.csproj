@@ -7,14 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EditorConfigFiles Include=".editorconfig" />
-  </ItemGroup>
-
   <ItemGroup Label="CSharpAnalyser">
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
@@ -23,8 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DisplayApp\DisplayApp.csproj" />
-    <ProjectReference Include="..\UtilityApp\UtilityApp.csproj" />
+    <ProjectReference Include="..\..\DisplayApp\DisplayApp.csproj" />
   </ItemGroup>
 
 </Project>
