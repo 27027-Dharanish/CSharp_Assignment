@@ -124,7 +124,9 @@ public class QueryBuilder<T>
     {
         var parameter = Expression.Parameter(typeof(T), "x");
         var property = Expression.Property(parameter, propertyName);
-        var constant = Expression.Constant(value);
+        var targetType = Nullable.GetUnderlyingType(property.Type) ?? property.Type;
+        var convertedValue = Convert.ChangeType(value, targetType);
+        var constant = Expression.Constant(convertedValue, property.Type);
         Expression expression;
         switch (operation)
         {
