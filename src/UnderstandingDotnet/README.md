@@ -51,48 +51,56 @@ Systems running the Common Language Runtime (CLR) include a machine-wide central
 
 ### 5. Value Types vs. Reference Types in C#
 
+The core difference between value types and reference types is **what is stored in the variable** (the actual data vs. a reference to the data) and **how copying behaves**, rather than strictly whether it lives on the stack or heap.
+
 #### Value Types
-* **Definition:** Variables that store the actual data values directly within their own memory slot.
-* **Memory Allocation:** Stored inside **Stack memory**.
-* **Behavior:** When assigned to a new variable, the underlying value is copied completely. Most primitive data types in C# operate as value types.
-* **Stack:** Stack stores value type data, one stack is created per thread.
+* **What Is Stored:** Stores the **actual data directly** inside its own memory slot.
+* **Behavior:** Assigning a value type copies the entire value. Modifying one variable does not affect the other (`int`, `double`, `bool`, `struct`, `enum`).
 * **Example:**
   ```csharp
   int a = 10;
-  int b = a; // Variable 'b' stores a completely separate copy of the data in 'a'
+  int b = a; // 'b' holds its own independent copy of 10
   ```
 
 #### Reference Types
-* **Definition:** Variables that store a memory address pointer pointing to where the data is actually held.
-* **Types Included:** Classes and interfaces in C#.
-* **Behavior:** When assigned to a new variable, they share the exact same memory reference instead of copying the underlying data. Modifying data through one variable immediately reflects in the other.
-* **Heap:** Heap store reference of a object, one heap is created per application. All thread share same heap.
+* **What Is Stored:** Stores a **reference (memory address pointer)** pointing to the actual object data on the managed heap.
+* **Behavior:** Assigning a reference type copies only the reference pointer, not the object itself. Both variables point to the same underlying object (`class`, `interface`, `array`, `string`).
+
+#### Stack vs. Heap Storage (Without Overgeneralizing)
+* **Storage depends on context, not just type:** Local value types inside a method typically live on the **stack**, whereas value types declared as fields inside a `class` (or boxed/captured in closures) are stored inline on the **managed heap** alongside the object.
+* **References vs. Objects:** For a local reference type, the **reference pointer** lives on the stack while the **object data** lives on the heap.
 
 ---
 
-### 6. Garbage Collection in .NET
+### 6. Garbage Collection in .NET (Managed Objects vs. Unmanaged Resources)
 
-The Common Language Runtime (CLR) allocates and manages system memory. High-level code targeting this managed environment is called **Managed Code**. 
+Code running under the Common Language Runtime (CLR) is called **Managed Code**, and the runtime divides cleanup responsibilities between automatic garbage collection and explicit developer disposal.
 
-* **Automatic Cleanup:** The **Garbage Collector (GC)** automatically releases dead memory allocations inside the managed heap (C#) to actively prevent memory leaks. 
-* **Contrast to Unmanaged Environments:** In languages like C and C++, memory must be tracked and freed manually by the programmer. 
-* **Unmanaged Heap Limitations:** The GC cannot automatically clean up unmanaged system resources (such as active database connections and open file handlers).
-* **Generational Architecture:** The GC partitions the managed heap into three generations to optimize processing efficiency:
-  * **Generation 0:** Contains short-lived objects.
-  * **Generation 1:** Contains medium-lived objects that survived their initial GC cleaning cycle.
-  * **Generation 2:** Contains long-lived objects that survived multiple consecutive GC cycles.
+#### What the Runtime Manages (Managed Objects)
+* **Managed Heap Memory:** Pure .NET objects allocated on the managed heap (such as `class` instances, `string`, `List<T>`, and arrays) are tracked automatically by the **Garbage Collector (GC)**.
+* **Automatic Reclamation:** Once an object has no active root references, the GC automatically reclaims its memory and compacts the heap—no manual `free` or `delete` calls are needed.
+* **Generational Architecture:** To optimize performance, the GC divides managed objects into three generations:
+  * **Generation 0:** Short-lived objects (e.g., temporary local objects).
+  * **Generation 1:** Medium-lived objects that survived a Gen 0 collection.
+  * **Generation 2:** Long-lived objects (e.g., static or cached data) that survived multiple GC cycles.
+
+#### What Requires Explicit Developer Cleanup (Unmanaged Resources)
+* **External OS Resources:** The GC only understands managed memory; it cannot automatically release native operating system handles such as **open file streams, database connections, network sockets, or native memory pointers**.
+* **Explicit Cleanup (`IDisposable` / `using`):** Developers must release unmanaged resources deterministically by implementing `IDisposable` (or wrapping objects in a `using` statement) so `Dispose()` runs immediately when the resource is no longer needed.
 
 ---
 
 ### 7. Globalization and Localization
 
-#### Globalization
-* **Purpose:** Adapts software to handle regional variations in calendar styles, date formats, number layouts, and currency formats.
-* **Implementation:** Achieved by writing formatting logic utilizing the native `System.Globalization` library namespace.
+Globalization and localization work together to make an application usable worldwide, but they solve two distinct problems: **code readiness & formatting rules** versus **language translation & cultural content**.
 
-#### Localization
-* **Purpose:** The actual process of adapting a globalized application to support specific target cultures and target languages.
-* **Implementation:** Accomplished by converting and translating text resource files into executable code, giving developers deep customization over local user experiences.
+#### Globalization (Code Readiness & Formatting Rules)
+* **Focus:** Designing the application architecture so it works across any region without code changes, and applying **culture-sensitive formatting rules** (dates, times, currency symbols, decimal separators, and calendars).
+* **How It Works:** Developers avoid hardcoded formats and use `CultureInfo` alongside APIs in the `System.Globalization` namespace (e.g., `DateTime.ToString("d", culture)` or `price.ToString("C", culture)`).
+
+#### Localization (Language Translation & Regional Assets)
+* **Focus:** Translating user-facing text and adapting **culture-specific assets** (labels, error messages, images, and layouts) for a specific target language and region (e.g., `en-US` vs. `fr-FR`).
+* **How It Works:** Developers store translated strings in separate resource files (`.resx`) per locale and load them at runtime using `ResourceManager` or `IStringLocalizer` without recompiling core business logic.
 
 ---
 
